@@ -1,0 +1,257 @@
+@keyframes teaseGlitch {
+
+  0%,
+  95%,
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  95.5%,
+  96.5% {
+    opacity: 0.8;
+    visibility: visible;
+    text-shadow: 0 0 15px rgba(0, 255, 65, 1);
+  }
+
+  96%,
+  96.2% {
+    opacity: 0.3;
+    visibility: visible;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+  }
+
+  96.7%,
+  97% {
+    opacity: 1;
+    visibility: visible;
+    text-shadow: 0 0 20px rgba(0, 255, 65, 1), 0 0 30px rgba(0, 255, 65, 0.8);
+  }
+}
+
+.matrix-glitch {
+  animation: teaseGlitch 5s ease-in-out infinite;
+  color: var(--matrix-green, #00ff41);
+  opacity: 0;
+  /* visibility: hidden; */
+  pointer-events: none;
+  position: relative;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.matrix-glitch::before {
+  content: "Wallet Connect";
+  position: absolute;
+  left: 28px;
+  top: 0;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  text-shadow: none;
+  animation: teaseGlitch 30s ease-in-out infinite;
+  animation-delay: 0.05s;
+}
+
+.social-icon {
+  color: var(--matrix-green, #00ff41);
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.hamburger-button {
+  color: var(--matrix-green, #00ff41);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  margin-right: 0.5rem;
+  padding: 0.3rem;
+}
+
+.social-icon svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.mobile-social-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.hamburger-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0;
+  /* Entferne das Padding des Containers */
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  padding-left: 0;
+  /* Entferne das Padding links */
+  margin-left: 0;
+  /* Entferne jeglichen Margin links */
+}
+
+.desktop-nav {
+  display: flex;
+  justify-content: center;
+  flex: 2;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  /* Entferne alle Lücken zwischen Items */
+}
+
+.nav-item {
+  /* Feste Breite entfernen */
+  width: auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider {
+  margin: 0 0.5rem;
+  font-size: 1.125rem;
+  color: var(--matrix-green, #00ff41);
+  opacity: 0.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  /* Feste Breite für jeden Divider */
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  gap: 1rem;
+  /* Erhöht von 0.5rem auf 1rem für mehr Abstand zwischen Icons */
+  padding-right: 1.5rem;
+  /* Erhöht von 0.5rem auf 1.5rem für mehr Abstand nach rechts */
+}
+
+.wallet-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--matrix-green, #00ff41);
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-left: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.mobile-menu {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: none;
+}
+
+.mobile-menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  text-align: center;
+}
+
+.mobile-menu-link {
+  display: block;
+  padding: 6px 12px;
+  margin: 0 auto;
+  width: fit-content;
+  color: var(--matrix-green, #00ff41);
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.mobile-social-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-top: 0.75rem;
+}
+
+.navbar {
+  padding-left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border-bottom: none;
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 0 10px;
+  color: var(--matrix-green, #00ff41);
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+  transition: color 0.3s, text-shadow 0.3s;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.logo {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: var(--matrix-green, #00ff41);
+  line-height: 0.9;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.8);
+}
+
+.hover-white:hover {
+  color: white;
+  text-decoration: none !important;
+}
+
+button svg {
+  stroke: var(--matrix-green, #00ff41);
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

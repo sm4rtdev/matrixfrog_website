@@ -1,0 +1,582 @@
+/* Modern Community Wallet Tracker Styles */
+:root {
+  --matrix-green: #00ff41;
+  --matrix-dark-green: #003b0d;
+  --matrix-darker-green: #001f06;
+  --matrix-black: #000904;
+  --matrix-light-text: #aaffaa;
+  --matrix-dim-text: #99aa99;
+  --eth-purple: #7159c1;
+  --eth-light-purple: #ada1d6;
+  --eth-dark-purple: #352a50;
+  --error-red: #ff4141;
+}
+
+/* Hintergrundeffekte */
+.matrix-grid-noise {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  z-index: 11;
+  pointer-events: none;
+}
+
+.matrix-grid-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(to right, rgba(0, 255, 65, 0.1) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 12;
+  pointer-events: none;
+}
+
+/* Wallet Status Cards */
+.wallet-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.status-card {
+  background-color: rgba(0, 20, 0, 0.6);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-card:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+  transform: translateY(-2px);
+}
+
+.status-card.ethereum {
+  border-color: rgba(113, 89, 193, 0.3);
+}
+
+.status-card.ethereum:hover {
+  box-shadow: 0 0 15px rgba(113, 89, 193, 0.3);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.network-tag {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+}
+
+.tag-l1 {
+  background-color: rgba(113, 89, 193, 0.2);
+  border: 1px solid rgba(113, 89, 193, 0.4);
+  color: var(--eth-light-purple);
+}
+
+.tag-l2 {
+  background-color: rgba(0, 128, 0, 0.2);
+  border: 1px solid rgba(0, 255, 65, 0.4);
+  color: var(--matrix-green);
+}
+
+.card-label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--matrix-green);
+}
+
+.card-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--matrix-light-text);
+}
+
+.card-value.ethereum {
+  color: var(--eth-light-purple);
+}
+
+.card-secondary {
+  font-size: 0.9rem;
+  color: var(--matrix-dim-text);
+}
+
+.wallet-address {
+  font-size: 0.8rem;
+  word-break: break-all;
+  margin-top: auto;
+  padding-top: 1rem;
+  color: var(--matrix-dim-text);
+}
+
+/* Token Selector */
+.token-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.token-button {
+  background-color: transparent;
+  border: 2px solid var(--matrix-green);
+  border-radius: 6px;
+  color: var(--matrix-green);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.token-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.token-button:hover::before {
+  left: 100%;
+}
+
+.token-button.active {
+  background-color: rgba(0, 255, 65, 0.2);
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+}
+
+.token-button:not(.active) {
+  opacity: 0.7;
+}
+
+/* Ethereum-Stil für den zweiten Token-Button */
+.token-button:nth-child(2) {
+  border-color: var(--eth-purple);
+  color: var(--eth-light-purple);
+}
+
+.token-button:nth-child(2).active {
+  background-color: rgba(113, 89, 193, 0.2);
+  box-shadow: 0 0 15px rgba(113, 89, 193, 0.4);
+}
+
+/* Terminal-Design */
+.terminal-frame {
+  background-color: rgba(0, 9, 0, 0.9);
+  border: 1px solid var(--matrix-green);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 255, 65, 0.2);
+}
+
+.terminal-header {
+  background-color: rgba(0, 30, 0, 0.9);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.terminal-dot:nth-child(1) {
+  background-color: #ff5f57;
+}
+
+.terminal-dot:nth-child(2) {
+  background-color: #ffbd2e;
+}
+
+.terminal-dot:nth-child(3) {
+  background-color: #27c93f;
+}
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  margin-left: -36px; /* Kompensiert die Breite der dots */
+}
+
+.terminal-content {
+  padding: 1.5rem;
+}
+
+/* Transactions View Button */
+.view-transactions-btn {
+  background-color: rgba(0, 40, 0, 0.7);
+  border: 1px solid var(--matrix-green);
+  color: var(--matrix-green);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+.view-transactions-btn:hover {
+  background-color: rgba(0, 60, 0, 0.8);
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+.view-transactions-btn.ethereum {
+  background-color: rgba(53, 42, 80, 0.7);
+  border-color: var(--eth-purple);
+  color: var(--eth-light-purple);
+}
+
+.view-transactions-btn.ethereum:hover {
+  background-color: rgba(73, 62, 100, 0.8);
+  box-shadow: 0 0 10px rgba(113, 89, 193, 0.4);
+}
+
+/* Tabs für Transfers */
+.transfer-tabs {
+  display: flex;
+  background-color: rgba(0, 15, 0, 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-left: auto;
+}
+
+.transfer-tab {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: none;
+  color: var(--matrix-dim-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+}
+
+.transfer-tab:hover {
+  color: var(--matrix-light-text);
+  background-color: rgba(0, 25, 0, 0.6);
+}
+
+.transfer-tab.active {
+  background-color: rgba(0, 255, 65, 0.15);
+  color: var(--matrix-green);
+  font-weight: bold;
+}
+
+/* Tabellen für Transfers und Contributors */
+.transaction-table, .contributor-table {
+  width: 100%;
+  border-spacing: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.transaction-header, .transaction-row,
+.contributor-header, .contributor-row {
+  display: grid;
+  width: 100%;
+  align-items: center;
+}
+
+.transaction-header, .transaction-row {
+  grid-template-columns: 60px minmax(110px, 1fr) minmax(110px, 1fr) minmax(140px, 1fr);
+}
+
+.contributor-header, .contributor-row {
+  grid-template-columns: 40px 1fr 1fr 1fr;
+}
+
+.transaction-cell, .contributor-cell {
+  padding: 8px 10px;
+}
+
+.head-cell {
+  color: var(--matrix-green);
+  font-weight: bold;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+  padding-bottom: 12px;
+  padding-top: 4px;
+}
+
+.transaction-row, .contributor-row {
+  border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+}
+
+.transaction-row:hover, .contributor-row:hover {
+  background-color: rgba(0, 255, 65, 0.05);
+}
+
+/* Formatierung für Transfertypen */
+.transaction-in {
+  background-color: rgba(0, 255, 65, 0.025);
+}
+
+.transaction-out {
+  background-color: rgba(255, 65, 65, 0.025);
+}
+
+.type-indicator {
+  font-weight: bold;
+}
+
+.type-indicator.in {
+  color: var(--matrix-green);
+}
+
+.type-indicator.out {
+  color: var(--error-red);
+}
+
+.amount-value {
+  font-weight: bold;
+  text-align: right;
+  display: block;
+}
+
+.amount-value.in {
+  color: var(--matrix-green);
+}
+
+.amount-value.out {
+  color: var(--error-red);
+}
+
+.address-value {
+  color: var(--matrix-light-text);
+}
+
+.date-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.date-value {
+  color: var(--matrix-dim-text);
+  margin-right: 8px;
+}
+
+.tx-link {
+  color: var(--matrix-green);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.tx-link:hover {
+  color: #00ff99;
+  text-decoration: underline;
+}
+
+/* Scrollbare Container für Tabellen */
+.full-height-scroll {
+  max-height: 350px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 65, 0.5) rgba(0, 20, 0, 0.4);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 20, 0, 0.4);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 255, 65, 0.5);
+  border-radius: 3px;
+}
+
+/* Ladezustände */
+.matrix-loader {
+  width: 50px;
+  height: 4px;
+  background: linear-gradient(to right, transparent, var(--matrix-green), transparent);
+  margin: 0 auto;
+  animation: matrix-loader 1.5s infinite;
+}
+
+@keyframes matrix-loader {
+  0% { transform: translateX(-50px); }
+  100% { transform: translateX(50px); }
+}
+
+/* Typing Effect */
+.typing-effect {
+  color: var(--matrix-green);
+  font-family: 'Courier New', monospace;
+}
+
+.typing-cursor {
+  color: var(--matrix-green);
+  font-weight: bold;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Glowing Effects */
+.pulse-glow {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { text-shadow: 0 0 5px rgba(0, 255, 65, 0.5); }
+  50% { text-shadow: 0 0 15px rgba(0, 255, 65, 0.8); }
+  100% { text-shadow: 0 0 5px rgba(0, 255, 65, 0.5); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wallet-status-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .token-selector {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .token-button {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .full-height-scroll {
+    max-height: 400px;
+  }
+  
+  .terminal-content {
+    padding: 1rem;
+  }
+  
+  .transaction-row {
+    grid-template-columns: 50px 1fr 1fr;
+    grid-template-rows: auto auto;
+    padding: 6px 0;
+  }
+  
+  .transaction-header {
+    display: none;
+  }
+  
+  .transaction-cell.date-cell {
+    grid-column: 1 / 4;
+    padding-top: 4px;
+  }
+  
+  .contributor-header, .contributor-row {
+    grid-template-columns: 30px 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  
+  .contributor-cell.info-cell {
+    grid-column: 1 / 4;
+    padding-top: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .full-height-scroll {
+    max-height: 300px;
+  }
+  
+  .transaction-row {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto auto;
+    padding: 8px 0;
+  }
+  
+  .type-cell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  
+  .amount-cell {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+  }
+  
+  .address-cell {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    padding-top: 2px;
+  }
+  
+  .date-cell {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    padding-top: 2px;
+  }
+  
+  .contributor-header, .contributor-row {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto;
+  }
+  
+  .rank-cell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  
+  .address-cell {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  
+  .amount-cell {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    text-align: right;
+    padding-top: 2px;
+  }
+  
+  .info-cell {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    padding-top: 2px;
+  }
+  
+  .terminal-title {
+    font-size: 0.85rem;
+  }
+}
