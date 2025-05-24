@@ -27,6 +27,7 @@ const ABI = [
     type: "function",
   },
 ];
+
 export default function Navbar() {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,6 +38,7 @@ export default function Navbar() {
   const [connected] = useState(false);
   const { disconnect } = useDisconnect();
   const [isHoveringAddress, setIsHoveringAddress] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   // Read token balance
   const { data: balanceData } = useReadContract({
@@ -63,17 +65,14 @@ export default function Navbar() {
   // Verbesserte Funktion zur Erstellung korrekter Links
   const getNavLink = (anchor: string) => {
     if (isHomePage) {
-      // Auf der Hauptseite verwenden wir Anker-Links
       return `#${anchor}`;
     } else {
-      // Auf allen anderen Seiten verlinken wir zurück zur Hauptseite mit Anker
       return `/#${anchor}`;
     }
   };
 
   // Check if mobile view
   useEffect(() => {
-
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -112,6 +111,7 @@ export default function Navbar() {
     connect({ connector: coinbaseWallet() });
     setWalletConnected(false);
   };
+
   const handleDisconnect = () => {
     disconnect();
     setWalletConnected(false);
@@ -135,8 +135,41 @@ export default function Navbar() {
     updateBalance();
   }, [balanceData, decimalsData]);
 
+  // Handle Construct link click
+  const handleConstructClick = (e: React.MouseEvent) => {
+    if (!isConnected) {
+      e.preventDefault();
+      setShowWarning(true);
+      // Hide warning after 3 seconds
+      setTimeout(() => setShowWarning(false), 3000);
+    }
+  };
+
   return (
     <>
+      <style jsx>{`
+        .warning-animation {
+          animation: fadeInOut 3s ease-in-out;
+        }
+        @keyframes fadeInOut {
+          0% {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          90% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+        }
+      `}</style>
       <nav className="navbar">
         <div className="nav-container" style={{ padding: 0, maxWidth: "none" }}>
           <div className="nav-content">
@@ -155,16 +188,23 @@ export default function Navbar() {
                 <div className="nav-items">
                   <NavLink href={getNavLink("about")} label="About" />
                   <div className="divider">|</div>
-
                   <NavLink href={getNavLink("buybot")} label="BuyBot" />
                   <div className="divider">|</div>
-
                   <NavLink href="/migration-protocol" label="Treasury" />
                   <div className="divider">|</div>
-
-                  <NavLink href="/construct" label="Construct" />
+                  <div className="relative">
+                    <NavLink
+                      href=""
+                      label="Construct"
+                      onClick={handleConstructClick}
+                    />
+                    {showWarning && !isConnected && (
+                      <span className="absolute text-[var(--matrix-red)] text-xs mt-1 left-0 right-0 text-center warning-animation">
+                        Please connect wallet
+                      </span>
+                    )}
+                  </div>
                   <div className="divider">|</div>
-
                   <NavLink href={getNavLink("roadmap")} label="Roadmap" />
                 </div>
               </div>
@@ -305,8 +345,6 @@ export default function Navbar() {
                       "Wallet Connect"
                     )}
                   </div>
-
-                  {/* Add Wallet Integration  */}
 
                   {/* Wallet options dropdown */}
                   {walletConnected && !isConnected && (

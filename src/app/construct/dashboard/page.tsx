@@ -11,7 +11,9 @@ import {
   Vault,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 import {
   Card,
   CardContent,
@@ -30,7 +32,9 @@ export default function MatrixConstruct() {
   const [selectedEpisode, setSelectedEpisode] = useState("episode-1");
   const [selected, setSelected] = useState<string | null>(null); // 'red' or 'blue'
   const [matrixBalance, setMatrixBalance] = useState<number | null>();
+  const { isConnected } = useAccount();
 
+  console.log(isConnected);
   const sidebarItems = [
     {
       icon: BarChart3,
@@ -118,16 +122,18 @@ export default function MatrixConstruct() {
             paddingRight: "10px",
           }}
         >
-          <div
+          <Link
+            href={"/"}
             style={{
               padding: "4px 8px",
               border: "1px solid red",
               fontSize: "0.75rem",
               color: "var(--matrix-red)",
+              cursor: "pointer",
             }}
           >
             EXIT
-          </div>
+          </Link>
           <div>
             <div
               style={{
@@ -541,6 +547,8 @@ export default function MatrixConstruct() {
                   fontFamily: "monospace",
                   border: "none",
                   outline: "none",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s ease",
                 }}
               >
                 Connect Wallet to Vote

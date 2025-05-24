@@ -26,6 +26,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import WalletProvider from "../app/providers/WalletProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "MatrixFrog",
@@ -41,7 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <WalletProvider>{children}</WalletProvider>
+        <WalletProvider>
+          {children}
+          <ToastContainer />
+        </WalletProvider>
       </body>
     </html>
   );
