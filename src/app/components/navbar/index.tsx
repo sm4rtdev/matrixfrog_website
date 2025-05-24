@@ -33,6 +33,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [walletConnected, setWalletConnected] = useState(false);
   const [tokenBalance, setTokenBalance] = useState<string>("0");
+  const [tokenError, setTokenError] = useState(false);
   const { connect } = useConnect();
   const { isConnected, address } = useAccount();
   const [connected] = useState(false);
@@ -143,6 +144,9 @@ export default function Navbar() {
       // Hide warning after 3 seconds
       setTimeout(() => setShowWarning(false), 3000);
     }
+    if (tokenBalance < String(50)) {
+      setTokenError(true);
+    }
   };
 
   return (
@@ -201,6 +205,11 @@ export default function Navbar() {
                     {showWarning && !isConnected && (
                       <span className="absolute text-[var(--matrix-red)] text-xs mt-1 left-0 right-0 text-center warning-animation">
                         Please connect wallet
+                      </span>
+                    )}
+                    {tokenError && !isConnected && (
+                      <span className="absolute text-[var(--matrix-red)] text-xs mt-1 left-0 right-0 text-center warning-animation">
+                        Matrix Token is less then Minimum (50)
                       </span>
                     )}
                   </div>
