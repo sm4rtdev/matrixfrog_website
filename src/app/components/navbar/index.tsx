@@ -6,7 +6,7 @@ import NavLink from "./NavLink";
 import "./NavbarStyles.css";
 import Image from "next/image";
 import MatrixGate from "../MatrixGate";
-import { useAccount, useConnect, useReadContract } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useReadContract } from "wagmi";
 import { injected, walletConnect, coinbaseWallet } from "wagmi/connectors";
 import { formatUnits } from "viem";
 
@@ -35,6 +35,8 @@ export default function Navbar() {
   const { connect } = useConnect();
   const { isConnected, address } = useAccount();
   const [connected] = useState(false);
+  const { disconnect } = useDisconnect();
+  const [isHoveringAddress, setIsHoveringAddress] = useState(false);
 
   // Read token balance
   const { data: balanceData } = useReadContract({
@@ -44,7 +46,7 @@ export default function Navbar() {
     args: [address],
     query: {
       enabled: !!address,
-    }
+    },
   });
 
   const { data: decimalsData } = useReadContract({
@@ -56,6 +58,7 @@ export default function Navbar() {
   // Aktuelle Pfad-Information abrufen
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  window.localStorage.setItem("Mat_bal", tokenBalance);
 
   // Verbesserte Funktion zur Erstellung korrekter Links
   const getNavLink = (anchor: string) => {
@@ -70,6 +73,7 @@ export default function Navbar() {
 
   // Check if mobile view
   useEffect(() => {
+
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -91,7 +95,6 @@ export default function Navbar() {
   // Wallet connection handlers
   const connectMetaMask = () => {
     connect({ connector: injected() });
-
     setWalletConnected(false);
   };
 
@@ -99,8 +102,8 @@ export default function Navbar() {
     connect({
       connector: walletConnect({
         qrModalOptions: {},
-        projectId: ""
-      })
+        projectId: "",
+      }),
     });
     setWalletConnected(false);
   };
@@ -109,12 +112,20 @@ export default function Navbar() {
     connect({ connector: coinbaseWallet() });
     setWalletConnected(false);
   };
+  const handleDisconnect = () => {
+    disconnect();
+    setWalletConnected(false);
+    setTokenBalance("0");
+  };
 
   // Update token balance when address or balance changes
   useEffect(() => {
     const updateBalance = async () => {
       if (balanceData && decimalsData) {
-        const balance = formatUnits(BigInt(balanceData as string), Number(decimalsData));
+        const balance = formatUnits(
+          BigInt(balanceData as string),
+          Number(decimalsData)
+        );
         setTokenBalance(Number(balance).toLocaleString());
       } else {
         setTokenBalance("0");
@@ -257,23 +268,38 @@ export default function Navbar() {
                       <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
                     </svg>
                     {isConnected ? (
-                      <div
-                        style={{ gap: "10px" }}
-                        className="flex items-center gap-1"
-                      >
-                        <span>{formattedAddress}</span>
-                        <span
-                          style={{ gap: "2px" }}
-                          className="text-xs text-black flex item-center px-2 py-1 rounded"
+                      <div className="relative">
+                        <div
+                          onMouseEnter={() => setIsHoveringAddress(true)}
+                          onMouseLeave={() => setIsHoveringAddress(false)}
+                          style={{ gap: "10px" }}
+                          className="flex items-center gap-1 cursor-pointer"
                         >
-                          $MATRIX: {tokenBalance}{" "}
-                          <Image
-                            src="/emerald.png"
-                            alt="MATRIX"
-                            width={15}
-                            height={15}
-                          />
-                        </span>
+                          <span>{formattedAddress}</span>
+                          <span
+                            style={{ gap: "2px" }}
+                            className="text-xs text-black flex item-center px-2 py-1 rounded"
+                          >
+                            $MATRIX: {tokenBalance}{" "}
+                            <Image
+                              src="/emerald.png"
+                              alt="MATRIX"
+                              width={15}
+                              height={15}
+                            />
+                          </span>
+                        </div>
+
+                        {isHoveringAddress && (
+                          <button
+                            style={{ padding: "8px", borderRadius: "12px" }}
+                            onClick={handleDisconnect}
+                            className="absolute top-full text-[var(--matrix-red)] font-bold left-0 mt-2 px-2 py-4 bg-[var(--matrix-green-dark)] rounded hover:bg-red-600 transition-colors"
+                            onMouseEnter={() => setIsHoveringAddress(true)}
+                          >
+                            Disconnect
+                          </button>
+                        )}
                       </div>
                     ) : (
                       "Wallet Connect"
@@ -281,74 +307,6 @@ export default function Navbar() {
                   </div>
 
                   {/* Add Wallet Integration  */}
-                  {/* {walletConnected && (
-                    <div
-                      className="absolute bg-white right-[10px] border border-gray-300 rounded-lg shadow-lg matrix-containerI"
-                      style={{ marginLeft: "200px", marginTop: "350px" }}
-                    >
-                      <p className="hover:bg-var(--matrix-green) underline pb-2 text-[var(--matrix-green)] font-bold">
-                        SELECT WALLET
-                      </p>
-                      <div className="flex flex-col justify-start text-start text-[var(--matrix-green)]">
-                        <p
-                          onClick={() => {
-                            setWalletConnected(!walletConnected);
-                            setConnected(!connected);
-                          }}
-                          style={{ gap: "10px", padding: "5px" }}
-                          className="text-[var(--matrix-green)] hover:bg-[var(--matrix-green)]/20 items-center flex cursor-pointer"
-                        >
-                          <Image
-                            className=""
-                            src="./metamask-icon.svg"
-                            alt="MetaMask"
-                            width={15}
-                            height={15}
-                          />
-                          <span>MetaMask</span>
-                        </p>
-                        <p
-                          style={{ gap: "10px", padding: "5px" }}
-                          className="text-[var(--matrix-green)] hover:bg-[var(--matrix-green)]/20 items-center flex cursor-pointer"
-                        >
-                          <Image
-                            className=""
-                            src="./link-icon.svg"
-                            alt="MetaMask"
-                            width={15}
-                            height={15}
-                          />
-                          <span>Wallet Connect</span>
-                        </p>
-                        <p
-                          style={{ gap: "10px", padding: "5px" }}
-                          className="text-[var(--matrix-green)] hover:bg-[var(--matrix-green)]/20 items-center flex cursor-pointer"
-                        >
-                          <Image
-                            className=""
-                            src="./star-icon.svg"
-                            alt="MetaMask"
-                            width={15}
-                            height={15}
-                          />
-                          <span> Best Wallet</span>
-                        </p>
-                        <p
-                          style={{ gap: "10px", padding: "5px" }}
-                          className="text-[var(--matrix-green)] hover:bg-[var(--matrix-green)]/20 items-center flex cursor-pointer"
-                        >
-                          <Image
-                            className=""
-                            src="./coinbase-icon.svg"
-                            alt="MetaMask"
-                            width={15}
-                            height={15}
-                          />
-                          <span> Coinbase Wallet</span>
-                        </p>
-                      </div>
-                    </div>
-                  )} */}
 
                   {/* Wallet options dropdown */}
                   {walletConnected && !isConnected && (
