@@ -34,7 +34,7 @@ export default function Navbar() {
   const [tokenBalance, setTokenBalance] = useState<string>("0");
   const { connect } = useConnect();
   const { isConnected, address } = useAccount();
-  const [connected, setConnected] = useState(false);
+  const [connected] = useState(false);
 
   // Read token balance
   const { data: balanceData } = useReadContract({
@@ -42,7 +42,9 @@ export default function Navbar() {
     abi: ABI,
     functionName: "balanceOf",
     args: [address],
-    enabled: !!address,
+    query: {
+      enabled: !!address,
+    }
   });
 
   const { data: decimalsData } = useReadContract({
@@ -94,7 +96,12 @@ export default function Navbar() {
   };
 
   const connectWalletConnect = () => {
-    connect({ connector: walletConnect() });
+    connect({
+      connector: walletConnect({
+        qrModalOptions: {},
+        projectId: ""
+      })
+    });
     setWalletConnected(false);
   };
 
@@ -107,7 +114,7 @@ export default function Navbar() {
   useEffect(() => {
     const updateBalance = async () => {
       if (balanceData && decimalsData) {
-        const balance = formatUnits(balanceData, decimalsData);
+        const balance = formatUnits(BigInt(balanceData as string), Number(decimalsData));
         setTokenBalance(Number(balance).toLocaleString());
       } else {
         setTokenBalance("0");
