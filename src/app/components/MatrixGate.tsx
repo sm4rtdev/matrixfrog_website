@@ -28,12 +28,14 @@ export default function MatrixGate() {
   const [isAllowed, setIsAllowed] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { data: balanceData, refetch } = useReadContract({
+  const { data: balanceData } = useReadContract({
     address: MATRIX_TOKEN_CA,
     abi: ABI,
     functionName: "balanceOf",
     args: [address],
-    enabled: !!address,
+    query: {
+      enabled: !!address,
+    }
   });
 
   const { data: decimalsData } = useReadContract({
@@ -46,7 +48,7 @@ export default function MatrixGate() {
     const checkAccess = async () => {
       if (!balanceData || !decimalsData) return;
       setLoading(true);
-      const balance = formatUnits(balanceData, decimalsData);
+      const balance = formatUnits(BigInt(balanceData as string), Number(decimalsData));
       setIsAllowed(Number(balance) >= 50000);
       setLoading(false);
     };
