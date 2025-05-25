@@ -138,19 +138,18 @@ export default function Navbar() {
 
   // Handle Construct link click
   const handleConstructClick = (e: React.MouseEvent) => {
-    // e.preventDefault();
-    // if (!isConnected) {
-    //   setShowWarning(true);
-    //   setTimeout(() => setShowWarning(false), 3000);
-    //   return;
-    // }
-    // if (Number(tokenBalance) < 50) {
-    //   setTokenError(true);
-    //   setTimeout(() => setTokenError(false), 2000);
-    //   return;
-    // }
-
-    window.location.href = ("/construct");
+    e.preventDefault();
+    if (!isConnected) {
+      setShowWarning(true);
+      setTimeout(() => setShowWarning(false), 3000);
+      return;
+    }
+    if (Number(tokenBalance) < 50) {
+      setTokenError(true);
+      setTimeout(() => setTokenError(false), 2000);
+      return;
+    }
+    window.location.href = "/construct";
   };
 
   return (

@@ -210,7 +210,7 @@ export default function ConstructPage() {
           setTimeout(() => {
             setSecondText(false);
             router.push("/construct/dashboard");
-          }, 2000)
+          }, 1000)
         );
       }, 2000)
     );
@@ -268,7 +268,7 @@ export default function ConstructPage() {
           LOADING THE CONSTRUCT...
         </div>
         <div className={styles.tokenBalance}>
-          MATRIX Token Balance: {matrixBalance ?? "0.00"}
+          MATRIX Token Balance: {matrixBalance ?? "0"}
         </div>
         {firstText && (
           <div className={styles.tokenMessage}>

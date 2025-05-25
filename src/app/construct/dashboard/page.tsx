@@ -30,11 +30,21 @@ import {
 
 export default function MatrixConstruct() {
   const [selectedEpisode, setSelectedEpisode] = useState("episode-1");
-  const [selected, setSelected] = useState<string | null>(null); // 'red' or 'blue'
+  const [selected, setSelected] = useState<number | null>();
   const [matrixBalance, setMatrixBalance] = useState<number | null>();
   const { isConnected } = useAccount();
 
-  console.log(isConnected);
+  if (!isConnected) {
+    window.location.href = "/";
+  }
+  if (
+    matrixBalance !== undefined &&
+    matrixBalance !== null &&
+    matrixBalance < 50
+  ) {
+    window.location.href = "/";
+  }
+
   const sidebarItems = [
     {
       icon: BarChart3,
@@ -178,7 +188,7 @@ export default function MatrixConstruct() {
 
       <div style={{ display: "flex" }}>
         {/* Sidebar */}
-        <p
+        <div
           style={{
             width: "18rem",
             padding: "18px",
@@ -238,7 +248,7 @@ export default function MatrixConstruct() {
               </div>
             ))}
           </nav>
-        </p>
+        </div>
 
         {/* Main Content */}
         <main style={{ flex: 1, padding: "24px" }}>
