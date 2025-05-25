@@ -138,18 +138,19 @@ export default function Navbar() {
 
   // Handle Construct link click
   const handleConstructClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!isConnected) {
-      setShowWarning(true);
-      // Hide warning after 3 seconds
-      setTimeout(() => setShowWarning(false), 3000);
-    }
-    if (tokenBalance < String(50)) {
-      e.preventDefault();
-      setTokenError(true);
+    // e.preventDefault();
+    // if (!isConnected) {
+    //   setShowWarning(true);
+    //   setTimeout(() => setShowWarning(false), 3000);
+    //   return;
+    // }
+    // if (Number(tokenBalance) < 50) {
+    //   setTokenError(true);
+    //   setTimeout(() => setTokenError(false), 2000);
+    //   return;
+    // }
 
-      setTimeout(() => setTokenError(false), 2000);
-    }
+    window.location.href = ("/construct");
   };
 
   return (
@@ -210,9 +211,9 @@ export default function Navbar() {
                         Please connect wallet
                       </span>
                     )}
-                    {tokenError && !isConnected && (
+                    {tokenError && isConnected && (
                       <span className="absolute text-[var(--matrix-red)] text-xs mt-1 left-0 right-0 text-center warning-animation">
-                        Matrix Token is less then Minimum (50)
+                        Token is less then 50
                       </span>
                     )}
                   </div>
