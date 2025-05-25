@@ -30,7 +30,7 @@ import {
 
 export default function MatrixConstruct() {
   const [selectedEpisode, setSelectedEpisode] = useState("episode-1");
-  const [selected, setSelected] = useState<number | null>();
+  const [selected, setSelected] = useState<string | null>();
   const [matrixBalance, setMatrixBalance] = useState<number | null>();
   const { isConnected } = useAccount();
 
