@@ -62,45 +62,45 @@ export default function MatrixConstruct() {
       subtitle: "Interactive story",
       active: true,
     },
-    {
-      icon: Shield,
-      label: "Governance",
-      subtitle: "Voting system",
-      active: false,
-    },
-    {
-      icon: Trophy,
-      label: "Rewards Center",
-      subtitle: "Claim rewards",
-      active: false,
-    },
-    {
-      icon: Gamepad2,
-      label: "Matrix Games",
-      subtitle: "Play to earn",
-      active: false,
-    },
-    {
-      icon: MessageSquare,
-      label: "Encrypted Chat",
-      subtitle: "Community chat",
-      badge: "NEW",
-      active: false,
-    },
-    {
-      icon: Vault,
-      label: "NFT Vault",
-      subtitle: "Digital collectibles",
-      badge: "NEW",
-      active: false,
-    },
-    {
-      icon: Terminal,
-      label: "Matrix Terminal",
-      subtitle: "Command interface",
-      badge: "NEW",
-      active: false,
-    },
+    // {
+    //   icon: Shield,
+    //   label: "Governance",
+    //   subtitle: "Voting system",
+    //   active: false,
+    // },
+    // {
+    //   icon: Trophy,
+    //   label: "Rewards Center",
+    //   subtitle: "Claim rewards",
+    //   active: false,
+    // },
+    // {
+    //   icon: Gamepad2,
+    //   label: "Matrix Games",
+    //   subtitle: "Play to earn",
+    //   active: false,
+    // },
+    // {
+    //   icon: MessageSquare,
+    //   label: "Encrypted Chat",
+    //   subtitle: "Community chat",
+    //   badge: "NEW",
+    //   active: false,
+    // },
+    // {
+    //   icon: Vault,
+    //   label: "NFT Vault",
+    //   subtitle: "Digital collectibles",
+    //   badge: "NEW",
+    //   active: false,
+    // },
+    // {
+    //   icon: Terminal,
+    //   label: "Matrix Terminal",
+    //   subtitle: "Command interface",
+    //   badge: "NEW",
+    //   active: false,
+    // },
   ];
   useEffect(() => {
     const bal = window.localStorage.getItem("Mat_bal");
@@ -236,7 +236,7 @@ export default function MatrixConstruct() {
                     {item.subtitle}
                   </div>
                 </div>
-                {item.badge && (
+                {item?.badge && (
                   <span
                     style={{
                       padding: "2px 4px",
@@ -246,7 +246,7 @@ export default function MatrixConstruct() {
                       borderRadius: "4px",
                     }}
                   >
-                    {item.badge}
+                    {item?.badge}
                   </span>
                 )}
               </div>
