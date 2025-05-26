@@ -323,7 +323,7 @@ export default function Navbar() {
                       <div className="relative">
                         <div
                           onMouseEnter={() => setIsHoveringAddress(true)}
-                          onMouseLeave={() => setIsHoveringAddress(false)}
+                          onMouseUp={() => setIsHoveringAddress(false)}
                           style={{ gap: "10px" }}
                           className="flex items-center gap-1 cursor-pointer"
                         >

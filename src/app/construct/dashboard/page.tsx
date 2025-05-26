@@ -2,13 +2,13 @@
 import { Progress } from "@/app/components/ui/progress";
 import {
   BarChart3,
-  Gamepad2,
-  MessageSquare,
-  Shield,
-  Terminal,
-  Trophy,
+  // Gamepad2,
+  // MessageSquare,
+  // Shield,
+  // Terminal,
+  // Trophy,
   User,
-  Vault,
+  // Vault,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
