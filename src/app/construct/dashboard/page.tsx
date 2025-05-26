@@ -33,17 +33,21 @@ export default function MatrixConstruct() {
   const [selected, setSelected] = useState<string | null>();
   const [matrixBalance, setMatrixBalance] = useState<number | null>();
   const { isConnected } = useAccount();
+  useEffect(() => {
+    if (!isConnected) {
+      window.location.href = "/";
+    }
+  }, [isConnected]);
 
-  if (!isConnected) {
-    window.location.href = "/";
-  }
-  if (
-    matrixBalance !== undefined &&
-    matrixBalance !== null &&
-    matrixBalance < 50
-  ) {
-    window.location.href = "/";
-  }
+  useEffect(() => {
+    const bal = window.localStorage.getItem("Mat_bal");
+    const parsed = bal ? parseFloat(bal) : 0;
+    setMatrixBalance(parsed);
+
+    if (parsed < 50) {
+      window.location.href = "/";
+    }
+  }, []);
 
   const sidebarItems = [
     {
