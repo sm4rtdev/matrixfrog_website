@@ -94,7 +94,7 @@ export const config = createConfig({
       "https://rpc-pepe-unchained-gupg0lo9wf.t.conduit.xyz/BJt1x3Xz1cE33JvBRUhdht5sbPrfbf6Gb"
     ),
   },
-  autoConnect: false, // Disable auto-connect to prevent modal from opening on load
+  // autoConnect: false, // Disable auto-connect to prevent modal from opening on load
 });
 
 export default function WalletProvider({ children }: { children: ReactNode }) {

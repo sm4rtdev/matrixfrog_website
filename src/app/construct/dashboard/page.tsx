@@ -236,7 +236,7 @@ export default function MatrixConstruct() {
                     {item.subtitle}
                   </div>
                 </div>
-                {item?.badge && (
+                {/* {item?.badge && (
                   <span
                     style={{
                       padding: "2px 4px",
@@ -248,7 +248,7 @@ export default function MatrixConstruct() {
                   >
                     {item?.badge}
                   </span>
-                )}
+                )} */}
               </div>
             ))}
           </nav>
