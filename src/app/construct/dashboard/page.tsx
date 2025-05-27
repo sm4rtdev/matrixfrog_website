@@ -27,12 +27,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import { useRouter } from "next/navigation";
 
 export default function MatrixConstruct() {
   const [selectedEpisode, setSelectedEpisode] = useState("episode-1");
   const [selected, setSelected] = useState<string | null>();
   const [matrixBalance, setMatrixBalance] = useState<number | null>();
   const { isConnected } = useAccount();
+  const router = useRouter();
   useEffect(() => {
     if (!isConnected) {
       window.location.href = "/";
@@ -54,12 +56,14 @@ export default function MatrixConstruct() {
       icon: BarChart3,
       label: "Dashboard",
       subtitle: "Main control center",
+      href: "/",
       active: false,
     },
     {
       icon: User,
       label: "The Matrix Saga",
       subtitle: "Interactive story",
+      href: "#",
       active: true,
     },
     // {
@@ -209,8 +213,10 @@ export default function MatrixConstruct() {
             }}
           >
             {sidebarItems.map((item, index) => (
+              // <Link key={index} href={item.href}>
               <div
                 key={index}
+                onClick={() => router.push(item.href)}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -250,6 +256,7 @@ export default function MatrixConstruct() {
                   </span>
                 )} */}
               </div>
+              // </Link>
             ))}
           </nav>
         </div>
