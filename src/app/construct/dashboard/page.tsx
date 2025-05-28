@@ -61,7 +61,8 @@ export default function MatrixConstruct() {
     },
     {
       icon: User,
-      label: "The Matrix Saga",
+      // label: "The Matrix Saga",
+      label: "The Peptrix Saga",
       subtitle: "Interactive story",
       href: "#",
       active: true,
@@ -325,7 +326,7 @@ export default function MatrixConstruct() {
                     paddingBottom: "4px",
                   }}
                 >
-                  Episode 1: The Choice
+                  Episode 1: Flying Dreams
                 </SelectItem>
                 <SelectItem
                   value="episode-2"
@@ -370,7 +371,7 @@ export default function MatrixConstruct() {
                 }}
               >
                 <CardTitle style={{ color: "#4ade80" }}>
-                  THE MATRIX SAGA - CHAPTER 1
+                  The Peptrix Saga - Episode 1 - Flying Dreams
                 </CardTitle>
                 <span style={{ fontSize: "0.75rem", color: "#16a34a" }}>
                   60%
@@ -407,9 +408,28 @@ export default function MatrixConstruct() {
                   paddingRight: "16px",
                 }}
               >
-                Neo has discovered a hidden message in the matrix code. The
-                community must decide his next move. Choose wisely, as your
-                decision will impact the future of the story.
+                Prepare to question everything. Our protagonist awakens from a
+                hauntingly vivid dream: soaring towards an unfamiliar, sprawling
+                cityscape. But the dream&apos;s tendrils have followed him into
+                the waking world, twisting his perception of reality. The faces
+                around him, the commuters on the street, even his own
+                reflection, ripple with an unsettling, amphibious distortion.
+                Every glance is a fresh wave of unease, a chilling whisper that
+                things are fundamentally wrong.
+                <br />
+                As he navigates this increasingly alien world, a chance
+                encounter on his daily subway commute shatters his crumbling
+                sense of normalcy. A captivating, enigmatic woman bumps into
+                him, her eyes holding a knowing urgency. In hushed, hurried
+                tones, she delivers a cryptic warning about the very fabric of
+                his existence, the &quot;reality&quot; he inhabits, before
+                vanishing as quickly as she appeared.
+                <br />
+                Was she a figment of his fracturing mind? Or a messenger from a
+                truth too terrifying to comprehend? This chance meeting ignites
+                a desperate search for answers. Could this distorted world be
+                real? What is reality? And the most unsettling question of all:
+                who, or what, is watching his every move?
               </p>
             </CardContent>
           </Card>
@@ -477,9 +497,9 @@ export default function MatrixConstruct() {
                     color: "#4ade80",
                   }}
                 >
-                  Investigate the anomaly deeper, risking exposure to the
-                  Agents. This path leads to greater danger but potentially
-                  greater rewards.
+                  You take the red pill, you stay in Wonderland, and I show you
+                  how deep the frog-hole goes. Embrace the croak, and let your
+                  true amphibious self leap into the unknown.
                 </p>
                 {selected === "red" && (
                   <p
@@ -528,8 +548,10 @@ export default function MatrixConstruct() {
                     color: "#4ade80",
                   }}
                 >
-                  Gather more intelligence before making a move. Safer but may
-                  delay crucial discoveries.
+                  You take the blue pill, the story ends, you wake up in your
+                  bed and believe whatever you want to believe. Perhaps these
+                  are just delusions, but if this isn&apos;t real, then what
+                  truly is, and how long can you deny the frog within?
                 </p>
 
                 {/* Info message for blue pill when selected */}
