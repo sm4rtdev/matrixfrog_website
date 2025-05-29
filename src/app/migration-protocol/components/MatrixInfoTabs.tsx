@@ -4,9 +4,9 @@
 import { useState, useRef, useEffect } from 'react';
 
 export default function MatrixInfoTabs() {
-  const [activeTab, setActiveTab] = useState('main');
+  // const [activeTab, setActiveTab] = useState('main');
   const tabsContainerRef = useRef<HTMLDivElement | null>(null);
-  const [showScrollHint, setShowScrollHint] = useState(false);
+  const [, setShowScrollHint] = useState(false);
 
   // Animation for page load
   const [pageLoaded, setPageLoaded] = useState(false);
