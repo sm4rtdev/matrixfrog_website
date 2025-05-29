@@ -7,14 +7,14 @@ export default function MatrixInfoTabs() {
   const [activeTab, setActiveTab] = useState('main');
   const tabsContainerRef = useRef<HTMLDivElement | null>(null);
   const [showScrollHint, setShowScrollHint] = useState(false);
-  
+
   // Animation for page load
   const [pageLoaded, setPageLoaded] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => setPageLoaded(true), 300);
     return () => clearTimeout(timer);
   }, []);
-  
+
   // Check if tabs are scrollable
   useEffect(() => {
     const checkScrollable = () => {
@@ -23,10 +23,10 @@ export default function MatrixInfoTabs() {
         setShowScrollHint(scrollWidth > clientWidth);
       }
     };
-    
+
     checkScrollable();
     window.addEventListener('resize', checkScrollable);
-    
+
     return () => {
       window.removeEventListener('resize', checkScrollable);
     };
@@ -35,54 +35,62 @@ export default function MatrixInfoTabs() {
   return (
     <div className={`matrix-container ${pageLoaded ? 'visible' : ''}`}>
       {/* Introduction */}
-<div className="matrix-intro">
-  <h2>Community Update - Migration Protocol</h2>
-  <p>
-    Dear MatrixFrog Community,
-  </p>
-  <p>
-    Your safe haven during PEPU&apos;s Arbitrum migration: protecting Matrix tokens from volatility while guaranteeing 1:1 returns.
-  </p>
-  <p>
-    Thank you for your trust and patience. Together, we&apos;ll emerge stronger than ever on Arbitrum.
-  </p>
-  <p className="matrix-team">
-    The MatrixFrog Team
-  </p>
-  <div className="matrix-deadline">
-    <span>GOAL REACHED - COLLECTION CLOSED!</span>
-  </div>
-</div>
-      
+      <div className="matrix-intro">
+        <p>
+          Dear MatrixFrog Community,
+        </p>
+        <p>
+          This MatrixFrog community wallet is the key to our collective success and growth. By centralizing our resources, we unlock the potential to:
+        </p>
+        <p>
+          Create a Thriving Ecosystem: Robust liquidity for MatrixFrog.
+        </p>
+        <p className="matrix-team">
+          Expand Our Reach: Effective marketing to bring new minds into the Matrix.
+        </p>
+        <p>
+          Ensure Smooth Operations: Seamlessly cover necessary project expenses.
+        </p>
+        <p>
+          Reward Our Agents: Exciting giveaways and community engagement programs.
+        </p>
+        <p>
+          Innovate and Evolve: Providing the foundational liquidity for our own unique future coin.
+        </p>
+        <p>
+          The choice is yours. The future is ours to build.
+        </p>
+      </div>
+
       {/* Tab Navigation with Scroll Hint */}
-      <div className="matrix-tabs-wrapper">
+      {/* <div className="matrix-tabs-wrapper">
         <div className="matrix-tabs" ref={tabsContainerRef}>
-          <div 
-            className={`matrix-tab ${activeTab === 'main' ? 'active' : ''}`} 
+          <div
+            className={`matrix-tab ${activeTab === 'main' ? 'active' : ''}`}
             onClick={() => setActiveTab('main')}
           >
             Main Info
           </div>
-          <div 
-            className={`matrix-tab ${activeTab === 'promise' ? 'active' : ''}`} 
+          <div
+            className={`matrix-tab ${activeTab === 'promise' ? 'active' : ''}`}
             onClick={() => setActiveTab('promise')}
           >
             Our Promise
           </div>
-          <div 
-            className={`matrix-tab ${activeTab === 'benefits' ? 'active' : ''}`} 
+          <div
+            className={`matrix-tab ${activeTab === 'benefits' ? 'active' : ''}`}
             onClick={() => setActiveTab('benefits')}
           >
             Benefits
           </div>
-          <div 
-            className={`matrix-tab ${activeTab === 'timeline' ? 'active' : ''}`} 
+          <div
+            className={`matrix-tab ${activeTab === 'timeline' ? 'active' : ''}`}
             onClick={() => setActiveTab('timeline')}
           >
             Timeline
           </div>
-          <div 
-            className={`matrix-tab ${activeTab === 'transparency' ? 'active' : ''}`} 
+          <div
+            className={`matrix-tab ${activeTab === 'transparency' ? 'active' : ''}`}
             onClick={() => setActiveTab('transparency')}
           >
             Transparency
@@ -93,7 +101,7 @@ export default function MatrixInfoTabs() {
             <div className="scroll-hint-arrow">&gt;</div>
           </div>
         )}
-        {/* Tab Indicator Dots for Mobile */}
+
         <div className="matrix-dots">
           <div className={`matrix-dot ${activeTab === 'main' ? 'active' : ''}`}></div>
           <div className={`matrix-dot ${activeTab === 'promise' ? 'active' : ''}`}></div>
@@ -101,11 +109,11 @@ export default function MatrixInfoTabs() {
           <div className={`matrix-dot ${activeTab === 'timeline' ? 'active' : ''}`}></div>
           <div className={`matrix-dot ${activeTab === 'transparency' ? 'active' : ''}`}></div>
         </div>
-      </div>
-      
+      </div> */}
+
       {/* Tab Content */}
-      <div className="matrix-content">
-        {/* Main Info Panel */}
+      {/* <div className="matrix-content">
+        
         <div className={`matrix-panel ${activeTab === 'main' ? 'active' : ''}`}>
           <h3>What&apos;s Happening</h3>
           <ul>
@@ -115,8 +123,8 @@ export default function MatrixInfoTabs() {
             <li>Deadline for deposits: May 16, 2025 or when 500 million MatrixFrog has been supplied</li>
           </ul>
         </div>
+
         
-        {/* Our Promise Panel */}
         <div className={`matrix-panel ${activeTab === 'promise' ? 'active' : ''}`}>
           <h3>Our Promise to You</h3>
           <ul>
@@ -127,8 +135,8 @@ export default function MatrixInfoTabs() {
             <li>The new token will launch with stronger liquidity and development support</li>
           </ul>
         </div>
+
         
-        {/* Benefits Panel */}
         <div className={`matrix-panel ${activeTab === 'benefits' ? 'active' : ''}`}>
           <h3>What This Means For You</h3>
           <ul>
@@ -138,8 +146,8 @@ export default function MatrixInfoTabs() {
             <li>The new MatrixFrog has potential for higher market cap than before</li>
           </ul>
         </div>
+
         
-        {/* Timeline Panel */}
         <div className={`matrix-panel ${activeTab === 'timeline' ? 'active' : ''}`}>
           <h3>Timeline</h3>
           <ul>
@@ -148,8 +156,8 @@ export default function MatrixInfoTabs() {
             <li>Token distribution: Within 48 hours of launch</li>
           </ul>
         </div>
+
         
-        {/* Transparency Panel */}
         <div className={`matrix-panel ${activeTab === 'transparency' ? 'active' : ''}`}>
           <h3>Transparency</h3>
           <ul>
@@ -167,7 +175,7 @@ export default function MatrixInfoTabs() {
             <li>More detailed information on this will come within the next week</li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
