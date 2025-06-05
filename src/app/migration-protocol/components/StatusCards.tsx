@@ -1,6 +1,6 @@
 // app/api/components/wallet-tracker/StatusCards.tsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 interface StatusCardsProps {
   matrixBalance: string;
@@ -37,14 +37,14 @@ const StatusCards: React.FC<StatusCardsProps> = ({
   usdtL2Balance,
   usdtL2Loading,
   error,
-  matrixWallet,  
+  matrixWallet,
   formatAmount,
-  onToggleMatrixTransactions,  
-  onViewMatrixContributors,  
-  matrixTransactionsVisible,  
+  onToggleMatrixTransactions,
+  onViewMatrixContributors,
+  matrixTransactionsVisible,
 }) => {
   const [copied, setCopied] = useState(false);
-  const [remainingAmount, setRemainingAmount] = useState<string>('500,000,000');
+  const [remainingAmount, setRemainingAmount] = useState<string>("500,000,000");
   const [goalReached, setGoalReached] = useState<boolean>(false);
 
   const handleMatrixViewClick = () => {
@@ -53,15 +53,16 @@ const StatusCards: React.FC<StatusCardsProps> = ({
       onViewMatrixContributors();
     }
   };
-  
+
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard
+      .writeText(text)
       .then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       })
-      .catch(err => {
-        console.error('Failed to copy text: ', err);
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
       });
   };
 
@@ -69,20 +70,19 @@ const StatusCards: React.FC<StatusCardsProps> = ({
   useEffect(() => {
     if (matrixTotalCollected) {
       try {
-        const collected = parseFloat(matrixTotalCollected.replace(/\./g, ''));
+        const collected = parseFloat(matrixTotalCollected.replace(/\./g, ""));
         const remaining = 500000000 - collected;
-        
+
         // Prüfen, ob das Ziel erreicht wurde
         if (remaining <= 0) {
           setGoalReached(true);
-          setRemainingAmount('0');
+          setRemainingAmount("0");
         } else {
           setGoalReached(false);
-          setRemainingAmount(remaining.toLocaleString('de-DE')); // Punktformat bleibt konsistent
+          setRemainingAmount(remaining.toLocaleString("de-DE")); // Punktformat bleibt konsistent
         }
-
       } catch (e) {
-        console.error('Error calculating remaining amount:', e);
+        console.error("Error calculating remaining amount:", e);
       }
     }
   }, [matrixTotalCollected]);
@@ -93,14 +93,14 @@ const StatusCards: React.FC<StatusCardsProps> = ({
   useEffect(() => {
     const updateTimeSince = () => {
       const secondsPassed = Math.floor((Date.now() - lastUpdateTime) / 1000);
-      
+
       if (secondsPassed < 5) {
         setLastUpdatedText("just now");
       } else if (secondsPassed < 60) {
         setLastUpdatedText(`${secondsPassed} sec ago`);
       } else if (secondsPassed < 3600) {
         const minutes = Math.floor(secondsPassed / 60);
-        setRemainingAmount(remainingAmount => remainingAmount); // Keep existing value
+        setRemainingAmount((remainingAmount) => remainingAmount); // Keep existing value
         setLastUpdatedText(`${minutes} min ago`);
       } else {
         const hours = Math.floor(secondsPassed / 3600);
@@ -117,9 +117,9 @@ const StatusCards: React.FC<StatusCardsProps> = ({
     <>
       {/* Community Wallet Title Bar */}
       <div className="wallet-title-bar">
-        <div className="wallet-title-content">          
-          <div 
-            className={`wallet-address-display-large ${copied ? 'copied' : ''}`}
+        <div className="wallet-title-content">
+          <div
+            className={`wallet-address-display-large ${copied ? "copied" : ""}`}
             onClick={() => copyToClipboard(matrixWallet)}
             title="Click to copy address"
           >
@@ -131,7 +131,7 @@ const StatusCards: React.FC<StatusCardsProps> = ({
           </div>
         </div>
       </div>
-      
+
       {/* Hauptcontainer für die Network Panels */}
       <div className="wallet-dashboard-container">
         {/* Network Panels Container zentriert mit nur einem Panel */}
@@ -142,7 +142,7 @@ const StatusCards: React.FC<StatusCardsProps> = ({
               <div className="network-tag">L2</div>
               <div className="network-name">PEPU-CHAIN</div>
             </div>
-            
+
             <div className="tokens-container">
               {/* PEPU Token auf L2 */}
               <div className="token-card">
@@ -156,8 +156,8 @@ const StatusCards: React.FC<StatusCardsProps> = ({
                   )}
                 </div>
               </div>
-              
-              {/* MATRIX Token auf L2 */}
+
+              {/* MatrixFrog Token auf L2 */}
               <div className="token-card highlighted">
                 <div className="token-symbol">MATRIX</div>
                 <div className="token-balance">
@@ -172,11 +172,13 @@ const StatusCards: React.FC<StatusCardsProps> = ({
                 {/* Erweiterte Anzeige für gesammelte und verbleibende Beträge */}
                 <div className="token-collected-large">
                   <div className="collected-section">
-                    <span className="label">Collected:</span> 
-                    <span className="value pulse-glow">{matrixTotalCollected}</span>
+                    <span className="label">Collected:</span>
+                    <span className="value pulse-glow">
+                      {matrixTotalCollected}
+                    </span>
                   </div>
                   <div className="remaining-section">
-                    <span className="label">Remaining:</span> 
+                    <span className="label">Remaining:</span>
                     {goalReached ? (
                       <span className="value goal-reached">GOAL REACHED!</span>
                     ) : (
@@ -185,7 +187,7 @@ const StatusCards: React.FC<StatusCardsProps> = ({
                   </div>
                 </div>
               </div>
-              
+
               {/* USDT Token auf L2 */}
               <div className="token-card">
                 <div className="token-symbol">USDT</div>
@@ -198,20 +200,22 @@ const StatusCards: React.FC<StatusCardsProps> = ({
                 </div>
               </div>
             </div>
-            
+
             {/* View Button in einem Container mit fester Position */}
             <div className="view-button-container">
-              <button 
-                className="view-data-btn pepu-chain" 
+              <button
+                className="view-data-btn pepu-chain"
                 onClick={handleMatrixViewClick}
               >
-                {matrixTransactionsVisible ? 'HIDE TRANSACTIONS' : 'VIEW TRANSACTIONS'}
+                {matrixTransactionsVisible
+                  ? "HIDE TRANSACTIONS"
+                  : "VIEW TRANSACTIONS"}
               </button>
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Separate Komponente für die Dashboard-Statistiken/Infobox */}
       <div className="wallet-stats-container mb-8">
         <div className="wallet-stats">

@@ -35,7 +35,7 @@ export default function MatrixGate() {
     args: [address],
     query: {
       enabled: !!address,
-    }
+    },
   });
 
   const { data: decimalsData } = useReadContract({
@@ -48,7 +48,10 @@ export default function MatrixGate() {
     const checkAccess = async () => {
       if (!balanceData || !decimalsData) return;
       setLoading(true);
-      const balance = formatUnits(BigInt(balanceData as string), Number(decimalsData));
+      const balance = formatUnits(
+        BigInt(balanceData as string),
+        Number(decimalsData)
+      );
       setIsAllowed(Number(balance) >= 50000);
       setLoading(false);
     };
@@ -63,7 +66,7 @@ export default function MatrixGate() {
         <>
           {loading ? (
             <p className="text-gray-600 mt-4">
-              Verifying your Matrix balance...
+              Verifying your MatrixFrog balance...
             </p>
           ) : isAllowed ? (
             <div className="mt-4 text-green-600 font-bold">
@@ -91,7 +94,8 @@ export default function MatrixGate() {
             </div>
           ) : (
             <p className="mt-4 text-red-600 font-semibold">
-              ❌ You need at least 50,000 Matrix tokens to access The Construct.
+              ❌ You need at least 50,000 MatrixFrog tokens to access The
+              Construct.
             </p>
           )}
         </>
