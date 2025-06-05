@@ -15,7 +15,7 @@
 //   const messages = useMemo(() => [
 //     "Knock, knock, fren...",
 //     "Construct initialization protocol interrupted.",
-//     "Access verification required: 50,000 $MATRIX tokens.",
+//     "Access verification required: 50,000 $MatrixFrog tokens.",
 //     "Neural connection unstable: permissions denied.",
 //     "The Construct is still being built.",
 //     "Coming soon to those who have taken the red pill.",
@@ -268,7 +268,7 @@ export default function ConstructPage() {
           LOADING THE CONSTRUCT...
         </div>
         <div className={styles.tokenBalance}>
-          MATRIX Token Balance: {matrixBalance ?? "0"}
+          MatrixFrog Token Balance: {matrixBalance ?? "0"}
         </div>
         {firstText && (
           <div className={styles.tokenMessage}>

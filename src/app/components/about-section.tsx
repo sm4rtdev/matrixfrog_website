@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from "react";
 
 export default function AboutSection() {
   // Referenz für die Konsolen-Animation
   const consoleRef = useRef<HTMLDivElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
-  
+
   // State für die Animation der Texteingabe
   const [displayText, setDisplayText] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -17,25 +17,29 @@ export default function AboutSection() {
   // Neuer State für Hover-Status
   const [isHovered, setIsHovered] = useState<boolean>(false);
   // State um zu tracken, ob die Animation gestartet wurde
-  const [hasAnimationStarted, setHasAnimationStarted] = useState<boolean>(false);
-  
+  const [hasAnimationStarted, setHasAnimationStarted] =
+    useState<boolean>(false);
+
   // Text-Sequenz für die Terminal-Animation - Desktop-freundlichere Version
   // Mit useMemo umhüllen, damit es nicht bei jedem Rendern neu erstellt wird
-  const dialogSequence = useMemo(() => [
-    "> INITIALIZING MATRIXFROG PROTOCOL...",
-    "> ACCESS GRANTED. WELCOME TO THE TRUTH.",
-    "> SUBJECT: PROJECT MATRIXFROG",
-    "> BEGIN TRANSMISSION:",
-    "",
-    "In the digital construct we call reality, two worlds collide.",
-    "Humans trapped in the system. Frogs aware of its nature.",
-    "",
-    "MATRIXFROG represents the nexus point – the choice between",
-    "embracing humanity's struggle or transcending to amphibian enlightenment.",
-    "",
-    "> END TRANSMISSION",
-    "> [ ACCESS TOKEN PORTAL AVAILABLE ]"
-  ], []); // Leeres Dependency-Array, da dieser Wert sich nie ändert
+  const dialogSequence = useMemo(
+    () => [
+      "> INITIALIZING MATRIXFROG PROTOCOL...",
+      "> ACCESS GRANTED. WELCOME TO THE TRUTH.",
+      "> SUBJECT: PROJECT MATRIXFROG",
+      "> BEGIN TRANSMISSION:",
+      "",
+      "In the digital construct we call reality, two worlds collide.",
+      "Humans trapped in the system. Frogs aware of its nature.",
+      "",
+      "MATRIXFROG represents the nexus point – the choice between",
+      "embracing humanity's struggle or transcending to amphibian enlightenment.",
+      "",
+      "> END TRANSMISSION",
+      "> [ ACCESS TOKEN PORTAL AVAILABLE ]",
+    ],
+    []
+  ); // Leeres Dependency-Array, da dieser Wert sich nie ändert
 
   // Hover-Detection mit Intersection Observer
   useEffect(() => {
@@ -68,17 +72,20 @@ export default function AboutSection() {
   useEffect(() => {
     // Nur starten, wenn die Sektion gehovert wird und die Animation noch nicht beendet ist
     if (!isHovered || currentStep >= dialogSequence.length) return;
-    
-    const timer = setTimeout(() => {
-      setDisplayText((prev) => [...prev, dialogSequence[currentStep]]);
-      setCurrentStep((prev) => prev + 1);
-      
-      // Scroll zum Ende des Terminals
-      if (consoleRef.current) {
-        consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
-      }
-    }, currentStep === 0 ? 800 : Math.random() * 400 + 200); // Leicht angepasste Geschwindigkeit
-    
+
+    const timer = setTimeout(
+      () => {
+        setDisplayText((prev) => [...prev, dialogSequence[currentStep]]);
+        setCurrentStep((prev) => prev + 1);
+
+        // Scroll zum Ende des Terminals
+        if (consoleRef.current) {
+          consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
+        }
+      },
+      currentStep === 0 ? 800 : Math.random() * 400 + 200
+    ); // Leicht angepasste Geschwindigkeit
+
     return () => clearTimeout(timer);
   }, [currentStep, dialogSequence, isHovered]);
 
@@ -92,78 +99,89 @@ export default function AboutSection() {
   // Zufällige Glitch-Effekte für den Button (leicht angepasst)
   useEffect(() => {
     if (!isPulsing) return;
-    
+
     const glitchInterval = setInterval(() => {
       if (Math.random() > 0.7) {
         setIsGlitching(true);
         setTimeout(() => setIsGlitching(false), 250); // von 300ms auf 250ms reduziert
       }
     }, 3000); // von 4000ms auf 3000ms reduziert
-    
+
     return () => clearInterval(glitchInterval);
   }, [isPulsing]);
 
   // Button-Click Handler mit Glitch-Effekt (leicht angepasst)
   const handleButtonClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    
+
     // Extra glitch effect on click
     setIsGlitching(true);
     setTimeout(() => {
       setIsGlitching(false);
       // Öffne in einem neuen Fenster nach dem Glitch-Effekt
-      window.open("https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919", "_blank");
+      window.open(
+        "https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919",
+        "_blank"
+      );
     }, 400); // von 500ms auf 400ms reduziert
   };
 
   return (
-    <section 
-      id="about" 
+    <section
+      id="about"
       ref={sectionRef}
       className="w-full min-h-screen py-12 md:py-24 flex items-center justify-center relative overflow-hidden"
     >
       {/* Matrix-Code Hintergrund für diese Sektion */}
       <div className="absolute inset-0 bg-black bg-opacity-90 z-10"></div>
-      
+
       <div className="max-w-5xl w-full mx-auto px-4 md:px-8 relative z-20">
         <h2 className="sr-only">About MatrixFrog</h2>
-        
+
         {/* Holographic Terminal Container mit integriertem Button */}
         <div className="relative perspective-container">
           {/* Hologram Frame */}
-          <div className={`hologram-frame ${isHovered ? 'active' : 'inactive'}`}>
+          <div
+            className={`hologram-frame ${isHovered ? "active" : "inactive"}`}
+          >
             <div className="hologram-scan-line"></div>
-            
+
             {/* Dreiecke für 3D-Hologramm-Effekt */}
             <div className="hologram-pyramid top-left"></div>
             <div className="hologram-pyramid top-right"></div>
             <div className="hologram-pyramid bottom-left"></div>
             <div className="hologram-pyramid bottom-right"></div>
-            
+
             {/* Glitch Effect Overlay */}
             <div className="glitch-overlay"></div>
-            
+
             {/* Konsole/Terminal Inhalt */}
-            <div 
-              ref={consoleRef}
-              className="console-container"
-            >
+            <div ref={consoleRef} className="console-container">
               {displayText.map((line, index) => (
-                <div key={index} className={`console-line ${line.startsWith(">") ? "command-line" : "output-line"}`}>
+                <div
+                  key={index}
+                  className={`console-line ${
+                    line.startsWith(">") ? "command-line" : "output-line"
+                  }`}
+                >
                   {line}
                 </div>
               ))}
               <div className="console-cursor"></div>
             </div>
-            
+
             {/* Integrierter Matrix-Button */}
             {currentStep >= dialogSequence.length && (
               <div className="matrix-portal-container">
-                <div className={`matrix-portal-frame ${isPulsing ? 'active' : ''}`}>
+                <div
+                  className={`matrix-portal-frame ${isPulsing ? "active" : ""}`}
+                >
                   <div className="matrix-portal-inner">
-                    <a 
-                      href="https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919" 
-                      className={`buy-matrix-button ${isPulsing ? 'pulse-active' : ''} ${isGlitching ? 'glitching' : ''}`}
+                    <a
+                      href="https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919"
+                      className={`buy-matrix-button ${
+                        isPulsing ? "pulse-active" : ""
+                      } ${isGlitching ? "glitching" : ""}`}
                       onClick={handleButtonClick}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -172,7 +190,7 @@ export default function AboutSection() {
                       <div className="button-glitch"></div>
                     </a>
                   </div>
-                  
+
                   {/* Decorative Connectors */}
                   <div className="connector left-connector"></div>
                   <div className="connector right-connector"></div>
@@ -182,7 +200,7 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
-      
+
       {/* Custom CSS für spezielle Effekte */}
       <style jsx>{`
         .perspective-container {
@@ -190,7 +208,7 @@ export default function AboutSection() {
           margin-bottom: 2rem;
           width: 100%;
         }
-        
+
         @media (min-width: 640px) {
           .perspective-container {
             margin-bottom: 3rem; /* Mehr Abstand unten auf Desktop */
@@ -199,7 +217,7 @@ export default function AboutSection() {
             margin-right: auto;
           }
         }
-        
+
         .hologram-frame {
           width: 100%;
           min-height: 400px; /* Erhöht von 350px auf 400px */
@@ -208,65 +226,76 @@ export default function AboutSection() {
           border-radius: 4px;
           position: relative;
           transform-style: preserve-3d;
-          box-shadow: 0 0 20px rgba(0, 255, 65, 0.4), inset 0 0 15px rgba(0, 255, 65, 0.2);
+          box-shadow: 0 0 20px rgba(0, 255, 65, 0.4),
+            inset 0 0 15px rgba(0, 255, 65, 0.2);
           overflow: hidden;
           padding: 1.5rem;
           transition: all 0.5s ease-in-out;
         }
-        
+
         @media (min-width: 640px) {
           .hologram-frame {
             padding: 2.5rem;
             min-height: 450px; /* Noch höher für Desktops */
           }
         }
-        
+
         .hologram-frame.inactive {
           opacity: 0.6;
           transform: translateY(20px);
         }
-        
+
         .hologram-frame.active {
           opacity: 1;
           transform: translateY(0) rotateX(2deg);
           animation: hologram-float 8s ease-in-out infinite;
         }
-        
+
         @keyframes hologram-float {
-          0%, 100% { transform: translateY(0) rotateX(2deg); }
-          50% { transform: translateY(-10px) rotateX(-2deg); }
+          0%,
+          100% {
+            transform: translateY(0) rotateX(2deg);
+          }
+          50% {
+            transform: translateY(-10px) rotateX(-2deg);
+          }
         }
-        
+
         /* Langsamere Animation für Hologram-Float */
         .hologram-frame.active {
           animation: hologram-float 10s ease-in-out infinite; /* von 12s auf 10s reduziert */
         }
-        
+
         .hologram-scan-line {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           height: 5px;
-          background: linear-gradient(to bottom, 
-            rgba(0, 255, 65, 0.5), 
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 255, 65, 0.5),
             rgba(0, 255, 65, 0)
           );
           animation: scan 3s linear infinite;
           z-index: 5;
           pointer-events: none;
         }
-        
+
         @keyframes scan {
-          0% { top: 0; }
-          100% { top: 100%; }
+          0% {
+            top: 0;
+          }
+          100% {
+            top: 100%;
+          }
         }
-        
+
         /* Langsamere Scan-Animation */
         .hologram-scan-line {
           animation: scan 5s linear infinite; /* von 6s auf 5s reduziert */
         }
-        
+
         .glitch-overlay {
           position: absolute;
           top: 0;
@@ -284,7 +313,7 @@ export default function AboutSection() {
           z-index: 3;
           opacity: 0.3;
         }
-        
+
         .hologram-pyramid {
           position: absolute;
           width: 40px;
@@ -292,37 +321,37 @@ export default function AboutSection() {
           border: 1px solid rgba(0, 255, 65, 0.7);
           z-index: 2;
         }
-        
+
         .top-left {
           top: -5px;
           left: -5px;
           border-right: none;
           border-bottom: none;
         }
-        
+
         .top-right {
           top: -5px;
           right: -5px;
           border-left: none;
           border-bottom: none;
         }
-        
+
         .bottom-left {
           bottom: -5px;
           left: -5px;
           border-right: none;
           border-top: none;
         }
-        
+
         .bottom-right {
           bottom: -5px;
           right: -5px;
           border-left: none;
           border-top: none;
         }
-        
+
         .console-container {
-          font-family: 'Courier New', monospace;
+          font-family: "Courier New", monospace;
           color: #00ff41;
           overflow-y: auto;
           max-height: 250px; /* Erhöht von 220px auf 250px */
@@ -332,7 +361,7 @@ export default function AboutSection() {
           word-break: break-word;
           line-height: 1.6;
         }
-        
+
         @media (min-width: 640px) {
           .console-container {
             font-size: 1.1rem; /* Erhöht von 1rem auf 1.1rem */
@@ -340,35 +369,35 @@ export default function AboutSection() {
             line-height: 1.8; /* Mehr Zeilenabstand auf Desktop */
           }
         }
-        
+
         .console-line {
           margin-bottom: 0.7rem;
           text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
         }
-        
+
         @media (min-width: 640px) {
           .console-line {
             margin-bottom: 1rem; /* Mehr Abstand zwischen den Zeilen auf Desktop */
           }
         }
-        
+
         .command-line {
           color: #00ff41;
           font-weight: bold;
         }
-        
+
         .output-line {
           color: rgba(255, 255, 255, 0.85);
           padding-left: 0.5rem;
         }
-        
+
         @media (min-width: 640px) {
           .output-line {
             padding-left: 1.5rem; /* Mehr Einrückung auf Desktop */
             letter-spacing: 0.5px; /* Bessere Lesbarkeit auf Desktop */
           }
         }
-        
+
         .console-cursor {
           display: inline-block;
           width: 8px;
@@ -376,32 +405,38 @@ export default function AboutSection() {
           background-color: #00ff41;
           animation: blink 1s step-end infinite;
         }
-        
+
         @media (min-width: 640px) {
           .console-cursor {
             width: 10px;
             height: 20px;
           }
         }
-        
+
         @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
+          0%,
+          50% {
+            opacity: 1;
+          }
+          51%,
+          100% {
+            opacity: 0;
+          }
         }
-        
-        /* Matrix Portal & Button Styles */
+
+        /* MatrixFrog Portal & Button Styles */
         .matrix-portal-container {
           margin-top: 2rem;
           position: relative;
           z-index: 10;
         }
-        
+
         @media (min-width: 640px) {
           .matrix-portal-container {
             margin-top: 3rem; /* Mehr Abstand auf Desktop */
           }
         }
-        
+
         .matrix-portal-frame {
           position: relative;
           padding: 1.5rem 0;
@@ -410,23 +445,24 @@ export default function AboutSection() {
           transform: translateY(20px);
           transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        
+
         .matrix-portal-frame.active {
           opacity: 1;
           transform: translateY(0);
         }
-        
+
         .matrix-portal-inner {
           display: flex;
           justify-content: center;
           align-items: center;
           position: relative;
         }
-        
+
         .connector {
           position: absolute;
           height: 2px;
-          background: linear-gradient(90deg, 
+          background: linear-gradient(
+            90deg,
             rgba(0, 255, 65, 0),
             rgba(0, 255, 65, 0.7) 50%,
             rgba(0, 255, 65, 0)
@@ -435,21 +471,21 @@ export default function AboutSection() {
           width: 20%;
           z-index: -1;
         }
-        
+
         @media (min-width: 640px) {
           .connector {
             width: 30%;
           }
         }
-        
+
         .left-connector {
           left: 0;
         }
-        
+
         .right-connector {
           right: 0;
         }
-        
+
         /* Button Styles */
         .buy-matrix-button {
           position: relative;
@@ -458,7 +494,7 @@ export default function AboutSection() {
           color: #00ff41;
           border: 2px solid #00ff41;
           border-radius: 4px;
-          font-family: 'Courier New', monospace;
+          font-family: "Courier New", monospace;
           font-size: 1rem;
           font-weight: bold;
           text-transform: uppercase;
@@ -472,7 +508,7 @@ export default function AboutSection() {
           transform-style: preserve-3d;
           text-align: center;
         }
-        
+
         @media (min-width: 640px) {
           .buy-matrix-button {
             padding: 16px 36px;
@@ -480,9 +516,9 @@ export default function AboutSection() {
             letter-spacing: 2px;
           }
         }
-        
+
         .buy-matrix-button:before {
-          content: '';
+          content: "";
           position: absolute;
           top: -5px;
           left: -5px;
@@ -493,7 +529,7 @@ export default function AboutSection() {
           opacity: 0;
           transition: all 0.3s;
         }
-        
+
         .buy-matrix-button:hover:before {
           opacity: 1;
           top: -8px;
@@ -501,7 +537,7 @@ export default function AboutSection() {
           right: -8px;
           bottom: -8px;
         }
-        
+
         .buy-matrix-button:hover {
           background: rgba(0, 40, 0, 0.9);
           box-shadow: 0 0 25px rgba(0, 255, 65, 0.7);
@@ -509,75 +545,107 @@ export default function AboutSection() {
           color: #ffffff;
           text-shadow: 0 0 10px rgba(0, 255, 65, 1);
         }
-        
+
         .buy-matrix-button:active {
           transform: translateY(1px);
         }
-        
+
         .button-text {
           position: relative;
           z-index: 2;
           text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
           white-space: nowrap;
         }
-        
+
         .button-glitch {
           position: absolute;
           top: 0;
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, 
-            transparent, 
-            rgba(0, 255, 65, 0.2), 
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(0, 255, 65, 0.2),
             transparent
           );
           z-index: 1;
           animation: glitch-animation 2s linear infinite;
         }
-        
+
         @keyframes glitch-animation {
-          0% { left: -100%; }
-          100% { left: 100%; }
+          0% {
+            left: -100%;
+          }
+          100% {
+            left: 100%;
+          }
         }
-        
+
         /* Langsamere Glitch-Animation */
         .button-glitch {
           animation: glitch-animation 3s linear infinite; /* von 4s auf 3s reduziert */
         }
-        
+
         .pulse-active {
           animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-          0% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 255, 65, 0.4); }
-          50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(0, 255, 65, 0.6); }
-          100% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 255, 65, 0.4); }
+          0% {
+            transform: scale(1);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+          }
+          50% {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.6);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+          }
         }
-        
+
         /* Langsamere Pulse-Animation */
         .pulse-active {
           animation: pulse 3s infinite; /* von 4s auf 3s reduziert */
         }
-        
+
         /* Glitch effect for button */
         .glitching {
-          animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both;
+          animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         }
-        
+
         @keyframes glitch {
-          0% { transform: translate(0); }
-          20% { transform: translate(-3px, 3px); }
-          40% { transform: translate(-3px, -3px); }
-          60% { transform: translate(3px, 3px); }
-          80% { transform: translate(3px, -3px); }
-          100% { transform: translate(0); }
+          0% {
+            transform: translate(0);
+          }
+          20% {
+            transform: translate(-3px, 3px);
+          }
+          40% {
+            transform: translate(-3px, -3px);
+          }
+          60% {
+            transform: translate(3px, 3px);
+          }
+          80% {
+            transform: translate(3px, -3px);
+          }
+          100% {
+            transform: translate(0);
+          }
         }
-        
+
         @keyframes fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </section>

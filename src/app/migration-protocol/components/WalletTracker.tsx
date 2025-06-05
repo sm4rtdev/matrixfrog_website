@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState, useCallback } from 'react';
-import StatusCards from './StatusCards';
-import TransactionList from './TransactionList';
-import ContributorsList from './ContributorsList';
+import React, { useEffect, useState, useCallback } from "react";
+import StatusCards from "./StatusCards";
+import TransactionList from "./TransactionList";
+import ContributorsList from "./ContributorsList";
 import {
   loadAllWalletData,
-  MATRIX_LIQUIDITY_WALLET
-} from '../../services/tokenService';
+  MATRIX_LIQUIDITY_WALLET,
+} from "../../services/tokenService";
 
 // Lokale Interface-Definitionen
 interface TokenTransfer {
-  hash: string;  // Nicht optional, da TransactionList es so erwartet
+  hash: string; // Nicht optional, da TransactionList es so erwartet
   from: string;
   to: string;
   value: string;
   formattedValue: string;
   timestamp: string;
   explorerLink?: string;
-  network?: 'ethereum' | 'pepu-chain';
+  network?: "ethereum" | "pepu-chain";
   transactionHash?: string;
 }
 
@@ -29,44 +29,59 @@ interface Contributor {
   transferCount: number;
   lastTransfer: string;
   explorerLink?: string;
-  network?: 'ethereum' | 'pepu-chain';
+  network?: "ethereum" | "pepu-chain";
 }
 
-import './styles.css';
+import "./styles.css";
 
 const WalletTracker: React.FC = () => {
-  // States für Matrix Token
-  const [matrixBalance, setMatrixBalance] = useState<string>('...');
-  const [matrixTotalCollected, setMatrixTotalCollected] = useState<string>('...');
+  // States für MatrixFrog Token
+  const [matrixBalance, setMatrixBalance] = useState<string>("...");
+  const [matrixTotalCollected, setMatrixTotalCollected] =
+    useState<string>("...");
   const [matrixTransfers, setMatrixTransfers] = useState<TokenTransfer[]>([]);
-  const [matrixContributors, setMatrixContributors] = useState<Contributor[]>([]);
+  const [matrixContributors, setMatrixContributors] = useState<Contributor[]>(
+    []
+  );
   const [matrixLoading, setMatrixLoading] = useState<boolean>(true);
-  const [matrixTransfersLoading, setMatrixTransfersLoading] = useState<boolean>(true);
-  const [matrixContributorsLoading, setMatrixContributorsLoading] = useState<boolean>(true);
+  const [matrixTransfersLoading, setMatrixTransfersLoading] =
+    useState<boolean>(true);
+  const [matrixContributorsLoading, setMatrixContributorsLoading] =
+    useState<boolean>(true);
 
   // States für PEPU & USDT auf Layer 2
-  const [pepuL2Balance, setPepuL2Balance] = useState<string>('...');
+  const [pepuL2Balance, setPepuL2Balance] = useState<string>("...");
   const [pepuL2Loading, setPepuL2Loading] = useState<boolean>(true);
-  const [usdtL2Balance, setUsdtL2Balance] = useState<string>('...');
+  const [usdtL2Balance, setUsdtL2Balance] = useState<string>("...");
   const [usdtL2Loading, setUsdtL2Loading] = useState<boolean>(true);
 
   // Allgemeine States
   const [error, setError] = useState<string | null>(null);
-  const [typedText, setTypedText] = useState('');
+  const [typedText, setTypedText] = useState("");
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
 
   // Tabs und Ansicht
-  const [matrixActiveTab, setMatrixActiveTab] = useState<'in' | 'out' | 'all'>('all');
-  const [matrixTransactionsVisible, setMatrixTransactionsVisible] = useState<boolean>(false);
+  const [matrixActiveTab, setMatrixActiveTab] = useState<"in" | "out" | "all">(
+    "all"
+  );
+  const [matrixTransactionsVisible, setMatrixTransactionsVisible] =
+    useState<boolean>(false);
 
   // Hilfsfunktionen
   const formatDate = (dateStr: string): string => {
     try {
       const date = new Date(dateStr);
-      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
-        ' ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      return (
+        date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+        " " +
+        date.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+      );
     } catch {
-      return 'Invalid date';
+      return "Invalid date";
     }
   };
 
@@ -77,16 +92,16 @@ const WalletTracker: React.FC = () => {
 
   const formatAmount = (amount: string): string => {
     try {
-      if (!amount.includes(',') && !amount.includes('.')) return amount;
+      if (!amount.includes(",") && !amount.includes(".")) return amount;
 
-      if (amount.includes(',') && amount.split(',')[1].length === 3) {
-        const wholePart = amount.split(',')[0];
+      if (amount.includes(",") && amount.split(",")[1].length === 3) {
+        const wholePart = amount.split(",")[0];
         if (wholePart.length <= 3) return amount + ".000";
       }
 
       return amount;
     } catch (error) {
-      console.error('Fehler bei Betragsformatierung:', error);
+      console.error("Fehler bei Betragsformatierung:", error);
       return amount;
     }
   };
@@ -96,8 +111,8 @@ const WalletTracker: React.FC = () => {
     const textToType = "Community Wallet";
     if (currentCharIndex < textToType.length) {
       const timeout = setTimeout(() => {
-        setTypedText(prev => prev + textToType[currentCharIndex]);
-        setCurrentCharIndex(prev => prev + 1);
+        setTypedText((prev) => prev + textToType[currentCharIndex]);
+        setCurrentCharIndex((prev) => prev + 1);
       }, 100);
 
       return () => clearTimeout(timeout);
@@ -105,48 +120,54 @@ const WalletTracker: React.FC = () => {
   }, [currentCharIndex, typedText]);
 
   // Berechnen von Gesamtbeträgen
-  const calculateMatrixTotalCollected = useCallback((transfers: TokenTransfer[]) => {
-    try {
-      let total = 0;
-      const incomingTransfers = transfers.filter(transfer =>
-        transfer.to.toLowerCase() === MATRIX_LIQUIDITY_WALLET.toLowerCase()
-      );
+  const calculateMatrixTotalCollected = useCallback(
+    (transfers: TokenTransfer[]) => {
+      try {
+        let total = 0;
+        const incomingTransfers = transfers.filter(
+          (transfer) =>
+            transfer.to.toLowerCase() === MATRIX_LIQUIDITY_WALLET.toLowerCase()
+        );
 
-      incomingTransfers.forEach(transfer => {
-        const cleanedValue = transfer.formattedValue.replace(/\./g, '');
-        const amount = parseInt(cleanedValue);
-        if (!isNaN(amount)) total += amount;
-      });
+        incomingTransfers.forEach((transfer) => {
+          const cleanedValue = transfer.formattedValue.replace(/\./g, "");
+          const amount = parseInt(cleanedValue);
+          if (!isNaN(amount)) total += amount;
+        });
 
-      return total.toLocaleString('de-DE');
-    } catch (error) {
-      console.error('Fehler bei der Berechnung:', error);
-      return "0";
-    }
-  }, []);
+        return total.toLocaleString("de-DE");
+      } catch (error) {
+        console.error("Fehler bei der Berechnung:", error);
+        return "0";
+      }
+    },
+    []
+  );
 
   // UI-Interaktionen
   const toggleMatrixTransactions = () => {
     setMatrixTransactionsVisible(!matrixTransactionsVisible);
   };
 
-  const viewMatrixContributors = () => { };
+  const viewMatrixContributors = () => {};
 
   // Hilfsfunktion für die Verarbeitung der Transfers
-  const processTransfers = (transfers: {
-    from: string;
-    to: string;
-    value: string;
-    formattedValue: string;
-    timestamp: string;
-    transactionHash?: string;
-    hash?: string;
-    explorerLink?: string;
-    network?: 'ethereum' | 'pepu-chain';
-  }[]): TokenTransfer[] => {
-    return transfers.map(transfer => ({
+  const processTransfers = (
+    transfers: {
+      from: string;
+      to: string;
+      value: string;
+      formattedValue: string;
+      timestamp: string;
+      transactionHash?: string;
+      hash?: string;
+      explorerLink?: string;
+      network?: "ethereum" | "pepu-chain";
+    }[]
+  ): TokenTransfer[] => {
+    return transfers.map((transfer) => ({
       ...transfer,
-      hash: transfer.transactionHash || transfer.hash || ''
+      hash: transfer.transactionHash || transfer.hash || "",
     }));
   };
 
@@ -168,21 +189,21 @@ const WalletTracker: React.FC = () => {
 
         // Balances verarbeiten
         if (data.balances["$MATRIX"]) {
-          setMatrixBalance(data.balances["$MATRIX"].formattedBalance || '0');
+          setMatrixBalance(data.balances["$MATRIX"].formattedBalance || "0");
         } else {
-          setMatrixBalance('Nicht verfügbar');
+          setMatrixBalance("Nicht verfügbar");
         }
 
         if (data.balances["PEPU"]) {
-          setPepuL2Balance(data.balances["PEPU"].formattedBalance || '0');
+          setPepuL2Balance(data.balances["PEPU"].formattedBalance || "0");
         } else {
-          setPepuL2Balance('Nicht verfügbar');
+          setPepuL2Balance("Nicht verfügbar");
         }
 
         if (data.balances["USDT"]) {
-          setUsdtL2Balance(data.balances["USDT"].formattedBalance || '0');
+          setUsdtL2Balance(data.balances["USDT"].formattedBalance || "0");
         } else {
-          setUsdtL2Balance('Nicht verfügbar');
+          setUsdtL2Balance("Nicht verfügbar");
         }
 
         // Transfers und Contributors verarbeiten
@@ -193,14 +214,13 @@ const WalletTracker: React.FC = () => {
         // Total collected berechnen
         const total = calculateMatrixTotalCollected(processedTransfers);
         setMatrixTotalCollected(total);
-
       } catch (err) {
-        console.error('Error loading L2 data:', err);
-        setError('Failed to load data');
-        setMatrixBalance('Nicht verfügbar');
-        setPepuL2Balance('Nicht verfügbar');
-        setUsdtL2Balance('Nicht verfügbar');
-        setMatrixTotalCollected('Nicht verfügbar');
+        console.error("Error loading L2 data:", err);
+        setError("Failed to load data");
+        setMatrixBalance("Nicht verfügbar");
+        setPepuL2Balance("Nicht verfügbar");
+        setUsdtL2Balance("Nicht verfügbar");
+        setMatrixTotalCollected("Nicht verfügbar");
         setMatrixTransfers([]);
         setMatrixContributors([]);
       } finally {
@@ -223,15 +243,19 @@ const WalletTracker: React.FC = () => {
   }, [calculateMatrixTotalCollected]);
 
   // Filter für Transaktionen
-  const filteredMatrixTransfers = matrixTransfers.filter(transfer => {
-    const isIncoming = transfer.to.toLowerCase() === MATRIX_LIQUIDITY_WALLET.toLowerCase();
-    if (matrixActiveTab === 'in') return isIncoming;
-    if (matrixActiveTab === 'out') return !isIncoming;
+  const filteredMatrixTransfers = matrixTransfers.filter((transfer) => {
+    const isIncoming =
+      transfer.to.toLowerCase() === MATRIX_LIQUIDITY_WALLET.toLowerCase();
+    if (matrixActiveTab === "in") return isIncoming;
+    if (matrixActiveTab === "out") return !isIncoming;
     return true;
   });
 
   return (
-    <section id="community-wallet" className="w-full py-16 md:py-24 flex items-center justify-center relative overflow-hidden">
+    <section
+      id="community-wallet"
+      className="w-full py-16 md:py-24 flex items-center justify-center relative overflow-hidden"
+    >
       <div className="absolute inset-0 bg-black bg-opacity-90 z-10"></div>
       <div className="matrix-grid-noise"></div>
       <div className="matrix-grid-lines"></div>
@@ -249,31 +273,25 @@ const WalletTracker: React.FC = () => {
           matrixBalance={matrixBalance}
           matrixTotalCollected={matrixTotalCollected}
           matrixLoading={matrixLoading}
-
           // Dummy-Werte für die erforderlichen PEPU L1 Props
           pepuBalance="0"
           pepuTotalCollected="0"
           pepuLoading={false}
-
           // L2 Werte
           pepuL2Balance={pepuL2Balance}
           pepuL2Loading={pepuL2Loading}
-
           // USDT Werte
           usdtL1Balance="0"
           usdtL1Loading={false}
           usdtL2Balance={usdtL2Balance}
           usdtL2Loading={usdtL2Loading}
-
           error={error}
           matrixWallet={MATRIX_LIQUIDITY_WALLET}
           pepuWallet=""
-
           onToggleMatrixTransactions={toggleMatrixTransactions}
-          onTogglePepuTransactions={() => { }}
+          onTogglePepuTransactions={() => {}}
           onViewMatrixContributors={viewMatrixContributors}
-          onViewPepuContributors={() => { }}
-
+          onViewPepuContributors={() => {}}
           formatAmount={formatAmount}
           matrixTransactionsVisible={matrixTransactionsVisible}
           pepuTransactionsVisible={false}
@@ -281,7 +299,7 @@ const WalletTracker: React.FC = () => {
 
         {matrixTransactionsVisible && (
           <TransactionList
-            title="MATRIX TRANSACTIONS"
+            title="MatrixFrog TRANSACTIONS"
             transfers={filteredMatrixTransfers}
             isLoading={matrixTransfersLoading}
             activeTab={matrixActiveTab}

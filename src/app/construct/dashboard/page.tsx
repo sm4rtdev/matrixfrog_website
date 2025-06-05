@@ -61,7 +61,7 @@ export default function MatrixConstruct() {
     },
     {
       icon: User,
-      // label: "The Matrix Saga",
+      // label: "The MatrixFrog Saga",
       label: "The Peptrix Saga",
       subtitle: "Interactive story",
       href: "#",
@@ -81,7 +81,7 @@ export default function MatrixConstruct() {
     // },
     // {
     //   icon: Gamepad2,
-    //   label: "Matrix Games",
+    //   label: "MatrixFrog Games",
     //   subtitle: "Play to earn",
     //   active: false,
     // },
@@ -101,7 +101,7 @@ export default function MatrixConstruct() {
     // },
     // {
     //   icon: Terminal,
-    //   label: "Matrix Terminal",
+    //   label: "MatrixFrog Terminal",
     //   subtitle: "Command interface",
     //   badge: "NEW",
     //   active: false,
@@ -178,7 +178,7 @@ export default function MatrixConstruct() {
           <div
             style={{ fontSize: "0.75rem", color: "#16a34a" /* green-600 */ }}
           >
-            MATRIX HOLDINGS
+            MatrixFrog HOLDINGS
           </div>
           <div
             style={{
@@ -510,7 +510,7 @@ export default function MatrixConstruct() {
                       fontFamily: "monospace",
                     }}
                   >
-                    50 MATRIX required to vote
+                    50 MatrixFrog required to vote
                   </p>
                 )}
               </div>
@@ -564,7 +564,7 @@ export default function MatrixConstruct() {
                       fontFamily: "monospace",
                     }}
                   >
-                    50 MATRIX required to vote
+                    50 MatrixFrog required to vote
                   </p>
                 )}
               </div>

@@ -37,7 +37,7 @@ export default function MatrixInfoTabs() {
       {/* Introduction */}
       <div className="matrix-intro">
         <p>
-          Dear MatrixFrog Community,
+          {/* Dear MatrixFrog Community, */}
         </p>
         <p>
           This MatrixFrog community wallet is the key to our collective success and growth. By centralizing our resources, we unlock the potential to:
