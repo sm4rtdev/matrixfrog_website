@@ -406,7 +406,7 @@ export default function Home() {
                       style={{ transform: "translateY(10px)" }}
                     >
                       <div className="text-center mb-2">
-                        <span className="glow-text-red">CHOOSE RED</span>
+                        <span className="glow-text-red text-[20px]">CHOOSE RED</span>
                       </div>
                       <div
                         className="image-container cursor-pointer pill-hover"
@@ -439,7 +439,7 @@ export default function Home() {
                       style={{ transform: "translateY(10px)" }}
                     >
                       <div className="text-center mb-2">
-                        <span className="glow-text-green">
+                        <span className="glow-text-green text-[20px]">
                           CHOOSE GREEN
                         </span>
                       </div>
