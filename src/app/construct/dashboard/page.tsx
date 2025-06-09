@@ -4,7 +4,7 @@ import {
   BarChart3,
   // Gamepad2,
   // MessageSquare,
-  // Shield,
+  Shield,
   // Terminal,
   // Trophy,
   User,
@@ -67,12 +67,13 @@ export default function MatrixConstruct() {
       href: "#",
       active: true,
     },
-    // {
-    //   icon: Shield,
-    //   label: "Governance",
-    //   subtitle: "Voting system",
-    //   active: false,
-    // },
+    {
+      icon: Shield,
+      label: "Bloopers",
+      subtitle: "bloopers",
+      href: "/construct/governance",
+      active: false,
+    },
     // {
     //   icon: Trophy,
     //   label: "Rewards Center",
@@ -189,7 +190,7 @@ export default function MatrixConstruct() {
               gap: "5px",
             }}
           >
-            $MATRIX: {matrixBalance} {""}{" "}
+            $MATRIXFROG: {matrixBalance} {""}{" "}
             <Image src="/emerald.png" alt="MATRIX" width={15} height={15} />
           </div>
         </div>

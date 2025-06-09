@@ -124,7 +124,7 @@ export default function RoadmapSection() {
 
   return (
     <section id="roadmap" ref={sectionRef} className={styles.section}>
-      <div className={styles.absoluteInset}></div>
+      {/* <div className={styles.absoluteInset}></div> */}
       <div className={styles.gridOverlay}></div>
       <div className={styles.codeRain}></div>
 
@@ -149,9 +149,8 @@ export default function RoadmapSection() {
               {roadmapPhases.map((phase, index) => (
                 <div
                   key={index}
-                  className={`${styles.roadmapNode} ${
-                    index <= activePhase ? styles.active : ""
-                  } ${glitchingPhase === index ? styles.glitching : ""}`}
+                  className={`${styles.roadmapNode} ${index <= activePhase ? styles.active : ""
+                    } ${glitchingPhase === index ? styles.glitching : ""}`}
                   onClick={() => handlePhaseClick(index)}
                 >
                   <div className={styles.nodePulse}></div>
@@ -167,9 +166,8 @@ export default function RoadmapSection() {
             {roadmapPhases.map((phase, index) => (
               <div
                 key={index}
-                className={`${styles.roadmapPhaseCard} ${
-                  index <= activePhase ? styles.visible : ""
-                } ${glitchingPhase === index ? styles.glitching : ""}`}
+                className={`${styles.roadmapPhaseCard} ${index <= activePhase ? styles.visible : ""
+                  } ${glitchingPhase === index ? styles.glitching : ""}`}
               >
                 <div className={styles.phaseHeader}>
                   <h3>{phase.title}</h3>
@@ -206,9 +204,8 @@ export default function RoadmapSection() {
             {keyFeatures.map((feature, index) => (
               <div
                 key={index}
-                className={`${styles.mechanicCard} ${
-                  isVisible ? styles.active : ""
-                }`}
+                className={`${styles.mechanicCard} ${isVisible ? styles.active : ""
+                  }`}
                 style={{ animationDelay: `${index * 0.15 + 1}s` }}
               >
                 <div className={styles.mechanicIcon}>{feature.icon}</div>

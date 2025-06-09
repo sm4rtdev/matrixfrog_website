@@ -18,7 +18,7 @@ export default function Footer() {
     <footer className="w-full py-8 border-t border-matrix-green">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-6 md:mb-0">
+          <div className="mb-6 md:mb-0 flex flex-col items-center">
             <Link href="/">
               <div className="glitch-text text-2xl font-bold" data-text="MATRIXFROG">
                 MATRIXFROG
