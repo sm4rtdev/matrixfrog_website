@@ -440,7 +440,7 @@ export default function Home() {
                     >
                       <div className="text-center mb-2">
                         <span className="glow-text-green">
-                          CHOOSE BLUE
+                          CHOOSE GREEN
                         </span>
                       </div>
                       <div
