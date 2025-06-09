@@ -20,17 +20,17 @@ import {
     CardHeader,
     CardTitle,
 } from "../../components/ui/card";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "../../components/ui/select";
+// import {
+//     Select,
+//     SelectContent,
+//     SelectItem,
+//     SelectTrigger,
+//     SelectValue,
+// } from "../../components/ui/select";
 import { useRouter } from "next/navigation";
 
 export default function MatrixConstruct() {
-    const [selectedEpisode, setSelectedEpisode] = useState("episode-1");
+    // const [selectedEpisode, setSelectedEpisode] = useState("episode-1");
     const [selected, setSelected] = useState<string | null>();
     const [matrixBalance, setMatrixBalance] = useState<number | null>();
     const { isConnected } = useAccount();
