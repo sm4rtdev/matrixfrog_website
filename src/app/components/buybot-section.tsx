@@ -281,33 +281,29 @@ export default function BuyBotSection() {
             <div className="terminal-tabs">
               <button
                 onClick={() => setActiveTab("what")}
-                className={`terminal-tab ${
-                  activeTab === "what" ? "active" : ""
-                }`}
+                className={`terminal-tab ${activeTab === "what" ? "active" : ""
+                  }`}
               >
                 WHAT
               </button>
               <button
                 onClick={() => setActiveTab("how")}
-                className={`terminal-tab ${
-                  activeTab === "how" ? "active" : ""
-                }`}
+                className={`terminal-tab ${activeTab === "how" ? "active" : ""
+                  }`}
               >
                 HOW
               </button>
               <button
                 onClick={() => setActiveTab("why")}
-                className={`terminal-tab ${
-                  activeTab === "why" ? "active" : ""
-                }`}
+                className={`terminal-tab ${activeTab === "why" ? "active" : ""
+                  }`}
               >
                 WHY
               </button>
               <button
                 onClick={() => setActiveTab("command")}
-                className={`terminal-tab ${
-                  activeTab === "command" ? "active" : ""
-                }`}
+                className={`terminal-tab ${activeTab === "command" ? "active" : ""
+                  }`}
               >
                 COMMANDS
               </button>
@@ -342,9 +338,8 @@ export default function BuyBotSection() {
                 {sliderImages.map((img, index) => (
                   <div
                     key={index}
-                    className={`matrix-slide ${
-                      activeSlide === index ? "active" : ""
-                    }`}
+                    className={`matrix-slide ${activeSlide === index ? "active" : ""
+                      }`}
                   >
                     <div className="matrix-slide-frame">
                       <Image
@@ -374,9 +369,8 @@ export default function BuyBotSection() {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`matrix-indicator ${
-                  activeSlide === index ? "active" : ""
-                }`}
+                className={`matrix-indicator ${activeSlide === index ? "active" : ""
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
               ></button>
             ))}

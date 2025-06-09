@@ -206,7 +206,7 @@ export default function Home() {
     window.addEventListener("resize", resizeCanvas);
 
     // Mix of MatrixFrog characters and frog-related symbols
-    const characters = "PEPATROXM10フロッグカエル0123456789";
+    const characters = "$MatrixFrogフロッグカエル0123456789";
 
     const fontSize = 13; // Slightly reduced font size (was 14)
     const columns = Math.floor(canvas.width / fontSize);
