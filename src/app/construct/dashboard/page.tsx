@@ -723,7 +723,6 @@ export default function MatrixConstruct() {
     {
       value: "blooper-2",
       title: "Blooper 2: Blooper scenes",
-      // src: "https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1",
     },
   ];
 
