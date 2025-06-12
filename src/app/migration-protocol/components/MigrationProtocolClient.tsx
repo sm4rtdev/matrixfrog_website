@@ -26,7 +26,7 @@ export default function MigrationProtocolClient() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const characters = "PEPATROXM10フロッグカエル0123456789";
+    const characters = "$MatrixFrogフロッグカエル0123456789";
     const fontSize = 13;
     const columns = Math.floor(canvas.width / fontSize);
     const drops: number[] = Array(columns)
@@ -37,7 +37,7 @@ export default function MigrationProtocolClient() {
       if (!ctx || !canvas) return;
       ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(0, 255, 65, 0.75)";
+      ctx.fillStyle = "#ff2600bf";
       ctx.font = `${fontSize}px monospace`;
 
       for (let i = 0; i < drops.length; i++) {

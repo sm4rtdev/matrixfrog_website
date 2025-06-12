@@ -808,7 +808,7 @@ export default function MatrixConstruct() {
               gap: "5px",
             }}
           >
-            $MATRIX: {matrixBalance} {""}{" "}
+            $MATRIXFROG: {matrixBalance} {""}{" "}
             <Image src="/emerald.png" alt="MATRIX" width={15} height={15} />
           </div>
         </div>
