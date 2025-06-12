@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import InitialPage from "./initial-page";
@@ -225,7 +224,7 @@ export default function Home() {
 
       // MatrixFrog Regen Farbe - immer im Matrix-Grün
       // ctx.fillStyle = "rgba(0, 255, 65, 0.75)";
-      ctx.fillStyle = "#ff2600bf";
+      ctx.fillStyle = "#800000";
       ctx.font = `${fontSize}px monospace`;
 
       for (let i = 0; i < drops.length; i++) {
