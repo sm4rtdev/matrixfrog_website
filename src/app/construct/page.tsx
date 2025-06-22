@@ -175,7 +175,7 @@
 //     </div>
 //   );
 // }
-// ------------------------------------------- INITIAL CODE -------------------------------------------
+// ------------------------------------------- INITIAL -------------------------------------------
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -188,11 +188,11 @@ export default function ConstructPage() {
   const [isHovered, setIsHovered] = useState(false);
   const [firstText, setFirstText] = useState(true);
   const [secondText, setSecondText] = useState(false);
-  const [matrixBalance, setMatrixBalance] = useState<number | null>(null);
+  const [matrixBalance, setMatrixBalance] = useState<string | null>(null);
 
   useEffect(() => {
     const bal = window.localStorage.getItem("Mat_bal");
-    setMatrixBalance(bal ? parseFloat(bal) : null);
+    setMatrixBalance(bal || null);
   }, []);
 
   useEffect(() => {
