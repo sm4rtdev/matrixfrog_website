@@ -2943,7 +2943,7 @@ export default function MatrixConstruct() {
                       }}
                     ></div>
                     <h3 style={{ color: "#dc2626", fontFamily: "monospace" }}>
-                      TAKE THE RED PILL
+                      THE RED PATH
                     </h3>
                     <p
                       style={{
@@ -2994,7 +2994,7 @@ export default function MatrixConstruct() {
                       }}
                     ></div>
                     <h3 style={{ color: "#4ade80", fontFamily: "monospace" }}>
-                      STAY HIDDEN
+                    THE GREEN PATH
                     </h3>
                     <p
                       style={{
@@ -3144,8 +3144,8 @@ export default function MatrixConstruct() {
                     flexWrap: "wrap",
                   }}
                 >
-                  <p>Red Pill Votes: {votingStats.redPillVotes}</p>
-                  <p>Green Pill Votes: {votingStats.bluePillVotes}</p>
+                  <p>Red Votes: {votingStats.redPillVotes}</p>
+                  <p>Green Votes: {votingStats.bluePillVotes}</p>
                   <p>Total Votes: {votingStats.totalVotes}</p>
                 </div>
               </Card>
