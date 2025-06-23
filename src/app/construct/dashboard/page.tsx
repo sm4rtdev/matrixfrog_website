@@ -2300,7 +2300,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 
-const MFG_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_MFG_TOKEN_ADDRESS?.toString();
+const MFG_TOKEN_ADDRESS = "0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5";
 
 const ERC20_ABI = [
   {
@@ -2506,11 +2506,10 @@ export default function MatrixConstruct() {
       setVoteError(null);
       setVoteSuccess(false);
 
-      const RECEIVER_ADDRESS =
-        process.env.NEXT_PUBLIC_RECEIVER_ADDRESS?.toString();
+      const RECEIVER_ADDRESS = "0x81D1851281d12733DCF175A3476FD1f1B245aE53";
 
       await writeContract({
-        address: MFG_TOKEN_ADDRESS as `0x${string}`,
+        address: MFG_TOKEN_ADDRESS,
         abi: ERC20_ABI,
         functionName: "transfer",
         args: [RECEIVER_ADDRESS, requiredAmount],
@@ -2553,6 +2552,7 @@ export default function MatrixConstruct() {
       value: "blooper-1",
       title: "Blooper 1: Behind the Scenes",
       src: "https://www.youtube.com/embed/54CTSANSdUU?enablejsapi=1",
+      // src: "https://www.youtube.com/watch?v=0roDfig5Ycs",
     },
     {
       value: "blooper-2",
@@ -2727,7 +2727,8 @@ export default function MatrixConstruct() {
                       <iframe
                         width="100%"
                         height="315"
-                        src="https://www.youtube.com/embed/u4uWWpSvZp8?enablejsapi=1"
+                        // src="https://www.youtube.com/embed/u4uWWpSvZp8?enablejsapi=1"
+                        src="https://www.youtube.com/embed/0roDfig5Ycs"
                         title="YouTube video player"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -2951,9 +2952,11 @@ export default function MatrixConstruct() {
                         color: "#4ade80",
                       }}
                     >
-                      You take the red pill, you stay in Wonderland, and I show
+                      {/* You take the red pill, you stay in Wonderland, and I show
                       you how deep the frog-hole goes. Embrace the croak, and
-                      let your true amphibious self leap into the unknown.
+                      let your true amphibious self leap into the unknown. */}
+                      The Red Path: The Human. A harrowing journey into the
+                      depths of the mind, where sanity hangs by a thread.
                     </p>
                     {selected === "red" && (
                       <p
@@ -2972,11 +2975,11 @@ export default function MatrixConstruct() {
                   <div
                     onClick={() => setSelected("blue")}
                     style={{
-                      border: "1px solid #2563eb",
+                      border: "1px solid #4ade80",
                       padding: "0px 16px 8px 16px",
                       borderRadius: "8px",
                       backgroundColor:
-                        selected === "blue" ? "#1e3a8a" : "#1a1a1a",
+                        selected === "blue" ? "#29ce666f" : "#1a1a1a",
                       cursor: "pointer",
                       flex: 1,
                     }}
@@ -2984,13 +2987,13 @@ export default function MatrixConstruct() {
                     <div
                       style={{
                         height: "5px",
-                        backgroundColor: "#2563eb",
+                        backgroundColor: "#4ade80",
                         margin: "-1px -16px 12px -16px",
                         borderTopLeftRadius: "8px",
                         borderTopRightRadius: "8px",
                       }}
                     ></div>
-                    <h3 style={{ color: "#3b82f6", fontFamily: "monospace" }}>
+                    <h3 style={{ color: "#4ade80", fontFamily: "monospace" }}>
                       STAY HIDDEN
                     </h3>
                     <p
@@ -3000,18 +3003,21 @@ export default function MatrixConstruct() {
                         color: "#4ade80",
                       }}
                     >
-                      You take the blue pill, the story ends, you wake up in
+                      {/* You take the blue pill, the story ends, you wake up in
                       your bed and believe whatever you want to believe. Perhaps
                       these are just delusions, but if this isn&apos;t real,
                       then what truly is, and how long can you deny the frog
-                      within?
+                      within? */}
+                      The Green Path: The Amphibian. A profound exploration
+                      beyond perceived reality, embracing a new, expansive
+                      consciousness.
                     </p>
                     {selected === "blue" && (
                       <p
                         style={{
                           fontSize: "0.65rem",
                           marginTop: "8px",
-                          color: "#93c5fd",
+                          color: "#4ade80",
                           fontFamily: "monospace",
                         }}
                       >
@@ -3139,7 +3145,7 @@ export default function MatrixConstruct() {
                   }}
                 >
                   <p>Red Pill Votes: {votingStats.redPillVotes}</p>
-                  <p>Blue Pill Votes: {votingStats.bluePillVotes}</p>
+                  <p>Green Pill Votes: {votingStats.bluePillVotes}</p>
                   <p>Total Votes: {votingStats.totalVotes}</p>
                 </div>
               </Card>
