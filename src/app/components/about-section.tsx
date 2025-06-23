@@ -160,8 +160,9 @@ export default function AboutSection() {
               {displayText.map((line, index) => (
                 <div
                   key={index}
-                  className={`console-line ${line.startsWith(">") ? "command-line" : "output-line"
-                    }`}
+                  className={`console-line ${
+                    line.startsWith(">") ? "command-line" : "output-line"
+                  }`}
                 >
                   {line}
                 </div>
@@ -177,9 +178,11 @@ export default function AboutSection() {
                 >
                   <div className="matrix-portal-inner">
                     <a
-                      href="https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919"
-                      className={`buy-matrix-button ${isPulsing ? "pulse-active" : ""
-                        } ${isGlitching ? "glitching" : ""}`}
+                      // href="https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919"
+                      href="https://pepuswap.com//#/swap?inputCurrency=ETH&outputCurrency=0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5"
+                      className={`buy-matrix-button ${
+                        isPulsing ? "pulse-active" : ""
+                      } ${isGlitching ? "glitching" : ""}`}
                       onClick={handleButtonClick}
                       target="_blank"
                       rel="noopener noreferrer"
