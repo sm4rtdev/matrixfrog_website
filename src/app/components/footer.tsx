@@ -34,10 +34,10 @@ export default function Footer() {
               <span className="text-matrix-green hover-white px-4">About</span>
             </Link>
             <Link href={getNavLink("buybot")}>
-              <span className="text-matrix-green hover-white px-4">BuyBot</span>
+              <span className="text-matrix-green hover-white px-4">Buy</span>
             </Link>
-            <Link href="/migration-protocol">
-              <span className="text-matrix-green hover-white px-4">Treasury</span>
+            <Link href="https://pepuswap.com//#/swap?inputCurrency=ETH&outputCurrency=0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5" target='_blank'>
+              <span className="text-matrix-green hover-white px-4">Construct</span>
             </Link>
             <Link href={getNavLink("roadmap")}>
               <span className="text-matrix-green hover-white px-4">Roadmap</span>
