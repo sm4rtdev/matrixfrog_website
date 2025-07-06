@@ -169,8 +169,6 @@ export default function MatrixConstruct() {
     redPillVotes,
     greenPillVotes,
     totalVotes,
-    redPillBalance,
-    greenPillBalance,
     isLoading: votingStatsLoading,
     refetch: refetchVotingStats,
   } = useVotingWalletBalances();
