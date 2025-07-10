@@ -143,7 +143,7 @@ export default function Navbar() {
   // Check if mobile view
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1024);
     };
     checkIfMobile();
     window.addEventListener("resize", checkIfMobile);
@@ -274,7 +274,7 @@ export default function Navbar() {
       setTimeout(() => setNetworkError(false), 3000);
       return;
     }
-    if (Number(tokenBalance.replace(/,/g, "")) < 55000) {
+    if (Number(tokenBalance.replace(/,/g, "")) < 100000) {
       setTokenError(true);
       setTimeout(() => setTokenError(false), 2000);
       return;
@@ -341,7 +341,8 @@ export default function Navbar() {
                 <div className="nav-items">
                   <NavLink href={getNavLink("about")} label="About" />
                   <div className="divider">|</div>
-                  <NavLink href={getNavLink("buybot")} label="BuyBot" />
+                  {/* <NavLink href={getNavLink("buybot")} label="BuyBot" /> */}
+                  <NavLink href={getNavLink("buy")} label="Buy" />
                   <div className="divider">|</div>
                   <NavLink href="/migration-protocol" label="Treasury" />
                   <div className="divider">|</div>
@@ -363,7 +364,7 @@ export default function Navbar() {
                     )}
                     {tokenError && isConnected && isCorrectNetwork && (
                       <span className="absolute text-[var(--matrix-red)] text-xs mt-1 left-0 right-0 text-center warning-animation">
-                        MFG Token is less then 55000
+                        MFG Token is less then 100000
                       </span>
                     )}
                   </div>
@@ -647,7 +648,20 @@ export default function Navbar() {
 
           {/* Mobile Menu */}
           {isMobile && menuOpen && (
-            <MobileMenu getNavLink={getNavLink} setMenuOpen={setMenuOpen} />
+            <MobileMenu
+              getNavLink={getNavLink}
+              setMenuOpen={setMenuOpen}
+              isConnected={isConnected}
+              isConnecting={isConnecting}
+              connectMetaMask={connectMetaMask}
+              connectWalletConnect={connectWalletConnect}
+              connectCoinbase={connectCoinbase}
+              handleDisconnect={handleDisconnect}
+              formattedAddress={formattedAddress}
+              tokenBalance={tokenBalance}
+              isCorrectNetwork={isCorrectNetwork}
+              handleNetworkSwitch={handleNetworkSwitch}
+            />
           )}
         </div>
       </nav>

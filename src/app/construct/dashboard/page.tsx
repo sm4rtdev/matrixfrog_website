@@ -339,6 +339,7 @@ export default function MatrixConstruct() {
           padding: "16px",
           borderBottom: "1px solid rgba(34,197,94,0.3)",
         }}
+        className="construct-header"
       >
         <div
           style={{
@@ -369,6 +370,7 @@ export default function MatrixConstruct() {
                 textShadow: "0 0 10px rgba(0, 255, 0, 0.5)",
                 color: "var(--matrix-text-light)",
               }}
+              className="construct-title"
             >
               THE CONSTRUCT
             </div>
@@ -394,13 +396,14 @@ export default function MatrixConstruct() {
               alignItems: "center",
               gap: "5px",
             }}
+            className="construct-balance"
           >
             $MATRIXFROG: {balanceLoading ? "Loading..." : mfgBalance}{" "}
             <Image src="/emerald.png" alt="MATRIX" width={15} height={15} />
           </div>
         </div>
       </header>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex" }} className="construct-dashboard">
         {/* Sidebar */}
         <div
           style={{
@@ -409,6 +412,7 @@ export default function MatrixConstruct() {
             borderRight: "1px solid rgba(34,197,94,0.3)",
             minHeight: "100vh",
           }}
+          className="construct-sidebar"
         >
           <nav
             style={{
@@ -456,7 +460,7 @@ export default function MatrixConstruct() {
         </div>
 
         {/* Main Content */}
-        <main style={{ flex: 1, padding: "24px" }}>
+        <main style={{ flex: 1, padding: "24px" }} className="construct-main">
           {activeSection === "saga" ? (
             <>
               {/* Video Player Section */}

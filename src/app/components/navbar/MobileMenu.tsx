@@ -1,20 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { useAccount } from "wagmi";
 
 interface MobileMenuProps {
   getNavLink: (anchor: string) => string;
   setMenuOpen: (isOpen: boolean) => void;
+  isConnected: boolean;
+  isConnecting: boolean;
+  connectMetaMask: () => void;
+  connectWalletConnect: () => void;
+  connectCoinbase: () => void;
+  handleDisconnect: () => void;
+  formattedAddress: string;
+  tokenBalance: string;
+  isCorrectNetwork: boolean;
+  handleNetworkSwitch: () => void;
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ getNavLink, setMenuOpen }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({
+  getNavLink,
+  setMenuOpen,
+  isConnected,
+  isConnecting,
+  connectMetaMask,
+  connectWalletConnect,
+  connectCoinbase,
+  handleDisconnect,
+  formattedAddress,
+  tokenBalance,
+  isCorrectNetwork,
+  handleNetworkSwitch
+}) => {
+  const [showWalletOptions, setShowWalletOptions] = useState(false);
   return (
     <div className="mobile-menu">
       <div className="mobile-menu-container">
         <Link href={getNavLink("about")} onClick={() => setMenuOpen(false)}>
           <span className="mobile-menu-link hover-white">About</span>
         </Link>
-        <Link href={getNavLink("buybot")} onClick={() => setMenuOpen(false)}>
-          <span className="mobile-menu-link hover-white">BuyBot</span>
+        <Link href={getNavLink("buy")} onClick={() => setMenuOpen(false)}>
+          <span className="mobile-menu-link hover-white">Buy</span>
         </Link>
 
         {/* Treasury */}
@@ -23,9 +49,19 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ getNavLink, setMenuOpen }) => {
         </Link>
 
         {/* Construct */}
-        <Link href="/construct" onClick={() => setMenuOpen(false)}>
+        <div
+          onClick={() => {
+            if (!isConnected) {
+              alert("Please connect your wallet first to access the Construct");
+              return;
+            }
+            setMenuOpen(false);
+            window.location.href = "/construct";
+          }}
+          style={{ cursor: "pointer" }}
+        >
           <span className="mobile-menu-link hover-white">Construct</span>
-        </Link>
+        </div>
 
         {/* Roadmap */}
         <Link href={getNavLink("roadmap")} onClick={() => setMenuOpen(false)}>
@@ -88,36 +124,165 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ getNavLink, setMenuOpen }) => {
           </a>
         </div>
 
-        {/* Mobile Wallet Connect MatrixFrog Glitch */}
+        {/* Mobile Wallet Connect */}
         <div
           style={{
             marginTop: "16px",
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
-          <div
-            className="matrix-glitch"
-            style={{
-              pointerEvents: "none",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <svg
-              style={{
-                width: "1.25rem",
-                height: "1.25rem",
-                marginRight: "6px",
-              }}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
-            </svg>
-            Wallet Connect
-          </div>
+          {isConnected ? (
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "0.8rem", color: "#4ade80", marginBottom: "4px" }}>
+                {formattedAddress}
+              </div>
+              <div style={{ fontSize: "0.7rem", color: "#16a34a", marginBottom: "8px" }}>
+                $MATRIX: {isCorrectNetwork ? tokenBalance : "0"}
+              </div>
+              <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
+                <button
+                  onClick={handleDisconnect}
+                  style={{
+                    padding: "4px 8px",
+                    fontSize: "0.7rem",
+                    backgroundColor: "transparent",
+                    border: "1px solid #dc2626",
+                    color: "#dc2626",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Disconnect
+                </button>
+                {!isCorrectNetwork && (
+                  <button
+                    onClick={handleNetworkSwitch}
+                    style={{
+                      padding: "4px 8px",
+                      fontSize: "0.7rem",
+                      backgroundColor: "#dc2626",
+                      border: "1px solid #dc2626",
+                      color: "white",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Switch Network
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div style={{ textAlign: "center" }}>
+              <button
+                onClick={() => setShowWalletOptions(!showWalletOptions)}
+                style={{
+                  padding: "8px 16px",
+                  fontSize: "0.8rem",
+                  backgroundColor: "transparent",
+                  border: "1px solid #4ade80",
+                  color: "#4ade80",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                }}
+              >
+                <svg
+                  style={{ width: "1rem", height: "1rem" }}
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+                </svg>
+                {isConnecting ? "Connecting..." : "Connect Wallet"}
+              </button>
+
+              {showWalletOptions && (
+                <div
+                  style={{
+                    marginTop: "8px",
+                    padding: "8px",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    border: "1px solid #4ade80",
+                    borderRadius: "4px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      connectMetaMask();
+                      setShowWalletOptions(false);
+                    }}
+                    disabled={isConnecting}
+                    style={{
+                      padding: "6px 8px",
+                      fontSize: "0.7rem",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "#4ade80",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <Image src="/metamask-icon.svg" alt="MetaMask" width={12} height={12} />
+                    MetaMask
+                  </button>
+                  <button
+                    onClick={() => {
+                      connectWalletConnect();
+                      setShowWalletOptions(false);
+                    }}
+                    disabled={isConnecting}
+                    style={{
+                      padding: "6px 8px",
+                      fontSize: "0.7rem",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "#4ade80",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <Image src="/link-icon.svg" alt="WalletConnect" width={12} height={12} />
+                    Wallet Connect
+                  </button>
+                  <button
+                    onClick={() => {
+                      connectCoinbase();
+                      setShowWalletOptions(false);
+                    }}
+                    disabled={isConnecting}
+                    style={{
+                      padding: "6px 8px",
+                      fontSize: "0.7rem",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "#4ade80",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <Image src="/coinbase-icon.svg" alt="Coinbase" width={12} height={12} />
+                    Coinbase Wallet
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -691,7 +691,7 @@ h6 {
 
 .glow-text-blue {
   color: white;
-  text-shadow: 0 0 5px rgba(0, 100, 255, 0.5), 0 0 10px rgba(0, 100, 255, 0.3);
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 0, 0, 0.3);
   font-family: "Courier New", monospace;
   font-weight: bold;
   letter-spacing: 1px;
@@ -966,4 +966,209 @@ h6 {
   transform: scale(1.15) rotate(3deg);
   filter: brightness(1.3) drop-shadow(0 0 20px rgba(255, 255, 255, 0.7));
   transition: all 0.3s ease;
+}
+
+/* ===== CONSTRUCT DASHBOARD RESPONSIVE STYLES ===== */
+
+/* Large tablets and small desktops */
+@media (max-width: 1024px) {
+  .construct-dashboard {
+    flex-direction: column !important;
+  }
+
+  .construct-sidebar {
+    width: 100% !important;
+    min-height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.3) !important;
+    padding: 12px !important;
+  }
+
+  .construct-main {
+    padding: 16px !important;
+  }
+
+  .construct-header {
+    flex-direction: column !important;
+    gap: 12px !important;
+    text-align: center !important;
+  }
+
+  .construct-title {
+    font-size: 1.8em !important;
+  }
+
+  .construct-balance {
+    font-size: 1rem !important;
+  }
+
+  .video-container {
+    height: 250px !important;
+  }
+
+  .video-container iframe {
+    height: 100% !important;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .construct-header {
+    padding: 12px !important;
+  }
+
+  .construct-title {
+    font-size: 1.5em !important;
+  }
+
+  .construct-balance {
+    font-size: 0.9rem !important;
+  }
+
+  .construct-main {
+    padding: 12px !important;
+  }
+
+  .video-container {
+    height: 200px !important;
+  }
+
+  .construct-sidebar nav {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .construct-sidebar nav>div {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .construct-header {
+    padding: 8px !important;
+  }
+
+  .construct-title {
+    font-size: 1.3em !important;
+  }
+
+  .construct-balance {
+    font-size: 0.8rem !important;
+  }
+
+  .construct-main {
+    padding: 8px !important;
+  }
+
+  .video-container {
+    height: 180px !important;
+  }
+
+  .construct-sidebar {
+    padding: 8px !important;
+  }
+
+  .construct-sidebar nav {
+    gap: 6px !important;
+  }
+
+  .construct-sidebar nav>div {
+    min-width: 100px;
+    padding: 8px !important;
+  }
+
+  .construct-sidebar nav>div>div {
+    font-size: 0.75rem !important;
+  }
+
+  .construct-sidebar nav>div>div>div:last-child {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 360px) {
+  .construct-title {
+    font-size: 1.1em !important;
+  }
+
+  .construct-balance {
+    font-size: 0.75rem !important;
+  }
+
+  .video-container {
+    height: 150px !important;
+  }
+
+  .construct-sidebar nav>div {
+    min-width: 90px;
+    padding: 6px !important;
+  }
+
+  .construct-sidebar nav>div>div {
+    font-size: 0.7rem !important;
+  }
+
+  .construct-sidebar nav>div>div>div:last-child {
+    font-size: 0.6rem !important;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .construct-sidebar {
+    padding: 6px !important;
+  }
+
+  .construct-sidebar nav {
+    gap: 4px !important;
+  }
+
+  .construct-sidebar nav>div {
+    padding: 6px !important;
+  }
+
+  .video-container {
+    height: 120px !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .construct-sidebar {
+    border-width: 0.5px !important;
+  }
+
+  .construct-header {
+    border-width: 0.5px !important;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .construct-sidebar nav>div {
+    transition: none !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .construct-dashboard {
+    background-color: #000000 !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .construct-sidebar {
+    display: none !important;
+  }
+
+  .construct-main {
+    padding: 0 !important;
+  }
 }

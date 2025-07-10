@@ -314,23 +314,21 @@ export default function Home() {
                   {/* Smaller and narrower banner format with fixed height for terminal */}
                   <div className="w-full flex justify-center fade-in fade-in-delay-1">
                     <div
-                      className={`terminal-container bg-black bg-opacity-50 border border-matrix-green rounded-md p-4 scale-in-center ${
-                        pillFlashEffect !== "none"
-                          ? "terminal-flash terminal-glitch"
-                          : ""
-                      }`}
+                      className={`terminal-container bg-black bg-opacity-50 border border-matrix-green rounded-md p-4 scale-in-center ${pillFlashEffect !== "none"
+                        ? "terminal-flash terminal-glitch"
+                        : ""
+                        }`}
                     >
                       {/* MatrixFrog Zitat (wenn vorhanden) oder Standard-Text */}
                       {matrixQuote ? (
                         <div className="text-matrix-green p-2 overflow-hidden">
                           <p
-                            className={`text-xl leading-relaxed ${
-                              quoteTransition === "fadeOut"
-                                ? "text-fade-out"
-                                : quoteTransition === "typing"
+                            className={`text-xl leading-relaxed ${quoteTransition === "fadeOut"
+                              ? "text-fade-out"
+                              : quoteTransition === "typing"
                                 ? "text-fade-in"
                                 : ""
-                            }`}
+                              }`}
                           >
                             {displayedQuote}
                             {quoteTransition === "typing" && (
@@ -422,9 +420,8 @@ export default function Home() {
                           alt="Red Pill"
                           width={110}
                           height={110}
-                          className={`pill-image ${
-                            pillFlashEffect === "red" ? "pill-flash-red" : ""
-                          }`}
+                          className={`pill-image ${pillFlashEffect === "red" ? "pill-flash-red" : ""
+                            }`}
                           style={{
                             filter:
                               "drop-shadow(0 0 10px rgba(255, 0, 0, 0.7))",
@@ -458,12 +455,10 @@ export default function Home() {
                           alt="Green Pill"
                           width={110}
                           height={110}
-                          className={`pill-image ${
-                            pillFlashEffect === "blue" ? "pill-flash-blue" : ""
-                          }`}
+                          className={`pill-image ${pillFlashEffect === "blue" ? "pill-flash-blue" : ""
+                            }`}
                           style={{
                             filter:
-                              // "drop-shadow(0 0 10px rgba(0, 100, 255, 0.7))",
                               "drop-shadow(0 0 10px rgba(0, 255, 8, 0.7))",
                             transition: "all 0.3s ease",
                             maxWidth: "100%",

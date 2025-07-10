@@ -22,11 +22,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.03) 50%,
-    rgba(0, 0, 0, 0.1) 50%
-  );
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.03) 50%,
+      rgba(0, 0, 0, 0.1) 50%);
   background-size: 100% 4px;
   z-index: 10;
   pointer-events: none;
@@ -132,6 +130,7 @@
   font-weight: bold;
   text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
 }
+
 .tokenBalance {
   margin-top: 0.5rem;
   font-size: 1rem;
@@ -139,6 +138,7 @@
   letter-spacing: 1px;
   text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
 }
+
 .tokenMessage {
   font-size: 1rem;
   color: #00ff41;
@@ -178,12 +178,14 @@
 }
 
 @keyframes pulse {
+
   0%,
   80%,
   80% {
     opacity: 0.2;
     transform: scale(1);
   }
+
   40% {
     opacity: 1;
     transform: scale(1.4);
@@ -195,16 +197,19 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 @keyframes blink {
+
   0%,
   100% {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
@@ -214,6 +219,7 @@
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 0 100%;
   }
@@ -233,5 +239,466 @@
 
   .progressContainer {
     width: 90%;
+  }
+}
+
+/* Construct Page Styles */
+.container {
+  min-height: 100vh;
+  background-color: black;
+  color: #00ff41;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal {
+  background-color: rgba(0, 30, 0, 0.3);
+  border: 1px solid #00ff41;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+}
+
+.terminalText {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+  color: #00ff41;
+}
+
+.progressContainer {
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+.progressLabel {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #00ff41;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.7);
+}
+
+.progressBar {
+  width: 100%;
+  height: 4px;
+  background-color: #003b09;
+  border: 1px solid #00ff41;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.progressFill {
+  height: 100%;
+  background-color: #00ff41;
+  border-radius: 1px;
+  transition: width 0.1s linear;
+}
+
+.progressValue {
+  text-align: right;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: #00ff41;
+}
+
+.progressMessage {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #00ff41;
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+}
+
+.tokenBalance {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #00ff41;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+}
+
+.tokenMessage {
+  font-size: 1rem;
+  color: #00ff41;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+  max-width: fit-content;
+  margin: 0.5rem auto;
+  background-color: rgba(0, 59, 9, 0.482);
+  opacity: 0.8;
+  padding: 4px 10px;
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot,
+.dot2,
+.dot3 {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #00ff41;
+  opacity: 0.2;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.dot {
+  animation-delay: 0s;
+}
+
+.dot2 {
+  animation-delay: 0.4s;
+}
+
+.dot3 {
+  animation-delay: 0.6s;
+}
+
+@keyframes pulse {
+
+  0%,
+  80%,
+  80% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+
+/* Large tablets and small desktops */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .terminal {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .progressContainer {
+    max-width: 500px;
+  }
+
+  .progressLabel {
+    font-size: 1.3rem;
+  }
+
+  .progressMessage {
+    font-size: 0.9rem;
+  }
+
+  .tokenBalance {
+    font-size: 0.9rem;
+  }
+
+  .tokenMessage {
+    font-size: 0.9rem;
+    padding: 3px 8px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .terminal {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+  }
+
+  .terminalText {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .progressContainer {
+    max-width: 400px;
+  }
+
+  .progressLabel {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .progressMessage {
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+  }
+
+  .tokenBalance {
+    font-size: 0.85rem;
+  }
+
+  .tokenMessage {
+    font-size: 0.85rem;
+    padding: 3px 6px;
+    gap: 0.25rem;
+  }
+
+  .dot,
+  .dot2,
+  .dot3 {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .terminal {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+  }
+
+  .terminalText {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .progressContainer {
+    max-width: 100%;
+  }
+
+  .progressLabel {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .progressMessage {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .tokenBalance {
+    font-size: 0.8rem;
+  }
+
+  .tokenMessage {
+    font-size: 0.8rem;
+    padding: 2px 4px;
+    gap: 0.25rem;
+    max-width: 90%;
+  }
+
+  .dot,
+  .dot2,
+  .dot3 {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 360px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .terminal {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .terminalText {
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .progressLabel {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .progressMessage {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .tokenBalance {
+    font-size: 0.75rem;
+  }
+
+  .tokenMessage {
+    font-size: 0.75rem;
+    padding: 2px 3px;
+    gap: 0.25rem;
+    max-width: 95%;
+  }
+
+  .dot,
+  .dot2,
+  .dot3 {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .container {
+    padding: 0.5rem;
+    min-height: 100vh;
+  }
+
+  .terminal {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .progressContainer {
+    margin-top: 0.5rem;
+  }
+
+  .progressLabel {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .progressMessage {
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+
+  .tokenBalance {
+    font-size: 0.8rem;
+  }
+
+  .tokenMessage {
+    font-size: 0.8rem;
+    padding: 2px 4px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .terminal {
+    border-width: 0.5px;
+  }
+
+  .progressBar {
+    border-width: 0.5px;
+  }
+
+  .tokenMessage {
+    border-width: 0.5px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .progressFill {
+    transition: none;
+  }
+
+  .dot,
+  .dot2,
+  .dot3 {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #000000;
+  }
+
+  .terminal {
+    background-color: rgba(0, 30, 0, 0.4);
+  }
+}
+
+/* Print styles */
+@media print {
+  .container {
+    background-color: white;
+    color: black;
+  }
+
+  .terminal {
+    border-color: black;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .progressBar {
+    border-color: black;
+    background-color: #f0f0f0;
+  }
+
+  .progressFill {
+    background-color: black;
+  }
+
+  .dot,
+  .dot2,
+  .dot3 {
+    background-color: black;
+    animation: none;
   }
 }
