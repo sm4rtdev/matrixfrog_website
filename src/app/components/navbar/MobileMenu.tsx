@@ -56,7 +56,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             }
 
             // Check if user has enough tokens (100,000 MatrixFrog)
-            const balanceNumber = parseFloat(tokenBalance.replace(/,/g, ""));
+            // const balanceNumber = parseFloat(tokenBalance.replace(/,/g, ""));
             if (Number(tokenBalance.replace(/,/g, "")) < 100000) {
               alert("You need at least 100,000 MatrixFrog tokens to access the Construct. Current balance: " + tokenBalance);
               return;

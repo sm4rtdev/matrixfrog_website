@@ -2,7 +2,6 @@
 import { Progress } from "@/app/components/ui/progress";
 import { BarChart3, FileVideo, User } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   Card,
