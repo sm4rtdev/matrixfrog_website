@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useAccount } from "wagmi";
 
 interface MobileMenuProps {
   getNavLink: (anchor: string) => string;

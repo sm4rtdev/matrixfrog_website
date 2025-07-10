@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import React, { useState } from "react";
 
 export default function BuyBotSection() {
   // State for the active tab
@@ -22,10 +21,10 @@ export default function BuyBotSection() {
       <div className="terminal-text-container">
         <h3 className="text-matrix-green font-bold text-xl mb-4">What is Peptrix?</h3>
         <p className="text-white leading-relaxed mb-4">
-          You've stumbled into the Peptrix, a community-driven "choose your own adventure" video series where you dictate the narrative!
+          You&apos;ve stumbled into the Peptrix, a community-driven &ldquo;choose your own adventure&rdquo; video series where you dictate the narrative!
         </p>
         <p className="text-white leading-relaxed mb-4">
-          At the end of each Peptrix episode, you'll enter the Construct and send MatrixFrog to one of two wallets. The wallet that receives the most MatrixFrog by the end of the voting period will determine the next episode's storyline.
+          At the end of each Peptrix episode, you&apos;ll enter the Construct and send MatrixFrog to one of two wallets. The wallet that receives the most MatrixFrog by the end of the voting period will determine the next episode&apos;s storyline.
         </p>
         <p className="text-white leading-relaxed mb-4">
           Dive into the first episode of the Peptrix series, <b>Flying Dreams</b>, and begin shaping your reality!
@@ -36,7 +35,7 @@ export default function BuyBotSection() {
       <div className="terminal-text-container">
         <h3 className="text-matrix-green font-bold text-xl mb-4">How to Participate</h3>
         <p className="text-white leading-relaxed mb-4">
-          To unlock the Construct and participate, you'll need to hold at least <b>100,000 MatrixFrog</b>.
+          To unlock the Construct and participate, you&apos;ll need to hold at least <b>100,000 MatrixFrog</b>.
         </p>
         <p className="text-white leading-relaxed mb-4">
           You can acquire MatrixFrog by swapping Pepe Unchained on their website. Just copy the MatrixFrog Contract Address below and paste it into the swap function at
@@ -57,7 +56,7 @@ export default function BuyBotSection() {
           {copied && <span className="ml-2 text-xs text-matrix-green">Copied!</span>}
         </div>
         <p className="text-white leading-relaxed mb-4">
-          If you're new to Pepe Unchained and need to acquire and bridge it first, you can find detailed instructions on their website:
+          If you&apos;re new to Pepe Unchained and need to acquire and bridge it first, you can find detailed instructions on their website:
           <a href="https://pepeunchained.com" target="_blank" rel="noopener noreferrer" className="text-matrix-green hover:text-white ml-1 underline">pepeunchained.com</a>.
         </p>
       </div>
