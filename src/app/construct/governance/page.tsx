@@ -141,18 +141,7 @@ export default function MatrixConstruct() {
                         paddingRight: "10px",
                     }}
                 >
-                    <Link
-                        href={"/"}
-                        style={{
-                            padding: "4px 8px",
-                            border: "1px solid red",
-                            fontSize: "0.75rem",
-                            color: "var(--matrix-red)",
-                            cursor: "pointer",
-                        }}
-                    >
-                        EXIT
-                    </Link>
+
                     <div>
                         <div
                             style={{

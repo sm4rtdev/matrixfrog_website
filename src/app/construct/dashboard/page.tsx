@@ -306,7 +306,6 @@ export default function MatrixConstruct() {
       value: "blooper-1",
       title: "Blooper 1: Behind the Scenes",
       src: "https://www.youtube.com/embed/54CTSANSdUU?enablejsapi=1",
-      // src: "https://www.youtube.com/watch?v=0roDfig5Ycs",
     },
     {
       value: "blooper-2",
@@ -350,18 +349,6 @@ export default function MatrixConstruct() {
             paddingRight: "10px",
           }}
         >
-          <Link
-            href={"/"}
-            style={{
-              padding: "4px 8px",
-              border: "1px solid red",
-              fontSize: "0.75rem",
-              color: "var(--matrix-red)",
-              cursor: "pointer",
-            }}
-          >
-            EXIT
-          </Link>
           <div>
             <div
               style={{
