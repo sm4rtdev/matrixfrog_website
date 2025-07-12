@@ -38,8 +38,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         <Link href={getNavLink("about")} onClick={() => setMenuOpen(false)}>
           <span className="mobile-menu-link hover-white">About</span>
         </Link>
-        <Link href={getNavLink("buy")} onClick={() => setMenuOpen(false)}>
-          <span className="mobile-menu-link hover-white">Buy</span>
+        <Link href={getNavLink("buybot")} onClick={() => setMenuOpen(false)}>
+          <span className="mobile-menu-link hover-white">PepTrix</span>
         </Link>
 
         {/* Treasury */}

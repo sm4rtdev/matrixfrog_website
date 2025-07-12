@@ -377,7 +377,7 @@ export default function Navbar() {
             {/* Right section - social icons or mobile menu button */}
             <div
               className="right-section"
-              style={{ paddingRight: "80px", gap: "15px" }}
+              style={{ paddingRight: "10px", gap: "15px" }}
             >
               {!isMobile ? (
                 <>
