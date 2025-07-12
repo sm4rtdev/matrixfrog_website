@@ -54,7 +54,7 @@ export default function RoadmapSection() {
       title: "CONSTRUCT PLATFORM",
       icon: "🖥️",
       description:
-        "Token-gated interactive video platform with voting mechanics for 50k+ $MatrixFrog holders",
+        "Token-gated interactive video platform with voting mechanics for 100k+ $MatrixFrog holders",
     },
     {
       title: "COMMUNITY VOTING",
@@ -237,7 +237,7 @@ export default function RoadmapSection() {
               <ul className={styles.incentivesList}>
                 <li>
                   <span className={styles.incentivesBullet}>◉</span>{" "}
-                  <strong>Access:</strong> 50k $MatrixFrog required for
+                  <strong>Access:</strong> 100k $MatrixFrog required for
                   Construct platform access
                 </li>
                 <li>

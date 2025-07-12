@@ -120,7 +120,7 @@ export default function AboutSection() {
       setIsGlitching(false);
       // Öffne in einem neuen Fenster nach dem Glitch-Effekt
       window.open(
-        "https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919",
+        "https://pepuswap.com/#/swap?https://pepuswap.com//#/swap?inputCurrency=ETH&outputCurrency=0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5=0x2044682dad187456af1eee1b4e02bbf0a9abc919",
         "_blank"
       );
     }, 400); // von 500ms auf 400ms reduziert
@@ -174,7 +174,6 @@ export default function AboutSection() {
                 >
                   <div className="matrix-portal-inner">
                     <a
-                      // href="https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919"
                       href="https://pepuswap.com//#/swap?inputCurrency=ETH&outputCurrency=0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5"
                       className={`buy-matrix-button ${isPulsing ? "pulse-active" : ""
                         } ${isGlitching ? "glitching" : ""}`}
