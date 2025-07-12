@@ -45,9 +45,8 @@
 
 /* Terminal styling */
 .terminal {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
+  position: static;
+  margin-bottom: 2rem;
   max-width: 600px;
   width: 90%;
   z-index: 20;
@@ -78,15 +77,13 @@
 
 /* Progress bar styling */
 .progressContainer {
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: static;
   width: 80%;
   /* max-width: 450px; */
   text-align: center;
   z-index: 20;
   animation: fadeIn 0.5s ease;
+  margin-top: 0;
 }
 
 .progressLabel {
