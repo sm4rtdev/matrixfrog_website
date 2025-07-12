@@ -130,11 +130,8 @@ export default function AboutSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="w-full min-h-screen py-12 md:py-24 flex items-center justify-center relative overflow-hidden"
+      className="w-full min-h-screen py-12 md:py-24 flex items-center justify-center relative"
     >
-      {/* Matrix-Code Hintergrund für diese Sektion */}
-      <div className="absolute inset-0 bg-black bg-opacity-90 z-10"></div>
-
       <div className="max-w-5xl w-full mx-auto px-4 md:px-8 relative z-20">
         <h2 className="sr-only">About MatrixFrog</h2>
 
@@ -160,9 +157,8 @@ export default function AboutSection() {
               {displayText.map((line, index) => (
                 <div
                   key={index}
-                  className={`console-line ${
-                    line.startsWith(">") ? "command-line" : "output-line"
-                  }`}
+                  className={`console-line ${line.startsWith(">") ? "command-line" : "output-line"
+                    }`}
                 >
                   {line}
                 </div>
@@ -180,9 +176,8 @@ export default function AboutSection() {
                     <a
                       // href="https://pepuswap.com/#/swap?outputCurrency=0x2044682dad187456af1eee1b4e02bbf0a9abc919"
                       href="https://pepuswap.com//#/swap?inputCurrency=ETH&outputCurrency=0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5"
-                      className={`buy-matrix-button ${
-                        isPulsing ? "pulse-active" : ""
-                      } ${isGlitching ? "glitching" : ""}`}
+                      className={`buy-matrix-button ${isPulsing ? "pulse-active" : ""
+                        } ${isGlitching ? "glitching" : ""}`}
                       onClick={handleButtonClick}
                       target="_blank"
                       rel="noopener noreferrer"

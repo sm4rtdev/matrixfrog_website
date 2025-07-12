@@ -38,7 +38,7 @@ export default function BuyBotSection() {
           To unlock the Construct and participate, you&apos;ll need to hold at least <b>100,000 MatrixFrog</b>.
         </p>
         <p className="text-white leading-relaxed mb-4">
-          You can acquire MatrixFrog by swapping Pepe Unchained on their website. Just copy the MatrixFrog Contract Address below and paste it into the swap function at
+          You can acquire MatrixFrog by swapping Pepe Unchained on their website. Just copy the MatrixFrog Contract Address below and paste it into the swap function at:
           <a href="https://pepuswap.com/#/swap" target="_blank" rel="noopener noreferrer" className="text-matrix-green hover:text-white ml-1 underline">pepuswap.com</a>.
         </p>
         <div className="flex items-center gap-2 mb-4">
@@ -107,7 +107,7 @@ export default function BuyBotSection() {
           <div className="terminal-content">
             {tabContents[activeTab]}
             {/* Video Embed - inside the same terminal frame */}
-            <div className="mt-8 flex flex-col items-center w-[60%] mx-auto items-center">
+            <div className="mt-[50px] flex flex-col items-center w-[60%] mx-auto items-center">
               <div className="w-full max-w-sm aspect-video overflow-hidden border border-matrix-green" style={{ borderRadius: 0 }}>
                 <div className="w-full h-full" style={{ position: 'relative', width: '100%', paddingBottom: '56.25%' }}>
                   <iframe

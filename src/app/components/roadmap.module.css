@@ -21,7 +21,6 @@
   max-width: 72rem;
   width: 100%;
   margin: 0 auto;
-  padding: 0 1rem;
   position: relative;
   z-index: 20;
 }
@@ -277,7 +276,6 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 20px;
 }
 
 .roadmapPhaseCard {

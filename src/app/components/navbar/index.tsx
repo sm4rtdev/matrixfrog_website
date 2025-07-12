@@ -342,7 +342,7 @@ export default function Navbar() {
                   <NavLink href={getNavLink("about")} label="About" />
                   <div className="divider">|</div>
                   {/* <NavLink href={getNavLink("buybot")} label="BuyBot" /> */}
-                  <NavLink href={getNavLink("buy")} label="Buy" />
+                  <NavLink href={getNavLink("buybot")} label="PepTrix" />
                   <div className="divider">|</div>
                   <NavLink href="/migration-protocol" label="Treasury" />
                   <div className="divider">|</div>

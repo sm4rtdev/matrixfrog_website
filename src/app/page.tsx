@@ -377,9 +377,9 @@ export default function Home() {
                 </div>
 
                 {/* Image section moved below the banner - centered */}
-                <div className="w-full flex justify-center mb-8">
+                <div className="w-full flex justify-center mb-8 items-center">
                   <div
-                    className="fade-slide-up"
+                    className="fade-slide-up flex justify-center items-center"
                     style={{ animationDelay: "0.3s" }}
                   >
                     <Image
