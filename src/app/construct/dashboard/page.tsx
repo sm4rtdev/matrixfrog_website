@@ -861,7 +861,7 @@ export default function MatrixConstruct() {
                       transition: "background-color 0.3s ease",
                     }}
                   >
-                    {!isHydrated
+                    {/* {!isHydrated
                       ? "Loading..."
                       : !isConnected
                         ? "Connect Wallet to Vote"
@@ -871,7 +871,10 @@ export default function MatrixConstruct() {
                             ? "Confirming Transaction..."
                             : isConfirming
                               ? "Processing Vote..."
-                              : "Cast Vote (1000 MATRIX)"}
+                              : "Cast Vote (1000 MATRIX)"} */}
+                    {!isHydrated
+                      ? "Loading..."
+                      : "Voting Disabled"}
                   </button>
                 </div>
               </Card>
