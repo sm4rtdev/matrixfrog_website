@@ -815,14 +815,15 @@ export default function MatrixConstruct() {
                 >
                   <button
                     onClick={handleVote}
-                    disabled={
-                      !isHydrated ||
-                      !selected ||
-                      isVoting ||
-                      isPending ||
-                      isConfirming ||
-                      !isConnected
-                    }
+                    // disabled={
+                    //   !isHydrated ||
+                    //   !selected ||
+                    //   isVoting ||
+                    //   isPending ||
+                    //   isConfirming ||
+                    //   !isConnected
+                    // }
+                    disabled={true}
                     style={{
                       backgroundColor:
                         !isHydrated ||
