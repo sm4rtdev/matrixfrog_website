@@ -123,22 +123,24 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                             {episode.redPathDescription}
                         </p>
 
-                        {/* Red Path Vote Count */}
-                        <div
-                            style={{
-                                fontSize: "0.8rem",
-                                fontWeight: "bold",
-                                color: isCompleted && episode.winner === 'red' ? '#ff4444' : "#dc2626",
-                                textAlign: "center",
-                                padding: "8px",
-                                backgroundColor: "rgba(220, 38, 38, 0.1)",
-                                borderRadius: "4px",
-                                marginBottom: "8px",
-                                fontFamily: "monospace",
-                            }}
-                        >
-                            {votingStatsLoading ? "Loading..." : `${redPillVotes} Votes`}
-                        </div>
+                        {/* Red Path Vote Count - Only show for completed episodes */}
+                        {isCompleted && (
+                            <div
+                                style={{
+                                    fontSize: "0.8rem",
+                                    fontWeight: "bold",
+                                    color: episode.winner === 'red' ? '#ff4444' : "#dc2626",
+                                    textAlign: "center",
+                                    padding: "8px",
+                                    backgroundColor: "rgba(220, 38, 38, 0.1)",
+                                    borderRadius: "4px",
+                                    marginBottom: "8px",
+                                    fontFamily: "monospace",
+                                }}
+                            >
+                                {votingStatsLoading ? "Loading..." : `${redPillVotes} Votes`}
+                            </div>
+                        )}
 
                         {selected === "red" && isVotingEnabled && (
                             <p
@@ -201,22 +203,24 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                             {episode.greenPathDescription}
                         </p>
 
-                        {/* Green Path Vote Count */}
-                        <div
-                            style={{
-                                fontSize: "0.8rem",
-                                fontWeight: "bold",
-                                color: isCompleted && episode.winner === 'green' ? '#4ade80' : "#4ade80",
-                                textAlign: "center",
-                                padding: "8px",
-                                backgroundColor: "rgba(74, 222, 128, 0.1)",
-                                borderRadius: "4px",
-                                marginBottom: "8px",
-                                fontFamily: "monospace",
-                            }}
-                        >
-                            {votingStatsLoading ? "Loading..." : `${greenPillVotes} Votes`}
-                        </div>
+                        {/* Green Path Vote Count - Only show for completed episodes */}
+                        {isCompleted && (
+                            <div
+                                style={{
+                                    fontSize: "0.8rem",
+                                    fontWeight: "bold",
+                                    color: episode.winner === 'green' ? '#4ade80' : "#4ade80",
+                                    textAlign: "center",
+                                    padding: "8px",
+                                    backgroundColor: "rgba(74, 222, 128, 0.1)",
+                                    borderRadius: "4px",
+                                    marginBottom: "8px",
+                                    fontFamily: "monospace",
+                                }}
+                            >
+                                {votingStatsLoading ? "Loading..." : `${greenPillVotes} Votes`}
+                            </div>
+                        )}
 
                         {selected === "blue" && isVotingEnabled && (
                             <p
@@ -321,56 +325,58 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                 </div>
             </Card>
 
-            {/* Voting Stats */}
-            <Card
-                style={{
-                    backgroundColor: "black",
-                    border: "1px solid rgba(34,197,94,0.3)",
-                    padding: "16px",
-                    fontFamily: "monospace",
-                }}
-            >
-                <CardTitle style={{ color: "#4ade80", marginBottom: "12px" }}>
-                    {isCompleted ? "FINAL VOTING RESULTS" : "CURRENT VOTING STATS"}
-                </CardTitle>
-                <div
+            {/* Voting Stats - Show for active and completed episodes */}
+            {(episode.status === 'active' || isCompleted) && (
+                <Card
                     style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                        color: "#22c55e",
+                        backgroundColor: "black",
+                        border: "1px solid rgba(34,197,94,0.3)",
+                        padding: "16px",
+                        fontFamily: "monospace",
                     }}
                 >
-                    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-                        <p style={{
-                            color: isCompleted && episode.winner === 'red' ? '#ff4444' : "#22c55e",
-                            fontWeight: isCompleted && episode.winner === 'red' ? 'bold' : 'normal',
-                        }}>
-                            Red Votes: {votingStatsLoading ? "Loading..." : redPillVotes}
-                        </p>
-                        <p style={{
-                            color: isCompleted && episode.winner === 'green' ? '#4ade80' : "#22c55e",
-                            fontWeight: isCompleted && episode.winner === 'green' ? 'bold' : 'normal',
-                        }}>
-                            Green Votes: {votingStatsLoading ? "Loading..." : greenPillVotes}
-                        </p>
-                        <p>Total Votes: {votingStatsLoading ? "Loading..." : totalVotes}</p>
-                    </div>
-                    {isCompleted && (
-                        <div style={{
-                            marginTop: "8px",
-                            padding: "8px",
-                            backgroundColor: "rgba(34,197,94,0.1)",
-                            borderRadius: "4px",
-                            textAlign: "center"
-                        }}>
-                            <p style={{ color: "#4ade80", fontSize: "0.9rem" }}>
-                                🏆 Winner: {episode.winner === 'red' ? 'Red Path' : 'Green Path'}
+                    <CardTitle style={{ color: "#4ade80", marginBottom: "12px" }}>
+                        {isCompleted ? "FINAL VOTING RESULTS" : "CURRENT VOTING STATS"}
+                    </CardTitle>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "8px",
+                            color: "#22c55e",
+                        }}
+                    >
+                        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
+                            <p style={{
+                                color: isCompleted && episode.winner === 'red' ? '#ff4444' : "#22c55e",
+                                fontWeight: isCompleted && episode.winner === 'red' ? 'bold' : 'normal',
+                            }}>
+                                Red Votes: {votingStatsLoading ? "Loading..." : (isCompleted ? 0 : redPillVotes)}
                             </p>
+                            <p style={{
+                                color: isCompleted && episode.winner === 'green' ? '#4ade80' : "#22c55e",
+                                fontWeight: isCompleted && episode.winner === 'green' ? 'bold' : 'normal',
+                            }}>
+                                Green Votes: {votingStatsLoading ? "Loading..." : (isCompleted ? 0 : greenPillVotes)}
+                            </p>
+                            <p>Total Votes: {votingStatsLoading ? "Loading..." : (isCompleted ? 0 : totalVotes)}</p>
                         </div>
-                    )}
-                </div>
-            </Card>
+                        {isCompleted && (
+                            <div style={{
+                                marginTop: "8px",
+                                padding: "8px",
+                                backgroundColor: "rgba(34,197,94,0.1)",
+                                borderRadius: "4px",
+                                textAlign: "center"
+                            }}>
+                                <p style={{ color: "#4ade80", fontSize: "0.9rem" }}>
+                                    🏆 Winner: {episode.winner === 'red' ? 'Red Path' : 'Green Path'}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </Card>
+            )}
         </>
     );
 };

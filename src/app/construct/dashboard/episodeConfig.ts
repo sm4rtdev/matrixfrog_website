@@ -35,24 +35,20 @@ export const EPISODE_CONFIGS: EpisodeConfig[] = [
         redPathDescription: "The Red Path: The Human. A harrowing journey into the depths of the mind, where sanity hangs by a thread.",
         greenPathDescription: "The Green Path: The Amphibian. A profound exploration beyond perceived reality, embracing a new, expansive consciousness.",
         videoUrl: "https://www.youtube.com/embed/0roDfig5Ycs",
-        cachedRedVotes: 25,
-        cachedGreenVotes: 26,
-        cachedTotalVotes: 51,
-        cacheTimestamp: new Date()
     },
-    // {
-    //     id: "episode-2",
-    //     title: "Episode 2: The Awakening",
-    //     status: "upcoming",
-    //     votingStartDate: new Date("2025-07-23"),
-    //     votingEndDate: new Date("2025-07-30"),
-    //     redWalletAddress: "0x811e9Bceeab4D26Af545E1039dc37a32100570d3",
-    //     greenWalletAddress: "0x81D1851281d12733DCF175A3476FD1f1B245aE53",
-    //     description: "The choice has been made. Now the consequences unfold as our protagonist faces the reality of their decision. The world around them begins to shift and change, revealing the true nature of their existence. Every step forward brings new revelations, new challenges, and new questions about what it means to be human, or something more.",
-    //     redPathDescription: "The Red Path: Embrace the chaos and dive deeper into the rabbit hole of consciousness.",
-    //     greenPathDescription: "The Green Path: Transcend the limitations of human perception and embrace the amphibian within.",
-    //     videoUrl: "https://www.youtube.com/embed/0roDfig5Ycs"
-    // },
+    {
+        id: "episode-2",
+        title: "Episode 2: The Awakening",
+        status: "upcoming",
+        votingStartDate: new Date("2025-07-23"),
+        votingEndDate: new Date("2025-07-30"),
+        redWalletAddress: "0x811e9Bceeab4D26Af545E1039dc37a32100570d3",
+        greenWalletAddress: "0x81D1851281d12733DCF175A3476FD1f1B245aE53",
+        description: "The choice has been made. Now the consequences unfold as our protagonist faces the reality of their decision. The world around them begins to shift and change, revealing the true nature of their existence. Every step forward brings new revelations, new challenges, and new questions about what it means to be human, or something more.",
+        redPathDescription: "The Red Path: Embrace the chaos and dive deeper into the rabbit hole of consciousness.",
+        greenPathDescription: "The Green Path: Transcend the limitations of human perception and embrace the amphibian within.",
+        videoUrl: "https://www.youtube.com/embed/0roDfig5Ycs"
+    },
     // {
     //     id: "episode-3",
     //     title: "Episode 3: The Resistance",
