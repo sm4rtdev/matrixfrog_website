@@ -620,6 +620,38 @@ export default function MatrixConstruct() {
                     ))}
                   </SelectContent>
                 </Select>
+
+                {/* 테스트용 캐시 설정 버튼 */}
+                {selectedEpisode === "episode-1" && (
+                  <button
+                    onClick={() => {
+                      if (typeof window === 'undefined') return;
+
+                      const testResults = {
+                        redVotes: 25,
+                        greenVotes: 26,
+                        totalVotes: 51,
+                        timestamp: new Date().toISOString()
+                      };
+                      localStorage.setItem('voting_cache_episode-1', JSON.stringify(testResults));
+                      console.log('Test cache set for Episode 1');
+                      // 페이지 새로고침
+                      window.location.reload();
+                    }}
+                    style={{
+                      marginTop: "8px",
+                      padding: "8px 16px",
+                      backgroundColor: "#dc2626",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    🧪 Set Test Cache (Red: 25, Green: 26)
+                  </button>
+                )}
               </div>
 
               {/* Story Section */}
