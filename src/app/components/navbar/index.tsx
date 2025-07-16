@@ -174,7 +174,14 @@ export default function Navbar() {
   const connectMetaMask = async () => {
     setIsConnecting(true);
     try {
-      await connect({ connector: injected() });
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+      if (isMobileDevice && typeof window !== 'undefined' && window.ethereum) {
+        await connect({ connector: injected() });
+      } else {
+        await connect({ connector: injected() });
+      }
+
       setWalletConnected(false);
 
       // Wait a bit for connection to establish, then switch network
@@ -185,27 +192,47 @@ export default function Navbar() {
     } catch (error) {
       console.error("MetaMask connection failed:", error);
       setIsConnecting(false);
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        alert("Please install MetaMask");
+      }
     }
   };
 
   const connectWalletConnect = async () => {
     setIsConnecting(true);
     try {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
       await connect({
         connector: walletConnect({
-          qrModalOptions: {},
-          projectId: "",
+          qrModalOptions: {
+            themeMode: 'dark',
+            themeVariables: {
+              '--wcm-z-index': '9999',
+            }
+          },
+          projectId: "efce48a19d0c7b8b8da21be2c1c8c271",
+          metadata: {
+            name: 'MatrixFrog',
+            description: 'MatrixFrog Voting Platform',
+            url: 'https://matrixfrog.com',
+            icons: ['https://matrixfrog.com/favicon.ico']
+          }
         }),
       });
       setWalletConnected(false);
 
+      const networkSwitchDelay = isMobileDevice ? 2000 : 1000;
       setTimeout(async () => {
         await switchToPepeUnchained();
         setIsConnecting(false);
-      }, 1000);
+      }, networkSwitchDelay);
     } catch (error) {
       console.error("WalletConnect connection failed:", error);
       setIsConnecting(false);
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        alert("WalletConnect connection failed. Please try again.");
+      }
     }
   };
 
@@ -478,6 +505,8 @@ export default function Navbar() {
                         <div
                           onMouseEnter={() => setIsHoveringAddress(true)}
                           onMouseUp={() => setIsHoveringAddress(false)}
+                          onTouchStart={() => setIsHoveringAddress(true)}
+                          onTouchEnd={() => setIsHoveringAddress(false)}
                           style={{ gap: "10px" }}
                           className="flex items-center gap-1 cursor-pointer"
                         >

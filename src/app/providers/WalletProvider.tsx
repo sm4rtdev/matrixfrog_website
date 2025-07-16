@@ -1,63 +1,10 @@
-// "use client";
-// import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-// import "@rainbow-me/rainbowkit/styles.css";
-// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactNode, useState } from "react";
-// import { WagmiProvider, createConfig, http } from "wagmi";
-
-// const pepe = {
-//   id: 3409,
-//   name: "Pepe Unchained Mainnet",
-//   iconUrl: "https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png",
-//   iconBackground: "#fff",
-//   nativeCurrency: { name: "PEPE", symbol: "PEPU", decimals: 18 },
-//   rpcUrls: {
-//     default: {
-//       http: [
-//         "https://rpc-pepe-unchained-gupg0lo9wf.t.conduit.xyz/BJt1x3Xz1cE33JvBRUhdht5sbPrfbf6Gb",
-//       ],
-//     },
-//   },
-//   blockExplorers: {
-//     default: {
-//       name: "PEP",
-//       url: "https://explorer-pepe-unchained-gupg0lo9wf.t.conduit.xyz",
-//     },
-//   },
-// };
-
-// export const config = createConfig({
-//   chains: [pepe],
-//   connectors: [], // Optionally specify connectors if needed (e.g., injected(), walletConnect())
-//   transports: {
-//     [pepe.id]: http(
-//       "https://rpc-pepe-unchained-gupg0lo9wf.t.conduit.xyz/BJt1x3Xz1cE33JvBRUhdht5sbPrfbf6Gb"
-//     ),
-//   },
-//   // autoConnect: false, // Disable auto-connect to prevent modal from opening on load
-// });
-
-// export default function WalletProvider({ children }: { children: ReactNode }) {
-//   const [queryClient] = useState(() => new QueryClient());
-
-//   return (
-//     <QueryClientProvider client={queryClient}>
-//       <WagmiProvider config={config}>
-//         <RainbowKitProvider>{children}</RainbowKitProvider>
-//       </WagmiProvider>
-//     </QueryClientProvider>
-//   );
-// }
-
-// --------------------------------------------------------------------------
-
 "use client";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { injected,  metaMask } from "wagmi/connectors";
+import { injected, metaMask, walletConnect } from "wagmi/connectors";
 
 // Define the Pepe Unchained Mainnet network
 const pepeUnchained = {
@@ -87,7 +34,21 @@ export const config = createConfig({
   connectors: [
     injected(), // For browser extension wallets like MetaMask
     metaMask(), // Specifically for MetaMask
-    // walletConnect({ projectId: "your-project-id" }), // Uncomment and add your WalletConnect project ID if needed
+    walletConnect({
+      projectId: "efce48a19d0c7b8b8da21be2c1c8c271",
+      metadata: {
+        name: 'MatrixFrog',
+        description: 'MatrixFrog Voting Platform',
+        url: 'https://matrixfrog.com',
+        icons: ['https://matrixfrog.com/favicon.ico']
+      },
+      qrModalOptions: {
+        themeMode: 'dark',
+        themeVariables: {
+          '--wcm-z-index': '9999',
+        }
+      }
+    }),
   ],
   transports: {
     [pepeUnchained.id]: http("https://rpc-pepu-v2-mainnet-0.t.conduit.xyz"),
