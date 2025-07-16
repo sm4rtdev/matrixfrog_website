@@ -106,7 +106,7 @@ export default function ConstructPage() {
         </div>
         {firstText && (
           <div className={styles.tokenMessage}>
-            Standard-Access 10000.00 additional tokens required for VIP status
+            Standard-Access 1000000.00 additional tokens required for VIP status
           </div>
         )}
         {secondText && (

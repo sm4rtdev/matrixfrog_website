@@ -122,6 +122,24 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                         >
                             {episode.redPathDescription}
                         </p>
+
+                        {/* Red Path Vote Count */}
+                        <div
+                            style={{
+                                fontSize: "0.8rem",
+                                fontWeight: "bold",
+                                color: isCompleted && episode.winner === 'red' ? '#ff4444' : "#dc2626",
+                                textAlign: "center",
+                                padding: "8px",
+                                backgroundColor: "rgba(220, 38, 38, 0.1)",
+                                borderRadius: "4px",
+                                marginBottom: "8px",
+                                fontFamily: "monospace",
+                            }}
+                        >
+                            {votingStatsLoading ? "Loading..." : `${redPillVotes} Votes`}
+                        </div>
+
                         {selected === "red" && isVotingEnabled && (
                             <p
                                 style={{
@@ -182,6 +200,24 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                         >
                             {episode.greenPathDescription}
                         </p>
+
+                        {/* Green Path Vote Count */}
+                        <div
+                            style={{
+                                fontSize: "0.8rem",
+                                fontWeight: "bold",
+                                color: isCompleted && episode.winner === 'green' ? '#4ade80' : "#4ade80",
+                                textAlign: "center",
+                                padding: "8px",
+                                backgroundColor: "rgba(74, 222, 128, 0.1)",
+                                borderRadius: "4px",
+                                marginBottom: "8px",
+                                fontFamily: "monospace",
+                            }}
+                        >
+                            {votingStatsLoading ? "Loading..." : `${greenPillVotes} Votes`}
+                        </div>
+
                         {selected === "blue" && isVotingEnabled && (
                             <p
                                 style={{

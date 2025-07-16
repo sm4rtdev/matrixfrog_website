@@ -519,9 +519,9 @@ export default function MatrixConstruct() {
                                 flexWrap: "wrap",
                             }}
                         >
-                            <p>Red Pill Votes: 123</p>
+                            {/* <p>Red Pill Votes: 123</p>
                             <p>Blue Pill Votes: 98</p>
-                            <p>Total Votes: 221</p>
+                            <p>Total Votes: 221</p> */}
                         </div>
                     </Card>
                 </main>

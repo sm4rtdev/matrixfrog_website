@@ -14,7 +14,6 @@ export interface EpisodeConfig {
     redPathDescription: string;
     greenPathDescription: string;
     videoUrl?: string;
-    // 캐시된 투표 결과 (투표 종료 시 저장)
     cachedRedVotes?: number;
     cachedGreenVotes?: number;
     cachedTotalVotes?: number;
@@ -35,7 +34,11 @@ export const EPISODE_CONFIGS: EpisodeConfig[] = [
         description: "Prepare to question everything. Our protagonist awakens from a hauntingly vivid dream: soaring towards an unfamiliar, sprawling cityscape. But the dream's tendrils have followed him into the waking world, twisting his perception of reality. The faces around him, the commuters on the street, even his own reflection, ripple with an unsettling, amphibious distortion. Every glance is a fresh wave of unease, a chilling whisper that things are fundamentally wrong. As he navigates this increasingly alien world, a chance encounter on his daily subway commute shatters his crumbling sense of normalcy. A captivating, enigmatic woman bumps into him, her eyes holding a knowing urgency. In hushed, hurried tones, she delivers a cryptic warning about the very fabric of his existence, the 'reality' he inhabits, before vanishing as quickly as she appeared. Was she a figment of his fracturing mind? Or a messenger from a truth too terrifying to comprehend? This chance meeting ignites a desperate search for answers. Could this distorted world be real? What is reality? And the most unsettling question of all: who, or what, is watching his every move?",
         redPathDescription: "The Red Path: The Human. A harrowing journey into the depths of the mind, where sanity hangs by a thread.",
         greenPathDescription: "The Green Path: The Amphibian. A profound exploration beyond perceived reality, embracing a new, expansive consciousness.",
-        videoUrl: "https://www.youtube.com/embed/0roDfig5Ycs"
+        videoUrl: "https://www.youtube.com/embed/0roDfig5Ycs",
+        cachedRedVotes: 25,
+        cachedGreenVotes: 26,
+        cachedTotalVotes: 51,
+        cacheTimestamp: new Date()
     },
     // {
     //     id: "episode-2",
