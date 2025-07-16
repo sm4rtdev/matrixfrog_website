@@ -24,8 +24,12 @@ import {
   useWriteContract,
   useWaitForTransactionReceipt,
 } from "wagmi";
+import VotingSection from "./VotingSection";
+import { EPISODE_CONFIGS, getEpisodeStatus, isVotingActive, getVotingCountdown, getCachedVotingResults, finalizeVotingResults, type EpisodeConfig } from "./episodeConfig";
 
 const MFG_TOKEN_ADDRESS = "0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5";
+
+
 
 const ERC20_ABI = [
   {
@@ -81,10 +85,14 @@ const useMFGBalance = () => {
   };
 };
 
-// Custom hook for voting wallet balances
-const useVotingWalletBalances = () => {
-  const RED_PILL_ADDRESS = "0x811e9Bceeab4D26Af545E1039dc37a32100570d3";
-  const GREEN_PILL_ADDRESS = "0x81D1851281d12733DCF175A3476FD1f1B245aE53";
+// Custom hook for voting wallet balances (Hybrid System)
+const useVotingWalletBalances = (episodeId: string) => {
+  // Get episode configuration first
+  const episode = getEpisodeStatus(episodeId);
+
+  // Use episode-specific wallet addresses or defaults
+  const redWalletAddress = episode?.redWalletAddress || "0x811e9Bceeab4D26Af545E1039dc37a32100570d3";
+  const greenWalletAddress = episode?.greenWalletAddress || "0x81D1851281d12733DCF175A3476FD1f1B245aE53";
 
   const {
     data: redPillBalance,
@@ -94,7 +102,7 @@ const useVotingWalletBalances = () => {
     address: MFG_TOKEN_ADDRESS,
     abi: ERC20_ABI,
     functionName: "balanceOf",
-    args: [RED_PILL_ADDRESS],
+    args: [redWalletAddress],
   });
 
   const {
@@ -105,18 +113,76 @@ const useVotingWalletBalances = () => {
     address: MFG_TOKEN_ADDRESS,
     abi: ERC20_ABI,
     functionName: "balanceOf",
-    args: [GREEN_PILL_ADDRESS],
+    args: [greenWalletAddress],
   });
 
-  // Calculate vote counts based on token balances (1000 tokens per vote)
-  const redPillVotes = redPillBalance ? Number(formatUnits(redPillBalance as bigint, 18)) / 1000 : 0;
-  const greenPillVotes = greenPillBalance ? Number(formatUnits(greenPillBalance as bigint, 18)) / 1000 : 0;
-  const totalVotes = redPillVotes + greenPillVotes;
+  // Handle edge cases
+  if (!episodeId || !episode) {
+    return {
+      redPillVotes: 0,
+      greenPillVotes: 0,
+      totalVotes: 0,
+      redPillBalance: "0",
+      greenPillBalance: "0",
+      isLoading: false,
+      refetch: () => {
+        refetchRedPill();
+        refetchGreenPill();
+      },
+    };
+  }
 
+  // Calculate current vote counts from wallet balances
+  const currentRedVotes = redPillBalance ? Number(formatUnits(redPillBalance as bigint, 18)) / 1000 : 0;
+  const currentGreenVotes = greenPillBalance ? Number(formatUnits(greenPillBalance as bigint, 18)) / 1000 : 0;
+  const currentTotalVotes = currentRedVotes + currentGreenVotes;
+
+  // For completed episodes, use cached results if available
+  if (episode.status === 'completed') {
+    const cachedResults = typeof window !== 'undefined' ? getCachedVotingResults(episodeId) : null;
+
+    if (cachedResults) {
+      return {
+        redPillVotes: cachedResults.redVotes,
+        greenPillVotes: cachedResults.greenVotes,
+        totalVotes: cachedResults.totalVotes,
+        redPillBalance: redPillBalance ? formatTokenBalance(redPillBalance as bigint, 18) : "0",
+        greenPillBalance: greenPillBalance ? formatTokenBalance(greenPillBalance as bigint, 18) : "0",
+        isLoading: redPillLoading || greenPillLoading,
+        refetch: () => {
+          refetchRedPill();
+          refetchGreenPill();
+        },
+      };
+    } else {
+      const finalRedVotes = Math.floor(currentRedVotes);
+      const finalGreenVotes = Math.floor(currentGreenVotes);
+      const finalTotalVotes = Math.floor(currentTotalVotes);
+
+      if (typeof window !== 'undefined') {
+        finalizeVotingResults(episodeId, finalRedVotes, finalGreenVotes);
+      }
+
+      return {
+        redPillVotes: finalRedVotes,
+        greenPillVotes: finalGreenVotes,
+        totalVotes: finalTotalVotes,
+        redPillBalance: redPillBalance ? formatTokenBalance(redPillBalance as bigint, 18) : "0",
+        greenPillBalance: greenPillBalance ? formatTokenBalance(greenPillBalance as bigint, 18) : "0",
+        isLoading: redPillLoading || greenPillLoading,
+        refetch: () => {
+          refetchRedPill();
+          refetchGreenPill();
+        },
+      };
+    }
+  }
+
+  // For active and upcoming episodes, use current wallet balances
   return {
-    redPillVotes: Math.floor(redPillVotes),
-    greenPillVotes: Math.floor(greenPillVotes),
-    totalVotes: Math.floor(totalVotes),
+    redPillVotes: Math.floor(currentRedVotes),
+    greenPillVotes: Math.floor(currentGreenVotes),
+    totalVotes: Math.floor(currentTotalVotes),
     redPillBalance: redPillBalance ? formatTokenBalance(redPillBalance as bigint, 18) : "0",
     greenPillBalance: greenPillBalance ? formatTokenBalance(greenPillBalance as bigint, 18) : "0",
     isLoading: redPillLoading || greenPillLoading,
@@ -170,7 +236,7 @@ export default function MatrixConstruct() {
     totalVotes,
     isLoading: votingStatsLoading,
     refetch: refetchVotingStats,
-  } = useVotingWalletBalances();
+  } = useVotingWalletBalances(selectedEpisode || "episode-1");
 
   const {
     writeContract,
@@ -231,6 +297,25 @@ export default function MatrixConstruct() {
     }
   }, [writeError]);
 
+  // Auto-finalize voting results when voting period ends
+  useEffect(() => {
+    const episode = getEpisodeStatus(selectedEpisode);
+    if (!episode || episode.status !== 'active') return;
+
+    const now = new Date();
+    const votingEndDate = episode.votingEndDate;
+
+    if (votingEndDate && now > votingEndDate) {
+      const finalRedVotes = Math.floor(redPillVotes);
+      const finalGreenVotes = Math.floor(greenPillVotes);
+
+      if (finalRedVotes > 0 || finalGreenVotes > 0) {
+        finalizeVotingResults(selectedEpisode, finalRedVotes, finalGreenVotes);
+        console.log(`Voting period ended for ${selectedEpisode}. Results cached.`);
+      }
+    }
+  }, [selectedEpisode, redPillVotes, greenPillVotes]);
+
   const handleVote = async () => {
     if (!isConnected || !address) {
       setVoteError("Please connect your wallet first");
@@ -239,6 +324,12 @@ export default function MatrixConstruct() {
 
     if (!selected) {
       setVoteError("Please select a pill option first");
+      return;
+    }
+
+    const episode = getEpisodeStatus(selectedEpisode);
+    if (!episode || episode.status !== 'active') {
+      setVoteError("Voting is not active for this episode");
       return;
     }
 
@@ -255,11 +346,7 @@ export default function MatrixConstruct() {
       setVoteError(null);
       setVoteSuccess(false);
 
-      // Different wallet addresses for red and green votes
-      const RED_PILL_ADDRESS = "0x811e9Bceeab4D26Af545E1039dc37a32100570d3"; // Red pill wallet
-      const GREEN_PILL_ADDRESS = "0x81D1851281d12733DCF175A3476FD1f1B245aE53"; // Green pill wallet - CHANGE THIS TO A DIFFERENT ADDRESS
-
-      const receiverAddress = selected === "red" ? RED_PILL_ADDRESS : GREEN_PILL_ADDRESS;
+      const receiverAddress = selected === "red" ? episode.redWalletAddress : episode.greenWalletAddress;
 
       await writeContract({
         address: MFG_TOKEN_ADDRESS,
@@ -518,36 +605,19 @@ export default function MatrixConstruct() {
                       border: "1px solid rgba(34,197,94,0.3)",
                     }}
                   >
-                    <SelectItem
-                      value="episode-1"
-                      style={{
-                        color: "#4ade80",
-                        paddingTop: "4px",
-                        paddingBottom: "4px",
-                      }}
-                    >
-                      Episode 1: Flying Dreams
-                    </SelectItem>
-                    <SelectItem
-                      value="episode-2"
-                      style={{
-                        color: "#4ade80",
-                        paddingTop: "4px",
-                        paddingBottom: "4px",
-                      }}
-                    >
-                      Episode 2: The Awakening
-                    </SelectItem>
-                    <SelectItem
-                      value="episode-3"
-                      style={{
-                        color: "#4ade80",
-                        paddingTop: "4px",
-                        paddingBottom: "4px",
-                      }}
-                    >
-                      Episode 3: The Resistance
-                    </SelectItem>
+                    {EPISODE_CONFIGS.map((episode) => (
+                      <SelectItem
+                        key={episode.id}
+                        value={episode.id}
+                        style={{
+                          color: "#4ade80",
+                          paddingTop: "4px",
+                          paddingBottom: "4px",
+                        }}
+                      >
+                        {episode.title} {episode.status === 'completed' ? '✅' : episode.status === 'active' ? '🔄' : '⏳'}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -608,307 +678,52 @@ export default function MatrixConstruct() {
                       paddingRight: "16px",
                     }}
                   >
-                    Prepare to question everything. Our protagonist awakens from
-                    a hauntingly vivid dream: soaring towards an unfamiliar,
-                    sprawling cityscape. But the dream&apos;s tendrils have
-                    followed him into the waking world, twisting his perception
-                    of reality. The faces around him, the commuters on the
-                    street, even his own reflection, ripple with an unsettling,
-                    amphibious distortion. Every glance is a fresh wave of
-                    unease, a chilling whisper that things are fundamentally
-                    wrong.
-                    <br />
-                    As he navigates this increasingly alien world, a chance
-                    encounter on his daily subway commute shatters his crumbling
-                    sense of normalcy. A captivating, enigmatic woman bumps into
-                    him, her eyes holding a knowing urgency. In hushed, hurried
-                    tones, she delivers a cryptic warning about the very fabric
-                    of his existence, the &ldquo;reality&ldquo; he inhabits,
-                    before vanishing as quickly as she appeared.
-                    <br />
-                    Was she a figment of his fracturing mind? Or a messenger
-                    from a truth too terrifying to comprehend? This chance
-                    meeting ignites a desperate search for answers. Could this
-                    distorted world be real? What is reality? And the most
-                    unsettling question of all: who, or what, is watching his
-                    every move?
+                    {(() => {
+                      const episode = getEpisodeStatus(selectedEpisode || "episode-1");
+                      return episode?.description || "Episode description not available.";
+                    })()}
                   </p>
                 </CardContent>
               </Card>
 
-              {/* Decision Section */}
-              <Card
-                style={{
-                  backgroundColor: "black",
-                  border: "1px solid rgba(34,197,94,0.3)",
-                  marginBottom: "24px",
-                }}
-              >
-                <CardHeader>
-                  <CardTitle
-                    style={{
-                      color: "#4ade80",
-                      padding: "16px",
-                      fontFamily: "monospace",
-                    }}
-                  >
-                    NEXT CHAPTER DECISION
-                  </CardTitle>
-                </CardHeader>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    gap: "16px",
-                    margin: "0 16px",
-                  }}
-                >
-                  <div
-                    onClick={() => setSelected("red")}
-                    style={{
-                      border: "1px solid #dc262648",
-                      padding: "0px 16px 8px 16px",
-                      borderRadius: "8px",
-                      backgroundColor:
-                        selected === "red" ? "#450a0a" : "transparent",
-                      cursor: "pointer",
-                      flex: 1,
-                    }}
-                  >
-                    <div
+              {/* Voting Section */}
+              {(() => {
+                const episode = getEpisodeStatus(selectedEpisode || "episode-1");
+                if (!episode) {
+                  return (
+                    <Card
                       style={{
-                        height: "5px",
-                        backgroundColor: "#dc2626",
-                        margin: "-1px -16px 12px -16px",
-                        borderTopLeftRadius: "8px",
-                        borderTopRightRadius: "8px",
-                      }}
-                    ></div>
-                    <h3 style={{ color: "#dc2626", fontFamily: "monospace" }}>
-                      THE RED PATH
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "0.7rem",
-                        marginBottom: "12px",
-                        color: "#4ade80",
+                        backgroundColor: "black",
+                        border: "1px solid rgba(34,197,94,0.3)",
+                        padding: "16px",
+                        textAlign: "center",
                       }}
                     >
-                      {/* You take the red pill, you stay in Wonderland, and I show
-                      you how deep the frog-hole goes. Embrace the croak, and
-                      let your true amphibious self leap into the unknown. */}
-                      The Red Path: The Human. A harrowing journey into the
-                      depths of the mind, where sanity hangs by a thread.
-                    </p>
-                    {selected === "red" && (
-                      <p
-                        style={{
-                          fontSize: "0.65rem",
-                          marginTop: "8px",
-                          color: "#f58080",
-                          fontFamily: "monospace",
-                        }}
-                      >
-                        1000 MatrixFrog required to vote
-                      </p>
-                    )}
-                  </div>
+                      <p style={{ color: "#4ade80" }}>Episode not found. Please select a valid episode.</p>
+                    </Card>
+                  );
+                }
 
-                  <div
-                    onClick={() => setSelected("blue")}
-                    style={{
-                      border: "1px solid #4ade80",
-                      padding: "0px 16px 8px 16px",
-                      borderRadius: "8px",
-                      backgroundColor:
-                        selected === "blue" ? "#29ce666f" : "#1a1a1a",
-                      cursor: "pointer",
-                      flex: 1,
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "5px",
-                        backgroundColor: "#4ade80",
-                        margin: "-1px -16px 12px -16px",
-                        borderTopLeftRadius: "8px",
-                        borderTopRightRadius: "8px",
-                      }}
-                    ></div>
-                    <h3 style={{ color: "#4ade80", fontFamily: "monospace" }}>
-                      THE GREEN PATH
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "0.7rem",
-                        marginBottom: "12px",
-                        color: "#4ade80",
-                      }}
-                    >
-                      {/* You take the blue pill, the story ends, you wake up in
-                      your bed and believe whatever you want to believe. Perhaps
-                      these are just delusions, but if this isn&apos;t real,
-                      then what truly is, and how long can you deny the frog
-                      within? */}
-                      The Green Path: The Amphibian. A profound exploration
-                      beyond perceived reality, embracing a new, expansive
-                      consciousness.
-                    </p>
-                    {selected === "blue" && (
-                      <p
-                        style={{
-                          fontSize: "0.65rem",
-                          marginTop: "8px",
-                          color: "#4ade80",
-                          fontFamily: "monospace",
-                        }}
-                      >
-                        1000 MatrixFrog required to vote
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Status Messages */}
-                {voteSuccess && (
-                  <div
-                    style={{
-                      backgroundColor: "#065f46",
-                      color: "#4ade80",
-                      padding: "12px",
-                      margin: "16px",
-                      borderRadius: "8px",
-                      textAlign: "center",
-                      fontFamily: "monospace",
-                    }}
-                  >
-                    ✅ {selected === "red" ? "Red Pill" : "Green Pill"} vote successful! 1000 MATRIX transferred.
-                  </div>
-                )}
-
-                {voteError && (
-                  <div
-                    style={{
-                      backgroundColor: "#7f1d1d",
-                      color: "#fecaca",
-                      padding: "12px",
-                      margin: "16px",
-                      borderRadius: "8px",
-                      textAlign: "center",
-                      fontFamily: "monospace",
-                    }}
-                  >
-                    ❌ {voteError}
-                  </div>
-                )}
-
-                <div
-                  style={{
-                    textAlign: "center",
-                    marginTop: "24px",
-                    marginBottom: "16px",
-                    marginLeft: "16px",
-                    marginRight: "16px",
-                  }}
-                >
-                  <button
-                    onClick={handleVote}
-                    // disabled={
-                    //   !isHydrated ||
-                    //   !selected ||
-                    //   isVoting ||
-                    //   isPending ||
-                    //   isConfirming ||
-                    //   !isConnected
-                    // }
-                    disabled={true}
-                    style={{
-                      backgroundColor:
-                        !isHydrated ||
-                          !selected ||
-                          isVoting ||
-                          isPending ||
-                          isConfirming ||
-                          !isConnected
-                          ? "#374151"
-                          : "#16a34a",
-                      color:
-                        !isHydrated ||
-                          !selected ||
-                          isVoting ||
-                          isPending ||
-                          isConfirming ||
-                          !isConnected
-                          ? "#9ca3af"
-                          : "black",
-                      borderRadius: "8px",
-                      width: "100%",
-                      padding: "12px 24px",
-                      fontFamily: "monospace",
-                      border: "none",
-                      outline: "none",
-                      cursor:
-                        !isHydrated ||
-                          !selected ||
-                          isVoting ||
-                          isPending ||
-                          isConfirming ||
-                          !isConnected
-                          ? "not-allowed"
-                          : "pointer",
-                      transition: "background-color 0.3s ease",
-                    }}
-                  >
-                    {/* {!isHydrated
-                      ? "Loading..."
-                      : !isConnected
-                        ? "Connect Wallet to Vote"
-                        : !selected
-                          ? "Select a Choice to Vote"
-                          : isVoting || isPending
-                            ? "Confirming Transaction..."
-                            : isConfirming
-                              ? "Processing Vote..."
-                              : "Cast Vote (1000 MATRIX)"} */}
-                    {!isHydrated
-                      ? "Loading..."
-                      : "Voting Disabled"}
-                  </button>
-                </div>
-              </Card>
-
-              <Card
-                style={{
-                  backgroundColor: "black",
-                  border: "1px solid rgba(34,197,94,0.3)",
-                  padding: "16px",
-                  fontFamily: "monospace",
-                }}
-              >
-                <CardTitle style={{ color: "#4ade80", marginBottom: "12px" }}>
-                  CURRENT VOTING STATS
-                </CardTitle>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "8px",
-                    color: "#22c55e",
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-                    <p>Red Votes: {votingStatsLoading ? "Loading..." : redPillVotes}</p>
-                    <p>Green Votes: {votingStatsLoading ? "Loading..." : greenPillVotes}</p>
-                    <p>Total Votes: {votingStatsLoading ? "Loading..." : totalVotes}</p>
-                  </div>
-                  {/* <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", fontSize: "0.8rem", color: "#16a34a" }}>
-                    <p>Red Wallet: {votingStatsLoading ? "Loading..." : `${redPillBalance} MATRIX`}</p>
-                    <p>Green Wallet: {votingStatsLoading ? "Loading..." : `${greenPillBalance} MATRIX`}</p>
-                  </div> */}
-                </div>
-              </Card>
+                return (
+                  <VotingSection
+                    episode={episode}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isVoting={isVoting}
+                    voteSuccess={voteSuccess}
+                    voteError={voteError}
+                    isHydrated={isHydrated}
+                    isConnected={isConnected}
+                    isPending={isPending}
+                    isConfirming={isConfirming}
+                    onVote={handleVote}
+                    redPillVotes={redPillVotes}
+                    greenPillVotes={greenPillVotes}
+                    totalVotes={totalVotes}
+                    votingStatsLoading={votingStatsLoading}
+                  />
+                );
+              })()}
             </>
           ) : (
             <>
