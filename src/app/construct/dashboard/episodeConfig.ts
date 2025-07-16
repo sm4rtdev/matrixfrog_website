@@ -25,10 +25,9 @@ export const EPISODE_CONFIGS: EpisodeConfig[] = [
     {
         id: "episode-1",
         title: "Episode 1: Flying Dreams",
-        status: "completed", //completed, active, upcoming
+        status: "active", //completed, active, upcoming
         votingStartDate: new Date("2025-07-09"),
-        votingEndDate: new Date("2025-07-16"),
-        winner: "green", //red, green
+        votingEndDate: new Date("2025-07-15"),
         redWalletAddress: "0x811e9Bceeab4D26Af545E1039dc37a32100570d3",
         greenWalletAddress: "0x81D1851281d12733DCF175A3476FD1f1B245aE53",
         description: "Prepare to question everything. Our protagonist awakens from a hauntingly vivid dream: soaring towards an unfamiliar, sprawling cityscape. But the dream's tendrils have followed him into the waking world, twisting his perception of reality. The faces around him, the commuters on the street, even his own reflection, ripple with an unsettling, amphibious distortion. Every glance is a fresh wave of unease, a chilling whisper that things are fundamentally wrong. As he navigates this increasingly alien world, a chance encounter on his daily subway commute shatters his crumbling sense of normalcy. A captivating, enigmatic woman bumps into him, her eyes holding a knowing urgency. In hushed, hurried tones, she delivers a cryptic warning about the very fabric of his existence, the 'reality' he inhabits, before vanishing as quickly as she appeared. Was she a figment of his fracturing mind? Or a messenger from a truth too terrifying to comprehend? This chance meeting ignites a desperate search for answers. Could this distorted world be real? What is reality? And the most unsettling question of all: who, or what, is watching his every move?",
@@ -40,7 +39,7 @@ export const EPISODE_CONFIGS: EpisodeConfig[] = [
         id: "episode-2",
         title: "Episode 2: The Awakening",
         status: "upcoming",
-        votingStartDate: new Date("2025-07-23"),
+        votingStartDate: new Date("2025-07-10"),
         votingEndDate: new Date("2025-07-30"),
         redWalletAddress: "0x811e9Bceeab4D26Af545E1039dc37a32100570d3",
         greenWalletAddress: "0x81D1851281d12733DCF175A3476FD1f1B245aE53",
@@ -176,4 +175,53 @@ export const finalizeVotingResults = (episodeId: string, redVotes: number, green
     episode.totalVotes = totalVotes;
 
     console.log(`Voting finalized for ${episodeId}: ${winner} wins with ${totalVotes} total votes`);
+};
+
+export const autoFinalizeVoting = async (episodeId: string, getRedVotes: () => Promise<number>, getGreenVotes: () => Promise<number>) => {
+    const episode = getEpisodeStatus(episodeId);
+    if (!episode || episode.status !== 'active') return;
+
+    const now = new Date();
+    if (!episode.votingEndDate || now <= episode.votingEndDate) return;
+
+    try {
+        const redVotes = await getRedVotes();
+        const greenVotes = await getGreenVotes();
+
+        finalizeVotingResults(episodeId, redVotes, greenVotes);
+
+        console.log(`Auto-finalized voting for ${episodeId}: Red=${redVotes}, Green=${greenVotes}`);
+
+        return {
+            redVotes,
+            greenVotes,
+            winner: redVotes > greenVotes ? 'red' : 'green'
+        };
+    } catch (error) {
+        console.error(`Failed to auto-finalize voting for ${episodeId}:`, error);
+        return null;
+    }
+};
+
+export const checkAndAutoFinalizeAllEpisodes = async (
+    getRedVotes: (episodeId: string) => Promise<number>,
+    getGreenVotes: (episodeId: string) => Promise<number>
+) => {
+    const now = new Date();
+    const results = [];
+
+    for (const episode of EPISODE_CONFIGS) {
+        if (episode.status === 'active' && episode.votingEndDate && now > episode.votingEndDate) {
+            const result = await autoFinalizeVoting(
+                episode.id,
+                () => getRedVotes(episode.id),
+                () => getGreenVotes(episode.id)
+            );
+            if (result) {
+                results.push({ episodeId: episode.id, ...result });
+            }
+        }
+    }
+
+    return results;
 }; 

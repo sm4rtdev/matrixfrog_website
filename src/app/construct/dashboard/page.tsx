@@ -25,7 +25,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 import VotingSection from "./VotingSection";
-import { EPISODE_CONFIGS, getEpisodeStatus, getCachedVotingResults, finalizeVotingResults, } from "./episodeConfig";
+import { EPISODE_CONFIGS, getEpisodeStatus, getCachedVotingResults, finalizeVotingResults, checkAndAutoFinalizeAllEpisodes } from "./episodeConfig";
 
 const MFG_TOKEN_ADDRESS = "0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5";
 
@@ -193,6 +193,30 @@ const useVotingWalletBalances = (episodeId: string) => {
   };
 };
 
+const getVotingBalances = async (episodeId: string) => {
+  const episode = getEpisodeStatus(episodeId);
+  if (!episode) return { redVotes: 0, greenVotes: 0 };
+
+  const redWalletAddress = episode.redWalletAddress;
+  const greenWalletAddress = episode.greenWalletAddress;
+
+  try {
+    const cachedResults = typeof window !== 'undefined' ? getCachedVotingResults(episodeId) : null;
+
+    if (cachedResults) {
+      return {
+        redVotes: cachedResults.redVotes,
+        greenVotes: cachedResults.greenVotes
+      };
+    }
+
+    return { redVotes: 0, greenVotes: 0 };
+  } catch (error) {
+    console.error('Failed to get voting balances:', error);
+    return { redVotes: 0, greenVotes: 0 };
+  }
+};
+
 const formatTokenBalance = (balance: bigint, decimals = 18) => {
   const tokenAmount = formatUnits(balance, decimals);
   const numericValue = parseFloat(tokenAmount);
@@ -297,7 +321,36 @@ export default function MatrixConstruct() {
     }
   }, [writeError]);
 
-  // Auto-finalize voting results when voting period ends
+  useEffect(() => {
+    const checkVotingEnd = async () => {
+      try {
+        const results = await checkAndAutoFinalizeAllEpisodes(
+          async (episodeId) => {
+            const balances = await getVotingBalances(episodeId);
+            return balances.redVotes;
+          },
+          async (episodeId) => {
+            const balances = await getVotingBalances(episodeId);
+            return balances.greenVotes;
+          }
+        );
+
+        if (results.length > 0) {
+          console.log('Auto-finalized episodes:', results);
+          refetchVotingStats();
+        }
+      } catch (error) {
+        console.error('Failed to check voting end:', error);
+      }
+    };
+
+    checkVotingEnd();
+
+    const interval = setInterval(checkVotingEnd, 60000);
+
+    return () => clearInterval(interval);
+  }, [refetchVotingStats]);
+
   useEffect(() => {
     const episode = getEpisodeStatus(selectedEpisode);
     if (!episode || episode.status !== 'active') return;
@@ -312,9 +365,10 @@ export default function MatrixConstruct() {
       if (finalRedVotes > 0 || finalGreenVotes > 0) {
         finalizeVotingResults(selectedEpisode, finalRedVotes, finalGreenVotes);
         console.log(`Voting period ended for ${selectedEpisode}. Results cached.`);
+        refetchVotingStats();
       }
     }
-  }, [selectedEpisode, redPillVotes, greenPillVotes]);
+  }, [selectedEpisode, redPillVotes, greenPillVotes, refetchVotingStats]);
 
   const handleVote = async () => {
     if (!isConnected || !address) {
@@ -621,36 +675,36 @@ export default function MatrixConstruct() {
                   </SelectContent>
                 </Select>
 
-                {/* 테스트용 캐시 설정 버튼 */}
+                {/* Test buttons for testing */}
                 {selectedEpisode === "episode-1" && (
-                  <button
-                    onClick={() => {
-                      if (typeof window === 'undefined') return;
+                  <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                    <button
+                      onClick={() => {
+                        if (typeof window === 'undefined') return;
 
-                      const testResults = {
-                        redVotes: 25,
-                        greenVotes: 26,
-                        totalVotes: 51,
-                        timestamp: new Date().toISOString()
-                      };
-                      localStorage.setItem('voting_cache_episode-1', JSON.stringify(testResults));
-                      console.log('Test cache set for Episode 1');
-                      // 페이지 새로고침
-                      window.location.reload();
-                    }}
-                    style={{
-                      marginTop: "8px",
-                      padding: "8px 16px",
-                      backgroundColor: "#dc2626",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    🧪 Set Test Cache (Red: 25, Green: 26)
-                  </button>
+                        const testResults = {
+                          redVotes: 25,
+                          greenVotes: 26,
+                          totalVotes: 53,
+                          timestamp: new Date().toISOString()
+                        };
+                        localStorage.setItem('voting_cache_episode-1', JSON.stringify(testResults));
+                        console.log('Test cache set for Episode 1');
+                        window.location.reload();
+                      }}
+                      style={{
+                        padding: "8px 16px",
+                        backgroundColor: "#dc2626",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      🧪 Set Test Cache (Red: 27, Green: 26)
+                    </button>
+                  </div>
                 )}
               </div>
 

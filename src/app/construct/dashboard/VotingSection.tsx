@@ -4,6 +4,44 @@ import React from "react";
 import { Card, CardHeader, CardTitle } from "../../components/ui/card";
 import { type EpisodeConfig, getVotingCountdown } from "./episodeConfig";
 
+const winnerAnimationStyles = `
+@keyframes winnerGlow {
+    0% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(74, 222, 128, 0.8), 0 0 40px rgba(74, 222, 128, 0.6); }
+    100% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.5); }
+}
+
+@keyframes winnerPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+@keyframes trophyBounce {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-3px) rotate(-5deg); }
+    75% { transform: translateY(-3px) rotate(5deg); }
+}
+
+@keyframes textGlow {
+    0% { text-shadow: 0 0 10px rgba(74, 222, 128, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(74, 222, 128, 0.8), 0 0 20px rgba(74, 222, 128, 0.6); }
+    100% { text-shadow: 0 0 10px rgba(74, 222, 128, 0.5); }
+}
+
+@keyframes redWinnerGlow {
+    0% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.8), 0 0 40px rgba(220, 38, 38, 0.6); }
+    100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+}
+
+@keyframes redTextGlow {
+    0% { text-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(220, 38, 38, 0.8), 0 0 20px rgba(220, 38, 38, 0.6); }
+    100% { text-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
+}
+`;
+
 interface VotingSectionProps {
     episode: EpisodeConfig;
     selected: string | null;
@@ -47,6 +85,9 @@ const VotingSection: React.FC<VotingSectionProps> = ({
 
     return (
         <>
+            {/* CSS 애니메이션 스타일 주입 */}
+            <style dangerouslySetInnerHTML={{ __html: winnerAnimationStyles }} />
+
             {/* Decision Section */}
             <Card
                 style={{
@@ -90,6 +131,7 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                             filter: isCompleted && episode.winner !== 'red' ? 'grayscale(100%)' : 'none',
                             borderColor: isCompleted && episode.winner === 'red' ? '#dc2626' : '#dc262648',
                             boxShadow: isCompleted && episode.winner === 'red' ? '0 0 20px rgba(220, 38, 38, 0.5)' : 'none',
+                            animation: isCompleted && episode.winner === 'red' ? 'redWinnerGlow 2s ease-in-out infinite, winnerPulse 3s ease-in-out infinite' : 'none',
                         }}
                     >
                         <div
@@ -106,11 +148,16 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                 color: isCompleted && episode.winner === 'red' ? '#ff4444' : "#dc2626",
                                 fontFamily: "monospace",
                                 textShadow: isCompleted && episode.winner === 'red' ? '0 0 10px rgba(255, 68, 68, 0.5)' : 'none',
+                                animation: isCompleted && episode.winner === 'red' ? 'redTextGlow 2s ease-in-out infinite' : 'none',
                             }}
                         >
                             THE RED PATH
                             {isCompleted && episode.winner === 'red' && (
-                                <span style={{ fontSize: '0.8em', marginLeft: '8px' }}>🏆 WINNER</span>
+                                <span style={{
+                                    fontSize: '0.8em',
+                                    marginLeft: '8px',
+                                    animation: 'trophyBounce 1.5s ease-in-out infinite'
+                                }}>🏆 WINNER</span>
                             )}
                         </h3>
                         <p
@@ -170,6 +217,7 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                             filter: isCompleted && episode.winner !== 'green' ? 'grayscale(100%)' : 'none',
                             borderColor: isCompleted && episode.winner === 'green' ? '#4ade80' : '#4ade80',
                             boxShadow: isCompleted && episode.winner === 'green' ? '0 0 20px rgba(74, 222, 128, 0.5)' : 'none',
+                            animation: isCompleted && episode.winner === 'green' ? 'winnerGlow 2s ease-in-out infinite, winnerPulse 3s ease-in-out infinite' : 'none',
                         }}
                     >
                         <div
@@ -186,11 +234,16 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                 color: isCompleted && episode.winner === 'green' ? '#4ade80' : "#4ade80",
                                 fontFamily: "monospace",
                                 textShadow: isCompleted && episode.winner === 'green' ? '0 0 10px rgba(74, 222, 128, 0.5)' : 'none',
+                                animation: isCompleted && episode.winner === 'green' ? 'textGlow 2s ease-in-out infinite' : 'none',
                             }}
                         >
                             THE GREEN PATH
                             {isCompleted && episode.winner === 'green' && (
-                                <span style={{ fontSize: '0.8em', marginLeft: '8px' }}>🏆 WINNER</span>
+                                <span style={{
+                                    fontSize: '0.8em',
+                                    marginLeft: '8px',
+                                    animation: 'trophyBounce 1.5s ease-in-out infinite'
+                                }}>🏆 WINNER</span>
                             )}
                         </h3>
                         <p
@@ -353,13 +406,13 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                             }}>
                                 Red Votes: {votingStatsLoading ? "Loading..." : (isCompleted ? 0 : redPillVotes)}
                             </p>
+                            <p>Total Votes: {votingStatsLoading ? "Loading..." : (isCompleted ? 0 : totalVotes)}</p>
                             <p style={{
                                 color: isCompleted && episode.winner === 'green' ? '#4ade80' : "#22c55e",
                                 fontWeight: isCompleted && episode.winner === 'green' ? 'bold' : 'normal',
                             }}>
                                 Green Votes: {votingStatsLoading ? "Loading..." : (isCompleted ? 0 : greenPillVotes)}
                             </p>
-                            <p>Total Votes: {votingStatsLoading ? "Loading..." : (isCompleted ? 0 : totalVotes)}</p>
                         </div>
                         {isCompleted && (
                             <div style={{
@@ -367,10 +420,15 @@ const VotingSection: React.FC<VotingSectionProps> = ({
                                 padding: "8px",
                                 backgroundColor: "rgba(34,197,94,0.1)",
                                 borderRadius: "4px",
-                                textAlign: "center"
+                                textAlign: "center",
+                                animation: 'winnerGlow 2s ease-in-out infinite'
                             }}>
-                                <p style={{ color: "#4ade80", fontSize: "0.9rem" }}>
-                                    🏆 Winner: {episode.winner === 'red' ? 'Red Path' : 'Green Path'}
+                                <p style={{
+                                    color: "#4ade80",
+                                    fontSize: "0.9rem",
+                                    animation: 'textGlow 2s ease-in-out infinite'
+                                }}>
+                                    <span style={{ animation: 'trophyBounce 1.5s ease-in-out infinite' }}>🏆</span> Winner: {episode.winner === 'red' ? 'Red Path' : 'Green Path'}
                                 </p>
                             </div>
                         )}
