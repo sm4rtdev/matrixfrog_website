@@ -675,8 +675,8 @@ export default function MatrixConstruct() {
                   </SelectContent>
                 </Select>
 
-                {/* Test Buttons - Only show for Episode 1
-                {selectedEpisode === "episode-1" && (
+                {/* Test Buttons - Only show for Episode 1 */}
+                {/* {selectedEpisode === "episode-1" && (
                   <div style={{
                     marginTop: "12px",
                     display: "flex",
