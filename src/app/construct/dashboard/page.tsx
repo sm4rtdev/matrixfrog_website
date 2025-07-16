@@ -676,7 +676,7 @@ export default function MatrixConstruct() {
                 </Select>
 
                 {/* Test Buttons - Only show for Episode 1 */}
-                {/* {selectedEpisode === "episode-1" && (
+                {selectedEpisode === "episode-1" && (
                   <div style={{
                     marginTop: "12px",
                     display: "flex",
@@ -754,7 +754,7 @@ export default function MatrixConstruct() {
                       Test Cache
                     </button>
                   </div>
-                )} */}
+                )}
               </div>
 
               {/* Story Section */}
