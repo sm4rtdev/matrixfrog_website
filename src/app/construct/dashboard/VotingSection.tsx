@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Card, CardHeader, CardTitle } from "../../components/ui/card";
 import { type EpisodeConfig, getVotingCountdown } from "./episodeConfig";
 
 interface VotingSectionProps {

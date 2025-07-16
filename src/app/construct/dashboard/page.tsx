@@ -25,7 +25,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 import VotingSection from "./VotingSection";
-import { EPISODE_CONFIGS, getEpisodeStatus, isVotingActive, getVotingCountdown, getCachedVotingResults, finalizeVotingResults, type EpisodeConfig } from "./episodeConfig";
+import { EPISODE_CONFIGS, getEpisodeStatus, getCachedVotingResults, finalizeVotingResults, } from "./episodeConfig";
 
 const MFG_TOKEN_ADDRESS = "0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5";
 
