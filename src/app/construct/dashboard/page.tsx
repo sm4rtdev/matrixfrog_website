@@ -674,6 +674,87 @@ export default function MatrixConstruct() {
                     ))}
                   </SelectContent>
                 </Select>
+
+                {/* Test Buttons - Only show for Episode 1
+                {selectedEpisode === "episode-1" && (
+                  <div style={{
+                    marginTop: "12px",
+                    display: "flex",
+                    gap: "8px",
+                    flexWrap: "wrap"
+                  }}>
+                    <button
+                      onClick={async () => {
+                        try {
+                          const balances = await getVotingBalances("episode-1");
+                          finalizeVotingResults("episode-1", balances.redVotes, balances.greenVotes);
+                          console.log('Manual auto-finalize completed for Episode 1');
+                          refetchVotingStats();
+                        } catch (error) {
+                          console.error('Manual auto-finalize failed:', error);
+                        }
+                      }}
+                      style={{
+                        padding: "8px 12px",
+                        backgroundColor: "rgba(34,197,94,0.2)",
+                        border: "1px solid rgba(34,197,94,0.5)",
+                        color: "#4ade80",
+                        borderRadius: "4px",
+                        fontSize: "0.75rem",
+                        cursor: "pointer",
+                        fontFamily: "monospace",
+                        transition: "all 0.2s ease"
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = "rgba(34,197,94,0.3)";
+                        e.currentTarget.style.borderColor = "rgba(34,197,94,0.7)";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = "rgba(34,197,94,0.2)";
+                        e.currentTarget.style.borderColor = "rgba(34,197,94,0.5)";
+                      }}
+                    >
+                      Auto Finalize
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        if (typeof window !== 'undefined') {
+                          const testCacheData = {
+                            redVotes: 27,
+                            greenVotes: 26,
+                            totalVotes: 53,
+                            timestamp: new Date().toISOString()
+                          };
+                          localStorage.setItem('voting_cache_episode-1', JSON.stringify(testCacheData));
+                          console.log('Test cache set for Episode 1:', testCacheData);
+                          refetchVotingStats();
+                        }
+                      }}
+                      style={{
+                        padding: "8px 12px",
+                        backgroundColor: "rgba(59,130,246,0.2)",
+                        border: "1px solid rgba(59,130,246,0.5)",
+                        color: "#60a5fa",
+                        borderRadius: "4px",
+                        fontSize: "0.75rem",
+                        cursor: "pointer",
+                        fontFamily: "monospace",
+                        transition: "all 0.2s ease"
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = "rgba(59,130,246,0.3)";
+                        e.currentTarget.style.borderColor = "rgba(59,130,246,0.7)";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = "rgba(59,130,246,0.2)";
+                        e.currentTarget.style.borderColor = "rgba(59,130,246,0.5)";
+                      }}
+                    >
+                      Test Cache
+                    </button>
+                  </div>
+                )} */}
               </div>
 
               {/* Story Section */}
