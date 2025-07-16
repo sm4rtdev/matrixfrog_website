@@ -197,8 +197,8 @@ const getVotingBalances = async (episodeId: string) => {
   const episode = getEpisodeStatus(episodeId);
   if (!episode) return { redVotes: 0, greenVotes: 0 };
 
-  const redWalletAddress = episode.redWalletAddress;
-  const greenWalletAddress = episode.greenWalletAddress;
+  // const redWalletAddress = episode.redWalletAddress;
+  // const greenWalletAddress = episode.greenWalletAddress;
 
   try {
     const cachedResults = typeof window !== 'undefined' ? getCachedVotingResults(episodeId) : null;
