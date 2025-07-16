@@ -674,38 +674,6 @@ export default function MatrixConstruct() {
                     ))}
                   </SelectContent>
                 </Select>
-
-                {/* Test buttons for testing */}
-                {selectedEpisode === "episode-1" && (
-                  <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                    <button
-                      onClick={() => {
-                        if (typeof window === 'undefined') return;
-
-                        const testResults = {
-                          redVotes: 25,
-                          greenVotes: 26,
-                          totalVotes: 53,
-                          timestamp: new Date().toISOString()
-                        };
-                        localStorage.setItem('voting_cache_episode-1', JSON.stringify(testResults));
-                        console.log('Test cache set for Episode 1');
-                        window.location.reload();
-                      }}
-                      style={{
-                        padding: "8px 16px",
-                        backgroundColor: "#dc2626",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "0.8rem",
-                      }}
-                    >
-                      🧪 Set Test Cache (Red: 27, Green: 26)
-                    </button>
-                  </div>
-                )}
               </div>
 
               {/* Story Section */}
