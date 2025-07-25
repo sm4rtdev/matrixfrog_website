@@ -60,6 +60,8 @@ export default function ConstructPage() {
     router.push("/construct/dashboard");
   };
 
+
+
   // Inline style for the skip button
   const skipButtonStyle: CSSProperties = {
     position: "fixed",

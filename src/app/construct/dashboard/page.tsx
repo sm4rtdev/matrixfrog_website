@@ -1,6 +1,6 @@
 "use client";
 import { Progress } from "@/app/components/ui/progress";
-import { BarChart3, FileVideo, User } from "lucide-react";
+import { BarChart3, FileVideo, User, Coins } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
@@ -26,6 +26,7 @@ import {
 } from "wagmi";
 import VotingSection from "./VotingSection";
 import { EPISODE_CONFIGS, getEpisodeStatus, getCachedVotingResults, finalizeVotingResults, checkAndAutoFinalizeAllEpisodes } from "./episodeConfig";
+import StakingSection from "../staking/StakingSection";
 
 const MFG_TOKEN_ADDRESS = "0x434DD2AFe3BAf277ffcFe9Bef9787EdA6b4C38D5";
 
@@ -456,6 +457,14 @@ export default function MatrixConstruct() {
       active: activeSection === "bloopers",
       onClick: () => setActiveSection("bloopers"),
     },
+    {
+      icon: Coins,
+      label: "Staking Section",
+      subtitle: "Earn rewards",
+      href: "#",
+      active: activeSection === "staking",
+      onClick: () => setActiveSection("staking"),
+    },
   ];
 
   const blooperVideos = [
@@ -796,7 +805,7 @@ export default function MatrixConstruct() {
                 );
               })()}
             </>
-          ) : (
+          ) : activeSection === "bloopers" ? (
             <>
               {/* Bloopers Section */}
               <div style={{ marginBottom: "24px" }}>
@@ -885,7 +894,28 @@ export default function MatrixConstruct() {
                 </Select>
               </div>
             </>
-          )}
+          ) : activeSection === "staking" ? (
+            <>
+              {/* Staking Section */}
+              <div style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "calc(100vh - 200px)",
+                width: "100%"
+              }}>
+                <StakingSection
+                  title="Stake Your HolderRadar"
+                  subtitle="Earn rewards by staking your tokens in our secure pool."
+                  apy="30%"
+                  endDate="22.7.2026"
+                  onStakeSuccess={() => console.log("Staking successful!")}
+                  onUnstakeSuccess={() => console.log("Unstaking successful!")}
+                  onClaimSuccess={() => console.log("Claim successful!")}
+                />
+              </div>
+            </>
+          ) : null}
         </main>
       </div>
     </div>

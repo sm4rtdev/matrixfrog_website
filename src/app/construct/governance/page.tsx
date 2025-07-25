@@ -9,6 +9,7 @@ import {
     // Trophy,
     User,
     // Vault,
+    Coins,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -27,11 +28,13 @@ import {
 //     SelectValue,
 // } from "../../components/ui/select";
 import { useRouter } from "next/navigation";
+import StakingSection from "../staking/StakingSection";
 
 export default function MatrixConstruct() {
     // const [selectedEpisode, setSelectedEpisode] = useState("episode-1");
     const [selected, setSelected] = useState<string | null>();
     const [matrixBalance, setMatrixBalance] = useState<number | null>();
+    const [activeSection, setActiveSection] = useState("governance");
     const { isConnected } = useAccount();
     const router = useRouter();
     useEffect(() => {
@@ -69,8 +72,17 @@ export default function MatrixConstruct() {
             icon: Shield,
             label: "Bloopers",
             subtitle: "bloopers",
-            href: "/construct/governance",
-            active: true,
+            href: "#",
+            active: activeSection === "governance",
+            onClick: () => setActiveSection("governance"),
+        },
+        {
+            icon: Coins,
+            label: "Staking Section",
+            subtitle: "Earn rewards",
+            href: "#",
+            active: activeSection === "staking",
+            onClick: () => setActiveSection("staking"),
         },
         // {
         //   icon: Trophy,
@@ -205,7 +217,10 @@ export default function MatrixConstruct() {
                             // <Link key={index} href={item.href}>
                             <div
                                 key={index}
-                                onClick={() => router.push(item.href)}
+                                onClick={() => {
+                                    if (item.onClick) item.onClick();
+                                    if (item.href !== "#") router.push(item.href);
+                                }}
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -252,278 +267,303 @@ export default function MatrixConstruct() {
 
                 {/* Main Content */}
                 <main style={{ flex: 1, padding: "24px" }}>
-                    {/* Story Section */}
-                    <Card
-                        style={{
-                            backgroundColor: "black",
-                            border: "1px solid rgba(34,197,94,0.3)",
-                            marginBottom: "24px",
-                        }}
-                    >
-                        <CardHeader>
-                            <div
+                    {activeSection === "governance" ? (
+                        <>
+                            {/* Story Section */}
+                            <Card
                                 style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    paddingLeft: "16px",
-                                    paddingRight: "16px",
+                                    backgroundColor: "black",
+                                    border: "1px solid rgba(34,197,94,0.3)",
+                                    marginBottom: "24px",
                                 }}
                             >
-                                <CardTitle style={{ color: "#4ade80" }}>
-                                    The Peptrix Saga - Episode 1 - Flying Dreams
-                                </CardTitle>
-                                <span style={{ fontSize: "0.75rem", color: "#16a34a" }}>
-                                    60%
-                                </span>
-                            </div>
-                            <div
-                                style={{
-                                    fontSize: "0.75rem",
-                                    color: "#16a34a",
-                                    marginBottom: "8px",
-                                    paddingLeft: "16px",
-                                    paddingRight: "16px",
-                                }}
-                            >
-                                Story Progress
-                            </div>
-                            <Progress
-                                value={60}
-                                style={{
-                                    height: "4px",
-                                    backgroundColor: "#065f46",
-                                    width: "98%",
-                                    margin: "0 auto",
-                                }}
-                            />
-                        </CardHeader>
-                        <CardContent>
-                            <p
-                                style={{
-                                    fontSize: "0.8rem",
-                                    color: "#86efac",
-                                    lineHeight: "1.6",
-                                    paddingLeft: "16px",
-                                    paddingRight: "16px",
-                                }}
-                            >
-                                Prepare to question everything. Our protagonist awakens from a
-                                hauntingly vivid dream: soaring towards an unfamiliar, sprawling
-                                cityscape. But the dream&apos;s tendrils have followed him into
-                                the waking world, twisting his perception of reality. The faces
-                                around him, the commuters on the street, even his own
-                                reflection, ripple with an unsettling, amphibious distortion.
-                                Every glance is a fresh wave of unease, a chilling whisper that
-                                things are fundamentally wrong.
-                                <br />
-                                As he navigates this increasingly alien world, a chance
-                                encounter on his daily subway commute shatters his crumbling
-                                sense of normalcy. A captivating, enigmatic woman bumps into
-                                him, her eyes holding a knowing urgency. In hushed, hurried
-                                tones, she delivers a cryptic warning about the very fabric of
-                                his existence, the &quot;reality&quot; he inhabits, before
-                                vanishing as quickly as she appeared.
-                                <br />
-                                Was she a figment of his fracturing mind? Or a messenger from a
-                                truth too terrifying to comprehend? This chance meeting ignites
-                                a desperate search for answers. Could this distorted world be
-                                real? What is reality? And the most unsettling question of all:
-                                who, or what, is watching his every move?
-                            </p>
-                        </CardContent>
-                    </Card>
+                                <CardHeader>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            paddingLeft: "16px",
+                                            paddingRight: "16px",
+                                        }}
+                                    >
+                                        <CardTitle style={{ color: "#4ade80" }}>
+                                            The Peptrix Saga - Episode 1 - Flying Dreams
+                                        </CardTitle>
+                                        <span style={{ fontSize: "0.75rem", color: "#16a34a" }}>
+                                            60%
+                                        </span>
+                                    </div>
+                                    <div
+                                        style={{
+                                            fontSize: "0.75rem",
+                                            color: "#16a34a",
+                                            marginBottom: "8px",
+                                            paddingLeft: "16px",
+                                            paddingRight: "16px",
+                                        }}
+                                    >
+                                        Story Progress
+                                    </div>
+                                    <Progress
+                                        value={60}
+                                        style={{
+                                            height: "4px",
+                                            backgroundColor: "#065f46",
+                                            width: "98%",
+                                            margin: "0 auto",
+                                        }}
+                                    />
+                                </CardHeader>
+                                <CardContent>
+                                    <p
+                                        style={{
+                                            fontSize: "0.8rem",
+                                            color: "#86efac",
+                                            lineHeight: "1.6",
+                                            paddingLeft: "16px",
+                                            paddingRight: "16px",
+                                        }}
+                                    >
+                                        Prepare to question everything. Our protagonist awakens from a
+                                        hauntingly vivid dream: soaring towards an unfamiliar, sprawling
+                                        cityscape. But the dream&apos;s tendrils have followed him into
+                                        the waking world, twisting his perception of reality. The faces
+                                        around him, the commuters on the street, even his own
+                                        reflection, ripple with an unsettling, amphibious distortion.
+                                        Every glance is a fresh wave of unease, a chilling whisper that
+                                        things are fundamentally wrong.
+                                        <br />
+                                        As he navigates this increasingly alien world, a chance
+                                        encounter on his daily subway commute shatters his crumbling
+                                        sense of normalcy. A captivating, enigmatic woman bumps into
+                                        him, her eyes holding a knowing urgency. In hushed, hurried
+                                        tones, she delivers a cryptic warning about the very fabric of
+                                        his existence, the &quot;reality&quot; he inhabits, before
+                                        vanishing as quickly as she appeared.
+                                        <br />
+                                        Was she a figment of his fracturing mind? Or a messenger from a
+                                        truth too terrifying to comprehend? This chance meeting ignites
+                                        a desperate search for answers. Could this distorted world be
+                                        real? What is reality? And the most unsettling question of all:
+                                        who, or what, is watching his every move?
+                                    </p>
+                                </CardContent>
+                            </Card>
 
-                    {/* Decision Section */}
-                    <Card
-                        style={{
-                            backgroundColor: "black",
-                            border: "1px solid rgba(34,197,94,0.3)",
-                            marginBottom: "24px",
-                        }}
-                    >
-                        <CardHeader>
-                            <CardTitle
+                            {/* Decision Section */}
+                            <Card
                                 style={{
-                                    color: "#4ade80",
+                                    backgroundColor: "black",
+                                    border: "1px solid rgba(34,197,94,0.3)",
+                                    marginBottom: "24px",
+                                }}
+                            >
+                                <CardHeader>
+                                    <CardTitle
+                                        style={{
+                                            color: "#4ade80",
+                                            padding: "16px",
+                                            fontFamily: "monospace",
+                                        }}
+                                    >
+                                        NEXT CHAPTER DECISION
+                                    </CardTitle>
+                                </CardHeader>
+
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        gap: "16px",
+                                        margin: "0 16px",
+                                    }}
+                                >
+                                    {/* Red Pill Option */}
+                                    <div
+                                        onClick={() => setSelected("red")}
+                                        style={{
+                                            border: "1px solid #dc262648",
+                                            padding: "0px 16px 8px 16px",
+                                            borderRadius: "8px",
+                                            backgroundColor:
+                                                selected === "red" ? "#450a0a" : "transparent",
+                                            cursor: "pointer",
+                                            flex: 1,
+                                        }}
+                                    >
+                                        {/* Red Top Strip */}
+                                        <div
+                                            style={{
+                                                height: "5px",
+                                                backgroundColor: "#dc2626",
+                                                margin: "-1px -16px 12px -16px",
+                                                borderTopLeftRadius: "8px",
+                                                borderTopRightRadius: "8px",
+                                            }}
+                                        ></div>
+
+                                        <h3 style={{ color: "#dc2626", fontFamily: "monospace" }}>
+                                            TAKE THE RED PILL
+                                        </h3>
+                                        <p
+                                            style={{
+                                                fontSize: "0.7rem",
+                                                marginBottom: "12px",
+                                                color: "#4ade80",
+                                            }}
+                                        >
+                                            You take the red pill, you stay in Wonderland, and I show you
+                                            how deep the frog-hole goes. Embrace the croak, and let your
+                                            true amphibious self leap into the unknown.
+                                        </p>
+                                        {selected === "red" && (
+                                            <p
+                                                style={{
+                                                    fontSize: "0.65rem",
+                                                    marginTop: "8px",
+                                                    color: "#f58080",
+                                                    fontFamily: "monospace",
+                                                }}
+                                            >
+                                                50 MatrixFrog required to vote
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* Blue Pill Option */}
+                                    <div
+                                        onClick={() => setSelected("blue")}
+                                        style={{
+                                            border: "1px solid #2563eb",
+                                            padding: "0px 16px 8px 16px",
+                                            borderRadius: "8px",
+                                            backgroundColor: selected === "blue" ? "#1e3a8a" : "#1a1a1a",
+                                            cursor: "pointer",
+                                            flex: 1,
+                                        }}
+                                    >
+                                        {/* Blue Top Strip */}
+                                        <div
+                                            style={{
+                                                height: "5px",
+                                                backgroundColor: "#2563eb",
+                                                margin: "-1px -16px 12px -16px",
+                                                borderTopLeftRadius: "8px",
+                                                borderTopRightRadius: "8px",
+                                            }}
+                                        ></div>
+
+                                        <h3 style={{ color: "#3b82f6", fontFamily: "monospace" }}>
+                                            STAY HIDDEN
+                                        </h3>
+                                        <p
+                                            style={{
+                                                fontSize: "0.7rem",
+                                                marginBottom: "12px",
+                                                color: "#4ade80",
+                                            }}
+                                        >
+                                            You take the blue pill, the story ends, you wake up in your
+                                            bed and believe whatever you want to believe. Perhaps these
+                                            are just delusions, but if this isn&apos;t real, then what
+                                            truly is, and how long can you deny the frog within?
+                                        </p>
+
+                                        {/* Info message for blue pill when selected */}
+                                        {selected === "blue" && (
+                                            <p
+                                                style={{
+                                                    fontSize: "0.65rem",
+                                                    marginTop: "8px",
+                                                    color: "#93c5fd",
+                                                    fontFamily: "monospace",
+                                                }}
+                                            >
+                                                50 MatrixFrog required to vote
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Wallet Connect Button */}
+                                <div
+                                    style={{
+                                        textAlign: "center",
+                                        marginTop: "24px",
+                                        marginBottom: "16px",
+                                        marginLeft: "16px",
+                                        marginRight: "16px",
+                                    }}
+                                >
+                                    <button
+                                        style={{
+                                            backgroundColor: "#16a34a",
+                                            color: "black",
+                                            borderRadius: "8px",
+                                            width: "100%",
+                                            padding: "12px 24px",
+                                            fontFamily: "monospace",
+                                            border: "none",
+                                            outline: "none",
+                                            cursor: "pointer",
+                                            transition: "background-color 0.3s ease",
+                                        }}
+                                    >
+                                        Connect Wallet to Vote
+                                    </button>
+                                </div>
+                            </Card>
+
+                            {/* Voting Stats Section */}
+                            <Card
+                                style={{
+                                    backgroundColor: "black",
+                                    border: "1px solid rgba(34,197,94,0.3)",
                                     padding: "16px",
                                     fontFamily: "monospace",
                                 }}
                             >
-                                NEXT CHAPTER DECISION
-                            </CardTitle>
-                        </CardHeader>
-
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                gap: "16px",
-                                margin: "0 16px",
-                            }}
-                        >
-                            {/* Red Pill Option */}
-                            <div
-                                onClick={() => setSelected("red")}
-                                style={{
-                                    border: "1px solid #dc262648",
-                                    padding: "0px 16px 8px 16px",
-                                    borderRadius: "8px",
-                                    backgroundColor:
-                                        selected === "red" ? "#450a0a" : "transparent",
-                                    cursor: "pointer",
-                                    flex: 1,
-                                }}
-                            >
-                                {/* Red Top Strip */}
+                                <CardTitle style={{ color: "#4ade80", marginBottom: "12px" }}>
+                                    CURRENT VOTING STATS
+                                </CardTitle>
                                 <div
                                     style={{
-                                        height: "5px",
-                                        backgroundColor: "#dc2626",
-                                        margin: "-1px -16px 12px -16px",
-                                        borderTopLeftRadius: "8px",
-                                        borderTopRightRadius: "8px",
-                                    }}
-                                ></div>
-
-                                <h3 style={{ color: "#dc2626", fontFamily: "monospace" }}>
-                                    TAKE THE RED PILL
-                                </h3>
-                                <p
-                                    style={{
-                                        fontSize: "0.7rem",
-                                        marginBottom: "12px",
-                                        color: "#4ade80",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        color: "#22c55e",
+                                        flexWrap: "wrap",
                                     }}
                                 >
-                                    You take the red pill, you stay in Wonderland, and I show you
-                                    how deep the frog-hole goes. Embrace the croak, and let your
-                                    true amphibious self leap into the unknown.
-                                </p>
-                                {selected === "red" && (
-                                    <p
-                                        style={{
-                                            fontSize: "0.65rem",
-                                            marginTop: "8px",
-                                            color: "#f58080",
-                                            fontFamily: "monospace",
-                                        }}
-                                    >
-                                        50 MatrixFrog required to vote
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Blue Pill Option */}
-                            <div
-                                onClick={() => setSelected("blue")}
-                                style={{
-                                    border: "1px solid #2563eb",
-                                    padding: "0px 16px 8px 16px",
-                                    borderRadius: "8px",
-                                    backgroundColor: selected === "blue" ? "#1e3a8a" : "#1a1a1a",
-                                    cursor: "pointer",
-                                    flex: 1,
-                                }}
-                            >
-                                {/* Blue Top Strip */}
-                                <div
-                                    style={{
-                                        height: "5px",
-                                        backgroundColor: "#2563eb",
-                                        margin: "-1px -16px 12px -16px",
-                                        borderTopLeftRadius: "8px",
-                                        borderTopRightRadius: "8px",
-                                    }}
-                                ></div>
-
-                                <h3 style={{ color: "#3b82f6", fontFamily: "monospace" }}>
-                                    STAY HIDDEN
-                                </h3>
-                                <p
-                                    style={{
-                                        fontSize: "0.7rem",
-                                        marginBottom: "12px",
-                                        color: "#4ade80",
-                                    }}
-                                >
-                                    You take the blue pill, the story ends, you wake up in your
-                                    bed and believe whatever you want to believe. Perhaps these
-                                    are just delusions, but if this isn&apos;t real, then what
-                                    truly is, and how long can you deny the frog within?
-                                </p>
-
-                                {/* Info message for blue pill when selected */}
-                                {selected === "blue" && (
-                                    <p
-                                        style={{
-                                            fontSize: "0.65rem",
-                                            marginTop: "8px",
-                                            color: "#93c5fd",
-                                            fontFamily: "monospace",
-                                        }}
-                                    >
-                                        50 MatrixFrog required to vote
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Wallet Connect Button */}
-                        <div
-                            style={{
-                                textAlign: "center",
-                                marginTop: "24px",
-                                marginBottom: "16px",
-                                marginLeft: "16px",
-                                marginRight: "16px",
-                            }}
-                        >
-                            <button
-                                style={{
-                                    backgroundColor: "#16a34a",
-                                    color: "black",
-                                    borderRadius: "8px",
-                                    width: "100%",
-                                    padding: "12px 24px",
-                                    fontFamily: "monospace",
-                                    border: "none",
-                                    outline: "none",
-                                    cursor: "pointer",
-                                    transition: "background-color 0.3s ease",
-                                }}
-                            >
-                                Connect Wallet to Vote
-                            </button>
-                        </div>
-                    </Card>
-
-                    {/* Voting Stats Section */}
-                    <Card
-                        style={{
-                            backgroundColor: "black",
-                            border: "1px solid rgba(34,197,94,0.3)",
-                            padding: "16px",
-                            fontFamily: "monospace",
-                        }}
-                    >
-                        <CardTitle style={{ color: "#4ade80", marginBottom: "12px" }}>
-                            CURRENT VOTING STATS
-                        </CardTitle>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                color: "#22c55e",
-                                flexWrap: "wrap",
-                            }}
-                        >
-                            {/* <p>Red Pill Votes: 123</p>
+                                    {/* <p>Red Pill Votes: 123</p>
                             <p>Blue Pill Votes: 98</p>
                             <p>Total Votes: 221</p> */}
-                        </div>
-                    </Card>
+                                </div>
+                            </Card>
+                        </>
+                    ) : activeSection === "staking" ? (
+                        <>
+                            {/* Staking Section */}
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                minHeight: "calc(100vh - 200px)",
+                                width: "100%"
+                            }}>
+                                <StakingSection
+                                    title="Stake Your HolderRadar"
+                                    subtitle="Earn rewards by staking your tokens in our secure pool."
+                                    apy="30%"
+                                    endDate="22.7.2026"
+                                    onStakeSuccess={() => console.log("Staking successful!")}
+                                    onUnstakeSuccess={() => console.log("Unstaking successful!")}
+                                    onClaimSuccess={() => console.log("Claim successful!")}
+                                />
+                            </div>
+                        </>
+                    ) : null}
                 </main>
             </div>
         </div>

@@ -1,0 +1,272 @@
+.container {
+    min-height: calc(100vh - 80px);
+    background: #000000;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'monospace', 'Courier New', monospace;
+    color: #00ff41;
+    width: 100%;
+    max-width: 100%;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #00ff41;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #4ade80;
+    margin: 0;
+}
+
+.stakingCard {
+    background: #000000;
+    border-radius: 8px;
+    padding: 2.5rem;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    max-width: 800px;
+    width: 100%;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    margin: 0 auto;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.statItem {
+    background: #000000;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.statItem:hover {
+    border-color: #00ff41;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: #4ade80;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ff41;
+    margin: 0;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.stakeUnstakeRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input {
+    padding: 1rem;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'monospace', 'Courier New', monospace;
+    background: #000000;
+    color: #00ff41;
+    transition: all 0.3s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.input::placeholder {
+    color: #4ade80;
+}
+
+.stakeButton,
+.unstakeButton {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'monospace', 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stakeButton {
+    background: #00ff41;
+    color: #000000;
+}
+
+.stakeButton:hover:not(:disabled) {
+    background: #00cc33;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+}
+
+.stakeButton:disabled {
+    background: #333333;
+    color: #666666;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.unstakeButton {
+    background: #ff4444;
+    color: #ffffff;
+}
+
+.unstakeButton:hover:not(:disabled) {
+    background: #cc3333;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+}
+
+.unstakeButton:disabled {
+    background: #333333;
+    color: #666666;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.claimButton {
+    padding: 1.2rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-family: 'monospace', 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: #00ff41;
+    color: #000000;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.claimButton:hover:not(:disabled) {
+    background: #00cc33;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+}
+
+.claimButton:disabled {
+    background: #333333;
+    color: #666666;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .stakingCard {
+        padding: 1.5rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .stakeUnstakeRow {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .statValue {
+        font-size: 1.2rem;
+    }
+}
+
+/* 로딩 애니메이션 */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* 성공 애니메이션 */
+@keyframes success {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.success {
+    animation: success 0.5s ease-in-out;
+}
+
+/* 에러 상태 */
+.error {
+    border-color: #ff4444 !important;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.2) !important;
+}
